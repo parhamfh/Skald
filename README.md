@@ -1,4 +1,4 @@
-skald
+Skald (Working name)
 =====
 
-working name
+*Ja visst är det fint när orden talar?*
