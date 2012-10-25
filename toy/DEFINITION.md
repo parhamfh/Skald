@@ -61,6 +61,11 @@ Given a rhythm tree, _T_ with the rhythms r1,...rm, P_{T}(r1,...,rm) is the like
 
 Output
 ------
-Given the input return the valid rhythm tree, T, of length **n** with the highest probability P_{T}.
+Given the input return the valid rhythm tree, T, of length **n** with the highest probability P_{T}, where the rhythms are based on the set of constraints
+
+Contact
+-------
+Parham <parhamfh>
+
 
 
