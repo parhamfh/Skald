@@ -74,7 +74,7 @@ P(c1,c2,c3,c4,T) = P(c1|r^(|c1|)) * P(c2|r^(|c2|)) * P(c3|r^(|c3|)) * P(c4|r^(|c
 
 P(T) can also be rewritten as 
 
-P(T) = p(r^(0))*SeqProd{l=1, 32}(P(r^(l)|r^(l-1))) 
+P(T) = p(r^(0))*SeqProd{l=1, 32}(P(r^(l)|r^(l-1)))  
 since each rhythm in the tree depends on the one previous to it! (Ask Fukayama to clarify... since you don't quite get this part).
 
 The final form of the probability can therefor be written as
@@ -83,7 +83,7 @@ The final form of the probability can therefor be written as
 
 = fp * ft
 
-this is the score/cost function which we wish to maximize is
+which is the score/cost function which we wish to maximize
 
 S = fp * ft
 
