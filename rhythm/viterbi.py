@@ -6,7 +6,7 @@
 '''
 import numpy
 
-def viterbi(B,p,s_observed,T, start_p, q=None):
+def viterbi(observed, B, T, start_p, p, q=None):
     '''
         Run the Viterbi algorithm against our
         rhythm model which is a Mealy type HMM.
@@ -15,8 +15,8 @@ def viterbi(B,p,s_observed,T, start_p, q=None):
         @type B: list
         @param p: the duration emission probability for each state
         @type p: numpy.matrix
-        @param s_observed: set of observed syllables
-        @type s_observed: list
+        @param observed: set of observed syllables
+        @type observed: list
         @param T: transition matrif for hidden states
         @type T: numpy.matrix
         @param start_p: start probabilities for the states
@@ -25,42 +25,49 @@ def viterbi(B,p,s_observed,T, start_p, q=None):
                     Default is None.
         @type q: numpy.matrix
     '''
+    o_len = len(observed)
+
+    T1 = numpy.matrix( [ [y for y in numpy.zeros(o_len)] for x in numpy.zeros(len(B)) ] )
+    T2 = numpy.matrix( [ [y for y in numpy.zeros(o_len)] for x in numpy.zeros(len(B)) ] )
+    
     for b in B:
         if q is None:
-            T1[b.i,1] = (start_p(b.i) *
-                    p(b.i, s_observed[1].duration))
+            T1[b.i,0] = (start_p[b.i] *
+                    p(b, observed[0]))
 
-        if q is not None:
-            T1[b.i,1] = (start_p(b.i) *
-                    p(b.i, s_observed[1].duration) *
-                    q(b.i, s_observed[1].accent))
+        # if q is not None:
+        #     T1[b.i,0] = (start_p[b.i] *
+        #             p(b, observed[0]) *
+        #             q(b, observed[0]))
         
-        T2[b.i,1] = 0
-    
-    s_len = len(s_observed)
-    
-    for i in range(2,s_len):
+        T2[b.i,0] = 0
+
+    for i in range(1,o_len):
         for b in B:
-            (pk, k) = transition_max_k(i-1, T1, b, B, T, s_observed, p, q)
+            (pk, k) = transition_max_k(i, T1, b, B, T, observed, p, q)
             T1[b.i,i] = pk
-            T2[b.i,i] = k
+            T2[b.i,i] = k.i
     
     #experimental
-    (zp, sz) = final_state_max_k(s_len, T1, B, T, s_observed)
-    
+    (zp, sz) = final_state_max_k(o_len-1, T1, B)
+
     #initialize path vector
-    x = [0] * s_len
+    x = [0] * o_len
 
     #set max
-    x[s_len-1] = B[sz.i]
+    x[o_len-1] = B[sz.i]
 
-    for i in range(s_len-1, 2,-1):
-        (zp, sz) = final_state_max_k(i-1, T1, B, T, s_observed)
+    # Range generated is not inclusive right value!
+    # Last item in list is 1 not 0! ARGH!
+    for i in range(o_len-1, 0,-1):
+        # print 'round',i
+        (zp, sz) = final_state_max_k(i-1, T1, B)
+        # print zp, sz
         x[i-1] = B[sz.i]
 
     return x
 
-def transition_max_k(j, T1, b, B, T, s_observed, p, q):
+def transition_max_k(j, T1, b, B, T, observed, p, q):
     '''
     Returns the next state which maximizes
     probability of transition to that state and
@@ -83,8 +90,8 @@ def transition_max_k(j, T1, b, B, T, s_observed, p, q):
     @type B: list
     @param T: transition matrif for hidden states
     @type T: numpy.matrix
-    @param s_observed: set of observed syllables
-    @type s_observed: list
+    @param observed: set of observed syllables
+    @type observed: list
     @param p: the duration emission probability for each state
     @type p: numpy.matrix
     @param q: the accent emission probability for each state.
@@ -97,9 +104,9 @@ def transition_max_k(j, T1, b, B, T, s_observed, p, q):
     @rtype: tuples
     '''
     if q is None:
-        return max([(T1[k,j]*T[k.i,b.i]*p(k.i,s_observed[j].d),k) for k in B])
+        return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j]),k) for k in B])
 
-def final_state_max_k(j, T1, B, T, s_observed):
+def final_state_max_k(j, T1, B):
     '''
     Returns the state with maximum
     probability of that state being the state
@@ -118,13 +125,10 @@ def final_state_max_k(j, T1, B, T, s_observed):
     @type T1: numpy.matrix
     @param B: the set of the 32 hidden states (the beats)
     @type B: list
-    @param T: transition matrif for hidden states
-    @type T: numpy.matrix
-    @param s_observed: set of observed syllables
-    @type s_observed: list
 
     @return: tuplet with two values, first being max 
                 probability and second being index of state
                 that gives max probability.
     @rtype: tuples
     '''
+    return max( [ (T1[k.i,j],k) for k in B] )

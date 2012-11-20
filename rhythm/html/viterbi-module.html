@@ -84,11 +84,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="viterbi-module.html#viterbi" class="summary-sig-name">viterbi</a>(<span class="summary-sig-arg">B</span>,
-        <span class="summary-sig-arg">p</span>,
-        <span class="summary-sig-arg">s_observed</span>,
+          <td><span class="summary-sig"><a href="viterbi-module.html#viterbi" class="summary-sig-name">viterbi</a>(<span class="summary-sig-arg">observed</span>,
+        <span class="summary-sig-arg">B</span>,
         <span class="summary-sig-arg">T</span>,
         <span class="summary-sig-arg">start_p</span>,
+        <span class="summary-sig-arg">p</span>,
         <span class="summary-sig-arg">q</span>=<span class="summary-sig-default">None</span>)</span><br />
       Run the Viterbi algorithm against our rhythm model which is a Mealy 
       type HMM.</td>
@@ -112,7 +112,7 @@
         <span class="summary-sig-arg">b</span>,
         <span class="summary-sig-arg">B</span>,
         <span class="summary-sig-arg">T</span>,
-        <span class="summary-sig-arg">s_observed</span>,
+        <span class="summary-sig-arg">observed</span>,
         <span class="summary-sig-arg">p</span>,
         <span class="summary-sig-arg">q</span>)</span><br />
       Returns the next state which maximizes probability of transition to 
@@ -134,9 +134,7 @@
         <tr>
           <td><span class="summary-sig"><a href="viterbi-module.html#final_state_max_k" class="summary-sig-name">final_state_max_k</a>(<span class="summary-sig-arg">j</span>,
         <span class="summary-sig-arg">T1</span>,
-        <span class="summary-sig-arg">B</span>,
-        <span class="summary-sig-arg">T</span>,
-        <span class="summary-sig-arg">s_observed</span>)</span><br />
+        <span class="summary-sig-arg">B</span>)</span><br />
       Returns the state with maximum probability of that state being the 
       state outputting the final emission.</td>
           <td align="right" valign="top">
@@ -199,11 +197,11 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">viterbi</span>(<span class="sig-arg">B</span>,
-        <span class="sig-arg">p</span>,
-        <span class="sig-arg">s_observed</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">viterbi</span>(<span class="sig-arg">observed</span>,
+        <span class="sig-arg">B</span>,
         <span class="sig-arg">T</span>,
         <span class="sig-arg">start_p</span>,
+        <span class="sig-arg">p</span>,
         <span class="sig-arg">q</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -218,7 +216,7 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>B</code></strong> (list) - the set of the 32 hidden states (the beats)</li>
         <li><strong class="pname"><code>p</code></strong> (numpy.matrix) - the duration emission probability for each state</li>
-        <li><strong class="pname"><code>s_observed</code></strong> (list) - set of observed syllables</li>
+        <li><strong class="pname"><code>observed</code></strong> (list) - set of observed syllables</li>
         <li><strong class="pname"><code>T</code></strong> (numpy.matrix) - transition matrif for hidden states</li>
         <li><strong class="pname"><code>start_p</code></strong> (list of probabilities) - start probabilities for the states</li>
         <li><strong class="pname"><code>q</code></strong> (numpy.matrix) - the accent emission probability for each state. Default is None.</li>
@@ -238,7 +236,7 @@
         <span class="sig-arg">b</span>,
         <span class="sig-arg">B</span>,
         <span class="sig-arg">T</span>,
-        <span class="sig-arg">s_observed</span>,
+        <span class="sig-arg">observed</span>,
         <span class="sig-arg">p</span>,
         <span class="sig-arg">q</span>)</span>
   </h3>
@@ -261,7 +259,7 @@
         <li><strong class="pname"><code>b</code></strong> (BeatState.) - The state which you are currently in.</li>
         <li><strong class="pname"><code>B</code></strong> (list) - the set of the 32 hidden states (the beats)</li>
         <li><strong class="pname"><code>T</code></strong> (numpy.matrix) - transition matrif for hidden states</li>
-        <li><strong class="pname"><code>s_observed</code></strong> (list) - set of observed syllables</li>
+        <li><strong class="pname"><code>observed</code></strong> (list) - set of observed syllables</li>
         <li><strong class="pname"><code>p</code></strong> (numpy.matrix) - the duration emission probability for each state</li>
         <li><strong class="pname"><code>q</code></strong> (numpy.matrix) - the accent emission probability for each state. Default is None.</li>
     </ul></dd>
@@ -280,9 +278,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">final_state_max_k</span>(<span class="sig-arg">j</span>,
         <span class="sig-arg">T1</span>,
-        <span class="sig-arg">B</span>,
-        <span class="sig-arg">T</span>,
-        <span class="sig-arg">s_observed</span>)</span>
+        <span class="sig-arg">B</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="viterbi-pysrc.html#final_state_max_k">source&nbsp;code</a></span>&nbsp;
@@ -301,8 +297,6 @@
           time of emission. Elements give probability of output j being 
           emitted by state i.</li>
         <li><strong class="pname"><code>B</code></strong> (list) - the set of the 32 hidden states (the beats)</li>
-        <li><strong class="pname"><code>T</code></strong> (numpy.matrix) - transition matrif for hidden states</li>
-        <li><strong class="pname"><code>s_observed</code></strong> (list) - set of observed syllables</li>
     </ul></dd>
     <dt>Returns: tuples</dt>
         <dd>tuplet with two values, first being max probability and second 
@@ -337,7 +331,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Nov 20 04:48:36 2012
+    Generated by Epydoc 3.0.1 on Tue Nov 20 09:01:04 2012
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
