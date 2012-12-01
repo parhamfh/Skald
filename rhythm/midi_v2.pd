@@ -1,6 +1,6 @@
 #N canvas 577 44 842 678 10;
 #X declare -lib mrpeach;
-#N canvas 370 155 679 397 subpatch 1;
+#N canvas 370 155 679 397 subpatch 0;
 #X obj 376 -22 unpack f f f f;
 #X floatatom 376 7 5 0 0 0 - - -;
 #X floatatom 419 7 5 0 0 0 - - -;
@@ -14,7 +14,7 @@
 #X obj 345 79 print skald-address-ERROR;
 #X obj 223 41 routeOSC /skald;
 #X obj 166 72 routeOSC /0 /1 /2 /3 /4;
-#N canvas 123 378 547 265 subpatch 1;
+#N canvas 123 378 547 265 subpatch 0;
 #X obj 150 83 makenote 127 125;
 #X text 291 120 125 microseconds/16th for 120 bpm;
 #X obj 219 23 *;
@@ -34,13 +34,16 @@
 #X obj 33 -9 print note3_is_now;
 #X obj 282 46 print duration_of_note3;
 #X obj 61 118 print note3val;
+#X obj 114 39 moses 0;
+#X obj 84 71 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X connect 0 0 3 0;
 #X connect 0 0 17 0;
 #X connect 0 1 3 1;
 #X connect 2 0 12 0;
 #X connect 2 0 16 0;
 #X connect 4 0 5 0;
-#X connect 5 0 0 0;
+#X connect 5 0 18 0;
 #X connect 6 0 5 0;
 #X connect 6 0 15 0;
 #X connect 8 0 2 1;
@@ -52,6 +55,8 @@
 #X connect 12 0 0 2;
 #X connect 13 0 2 0;
 #X connect 14 0 13 0;
+#X connect 18 0 19 0;
+#X connect 18 1 0 0;
 #X restore 392 151 pd subpatch note3;
 #N canvas 73 102 547 265 subpatch 0;
 #X obj 150 83 makenote 127 125;
@@ -73,13 +78,16 @@
 #X obj 31 -7 print note2_is_now;
 #X obj 282 46 print duration_of_note2;
 #X obj 53 121 print note2val;
+#X obj 122 32 moses 0;
+#X obj 92 64 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X connect 0 0 3 0;
 #X connect 0 0 17 0;
 #X connect 0 1 3 1;
 #X connect 2 0 12 0;
 #X connect 2 0 16 0;
 #X connect 4 0 5 0;
-#X connect 5 0 0 0;
+#X connect 5 0 18 0;
 #X connect 6 0 5 0;
 #X connect 6 0 15 0;
 #X connect 8 0 2 1;
@@ -91,6 +99,8 @@
 #X connect 12 0 0 2;
 #X connect 13 0 2 0;
 #X connect 14 0 13 0;
+#X connect 18 0 19 0;
+#X connect 18 1 0 0;
 #X restore 281 151 pd subpatch note2;
 #N canvas 78 88 547 265 subpatch 0;
 #X obj 150 83 makenote 127 125;
@@ -112,13 +122,16 @@
 #X obj 25 -14 print note1_is_now;
 #X obj 282 46 print duration_of_note1;
 #X obj 66 118 print note1val;
+#X obj 121 32 moses 0;
+#X obj 91 64 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X connect 0 0 3 0;
 #X connect 0 0 17 0;
 #X connect 0 1 3 1;
 #X connect 2 0 12 0;
 #X connect 2 0 16 0;
 #X connect 4 0 5 0;
-#X connect 5 0 0 0;
+#X connect 5 0 18 0;
 #X connect 6 0 5 0;
 #X connect 6 0 15 0;
 #X connect 8 0 2 1;
@@ -130,6 +143,8 @@
 #X connect 12 0 0 2;
 #X connect 13 0 2 0;
 #X connect 14 0 13 0;
+#X connect 18 0 19 0;
+#X connect 18 1 0 0;
 #X restore 169 149 pd subpatch note1;
 #N canvas 123 378 547 265 subpatch 0;
 #X obj 150 83 makenote 127 125;
@@ -151,13 +166,16 @@
 #X obj -15 -9 print note0_is_now;
 #X obj 282 46 print duration_of_note0;
 #X obj 4 122 print note0;
+#X obj 115 29 moses 0;
+#X obj 85 61 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X connect 0 0 3 0;
 #X connect 0 0 17 0;
 #X connect 0 1 3 1;
 #X connect 2 0 12 0;
 #X connect 2 0 16 0;
 #X connect 4 0 5 0;
-#X connect 5 0 0 0;
+#X connect 5 0 18 0;
 #X connect 6 0 5 0;
 #X connect 6 0 15 0;
 #X connect 8 0 2 1;
@@ -169,6 +187,8 @@
 #X connect 12 0 0 2;
 #X connect 13 0 2 0;
 #X connect 14 0 13 0;
+#X connect 18 0 19 0;
+#X connect 18 1 0 0;
 #X restore 56 150 pd subpatch note0;
 #N canvas 123 92 547 265 subpatch 0;
 #X obj 150 83 makenote 127 125;
@@ -190,13 +210,16 @@
 #X obj 282 46 print duration_of_note4;
 #X obj 58 122 print note4val;
 #X obj 32 -9 print note4_is_now;
+#X obj 122 32 moses 0;
+#X obj 92 64 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X connect 0 0 3 0;
 #X connect 0 0 16 0;
 #X connect 0 1 3 1;
 #X connect 2 0 12 0;
 #X connect 2 0 15 0;
 #X connect 4 0 5 0;
-#X connect 5 0 0 0;
+#X connect 5 0 18 0;
 #X connect 6 0 5 0;
 #X connect 6 0 17 0;
 #X connect 8 0 2 1;
@@ -208,6 +231,8 @@
 #X connect 12 0 0 2;
 #X connect 13 0 2 0;
 #X connect 14 0 13 0;
+#X connect 18 0 19 0;
+#X connect 18 1 0 0;
 #X restore 504 153 pd subpatch note4;
 #X connect 0 0 1 0;
 #X connect 0 1 2 0;
@@ -311,7 +336,7 @@ get output;
 #X obj 67 65 import mrpeach;
 #X obj 540 33 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#N canvas 123 378 547 265 subpatch 0;
+#N canvas 409 355 547 265 subpatch 0;
 #X obj 150 83 makenote 127 125;
 #X text 291 120 125 microseconds/16th for 120 bpm;
 #X obj 219 23 *;
@@ -331,13 +356,16 @@ get output;
 #X floatatom 220 58 5 0 0 0 - - -;
 #X msg 234 -7 0;
 #X msg 233 -35 set \$1;
+#X obj 124 37 moses 0;
+#X obj 94 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X connect 0 0 3 0;
 #X connect 0 0 13 0;
 #X connect 0 1 3 1;
 #X connect 2 0 12 0;
 #X connect 2 0 15 0;
 #X connect 4 0 5 0;
-#X connect 5 0 0 0;
+#X connect 5 0 18 0;
 #X connect 6 0 5 0;
 #X connect 6 0 11 0;
 #X connect 8 0 2 1;
@@ -349,6 +377,8 @@ get output;
 #X connect 15 0 0 2;
 #X connect 16 0 2 0;
 #X connect 17 0 16 0;
+#X connect 18 0 19 0;
+#X connect 18 1 0 0;
 #X restore 487 91 pd subpatch note_template;
 #X obj 488 56 70 2;
 #X obj 197 169 trigger b f;
