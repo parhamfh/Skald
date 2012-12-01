@@ -33,12 +33,14 @@ def viterbi(observed, B, T, start_p, p, q=None):
     for b in B:
         if q is None:
             T1[b.i,0] = (start_p[b.i] *
-                    p(b, observed[0]))
+                    p(b, observed[0])) 
 
-        # if q is not None:
-        #     T1[b.i,0] = (start_p[b.i] *
-        #             p(b, observed[0]) *
-        #             q(b, observed[0]))
+        elif q is not None:
+            T1[b.i,0] = (start_p[b.i] *
+                    p(b, observed[0]) *
+                    q(b, observed[0]))
+        else:
+            raise RuntimeError("What is wrong with q?")
         
         T2[b.i,0] = 0
 
@@ -105,6 +107,10 @@ def transition_max_k(j, T1, b, B, T, observed, p, q):
     '''
     if q is None:
         return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j]),k) for k in B])
+    elif q is not None:
+        return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j])*q(b,observed[j]),k) for k in B])
+    else:
+        raise RuntimeError("What is wrong with q?")
 
 def final_state_max_k(j, T1, B):
     '''

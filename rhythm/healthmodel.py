@@ -1,6 +1,12 @@
+#!/usr/local/bin/python
+
 import viterbi, numpy
 
-class HealthState:
+class Health:
+    '''
+    Hidden state
+    '''
+
     def __init__(self,n,condition):
         self.i = n
         self.condition = condition
@@ -8,10 +14,10 @@ class HealthState:
     def __str__(self):
         return self.condition
 
-    def __repr__(self):
-        return self.condition
+    # def __repr__(self):
+    #     return self.condition
 
-class HealthObservation:
+class Symptom:
     def __init__(self,observed_state):
         self.observed_state = observed_state
 
@@ -19,11 +25,11 @@ class HealthObservation:
     def feeling(self):
         return self.observed_state
 
-H = [HealthState(0,'Healthy'), HealthState(1,'Fever')]
+H = [Health(0,'Healthy'), Health(1,'Fever')]
  
-observed = [HealthObservation('normal'), 
-            HealthObservation('cold'),
-            HealthObservation('dizzy')]
+observed = [Symptom('normal'), 
+            Symptom('cold'),
+            Symptom('dizzy')]
  
 start_p = [0.6, 0.4]  # index 0 'Healthy'
                       # index 1 'Fever'
