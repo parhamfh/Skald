@@ -16,10 +16,10 @@ data[2] = (65, 1)
 data[3] = (55, 1)
 data[4] = (77, 1)
 for i in range(0,5):
-    msg = OSC.OSCMessage("/skald/%"i)
-    msg.append()
-msg.append([[60,22],62,65,55,77])
+    msg = OSC.OSCMessage("/skald/%s"%i)
+    msg.append(data[i])
+    bundle.append(msg)
 
-client.send(msg)
+client.send(bundle)
 
 client.close()
