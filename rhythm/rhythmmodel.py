@@ -59,6 +59,12 @@ class Syllable(object):
     def __repr__(self):
         return "(\"{0}\",{1},{2})".format(self.s, self.d, self.e)
 
+DEBUG=True
+
+def dprint(s=""):
+    if DEBUG:
+        print "<DEBUG>",s
+
 def trans_p_strange(B, goalsum=1):
     '''
     Strange distribution
@@ -138,6 +144,7 @@ def duration_p(b, emission):
 
 num_beats=5
 B=[]
+
 #Only ring for the beats duration or this till the next designated state
 idx = 0
 for i in range(0,num_beats):
@@ -145,21 +152,22 @@ for i in range(0,num_beats):
         B.append(BeatPair(i,j,idx))
         idx += 1
 
-print B,'\n'
+print B
 
 S = [Syllable("Tom","SHORT","UNSTRESSED"), Syllable("ten","LONG","STRESSED")]
 
 start_p = [1.0/len(B) for _ in B]
-# print "\n start p:%s"%start_p
-print
+dprint("\n start p:%s\n"%start_p)
+
 T = trans_p_randnorm(B,1)
 
 numpy.set_printoptions(suppress=True, precision=5)
-# print "T: %s\n"%T
+dprint("T: %s\n"%T)
 
-# print "Sum of T's rows:"
-# for row in range(0,len(T)):
-    # print sum(T[row])
+dprint("Sum of T's rows:")
+if DEBUG:
+    for row in range(0,len(T)):
+        dprint(sum(T[row]))
 
 # LOOK HERE
 e_p = range(len(B))
@@ -167,9 +175,10 @@ generate_e_p(e_p, B)
 d_p = range (len(B))
 generate_d_p(d_p, B)
 
-# print "\nProbabilities:"
-# for b in B:  
-#     print "{0} \nwith e={1} and d={2}".format(b,e_p[b.i],d_p[b.i],sum(e_p[b.i].values()),sum(d_p[b.i].values()))
+dprint("\nProbabilities:")
+if DEBUG:
+    for b in B:  
+        dprint("{0} \nwith e={1} and d={2}".format(b,e_p[b.i],d_p[b.i],sum(e_p[b.i].values()),sum(d_p[b.i].values())))
 
 
 # print "\nSafety check:"
@@ -187,11 +196,11 @@ sounder = Sounder(5)
 sendlist = [(-1,1,b) for b in range(0,5)]
 for x in xpath:
     print x
-    print "Hidden state, transition values ",T[x.i]
+    # print "Hidden state, transition values ",T[x.i]
     sendlist[x.origin] = (ra.randint(60,80),x.duration,x.origin)
 
-# print sendlist
-# sounder.set_notes(sendlist)
-# sounder.send_notes()
-# sounder.close()
+print sendlist
+sounder.set_notes(sendlist)
+sounder.send_notes()
+sounder.close()
 

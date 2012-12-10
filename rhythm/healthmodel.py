@@ -25,6 +25,9 @@ class Symptom:
     def feeling(self):
         return self.observed_state
 
+    def __repr__(self):
+        return "({0})".format(self.feeling)
+
 H = [Health(0,'Healthy'), Health(1,'Fever')]
  
 observed = [Symptom('normal'), 
