@@ -65,7 +65,7 @@
 #X obj 178 126 noteout;
 #X obj 118 -52 bng 15 250 50 0 empty n2 empty 17 7 0 10 -261682 -1
 -1;
-#X msg 159 -9 77;
+#X msg 159 -9 -1;
 #X msg 153 -36 set \$1;
 #X text 85 -75 play note;
 #X obj 288 5 r ms16;
@@ -73,7 +73,7 @@
 #X obj 162 -64 unpack f f;
 #X obj 318 -26 r update_notes;
 #X floatatom 220 58 5 0 0 0 - - -;
-#X msg 234 -7 2;
+#X msg 234 -7 1;
 #X msg 233 -35 set \$1;
 #X obj 31 -7 print note2_is_now;
 #X obj 282 46 print duration_of_note2;
@@ -109,7 +109,7 @@
 #X obj 178 126 noteout;
 #X obj 118 -52 bng 15 250 50 0 empty n1 empty 17 7 0 10 -261682 -1
 -1;
-#X msg 159 -9 -1;
+#X msg 159 -9 69;
 #X msg 153 -36 set \$1;
 #X text 85 -75 play note;
 #X obj 288 5 r ms16;
@@ -117,7 +117,7 @@
 #X obj 162 -64 unpack f f;
 #X obj 318 -26 r update_notes;
 #X floatatom 220 58 5 0 0 0 - - -;
-#X msg 234 -7 1;
+#X msg 234 -7 3;
 #X msg 233 -35 set \$1;
 #X obj 25 -14 print note1_is_now;
 #X obj 282 46 print duration_of_note1;
@@ -197,7 +197,7 @@
 #X obj 178 126 noteout;
 #X obj 118 -52 bng 15 250 50 0 empty n4 empty 17 7 0 10 -261682 -1
 -1;
-#X msg 159 -9 75;
+#X msg 159 -9 79;
 #X msg 153 -36 set \$1;
 #X text 85 -75 play note;
 #X obj 288 5 r ms16;
@@ -388,6 +388,8 @@ get output;
 #X text 415 192 3 Start timer;
 #X msg 268 63 40;
 #X text 415 178 2 Run rhythmmodel.py;
+#X text 162 41 2nd step;
+#X text 265 42 1st step;
 #X connect 2 0 3 0;
 #X connect 2 0 1 2;
 #X connect 3 0 13 0;
