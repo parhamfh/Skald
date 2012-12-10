@@ -6,6 +6,12 @@
 '''
 import numpy
 
+DEBUG=True
+
+def dprint(s):
+    if DEBUG:
+        print "<DEBUG>",s
+
 def viterbi(observed, B, T, start_p, p, q=None):
     '''
         Run the Viterbi algorithm against our
@@ -17,7 +23,7 @@ def viterbi(observed, B, T, start_p, p, q=None):
         @type p: numpy.matrix
         @param observed: set of observed syllables
         @type observed: list
-        @param T: transition matrif for hidden states
+        @param T: transition matrix for hidden states
         @type T: numpy.matrix
         @param start_p: start probabilities for the states
         @type start_p: list of probabilities
@@ -30,26 +36,36 @@ def viterbi(observed, B, T, start_p, p, q=None):
     T1 = numpy.matrix( [ [y for y in numpy.zeros(o_len)] for x in numpy.zeros(len(B)) ] )
     T2 = numpy.matrix( [ [y for y in numpy.zeros(o_len)] for x in numpy.zeros(len(B)) ] )
     
+    if q is None:
+        dprint("q is: None")
+    else:
+        # dprint("q is: %s\n"%q.__name__)
+        raise RuntimeError
+    dprint("For observations %s: %s \n"%(0, observed[0]))
     for b in B:
         if q is None:
+            dprint(start_p[b.i] * p(b, observed[0]))
             T1[b.i,0] = (start_p[b.i] *
                     p(b, observed[0])) 
-
+            dprint(T1[b.i,0])
         elif q is not None:
-            T1[b.i,0] = (start_p[b.i] *
-                    p(b, observed[0]) *
-                    q(b, observed[0]))
+            raise RuntimeError
+            # T1[b.i,0] = (start_p[b.i] *
+            #         p(b, observed[0]) *
+            #         q(b, observed[0]))
+            # dprint(T1[b.i,0])
         else:
             raise RuntimeError("What is wrong with q?")
         
         T2[b.i,0] = 0
 
     for i in range(1,o_len):
+        dprint("For observations %s: %s "%(i, observed[i]))
         for b in B:
             (pk, k) = transition_max_k(i, T1, b, B, T, observed, p, q)
             T1[b.i,i] = pk
             T2[b.i,i] = k.i
-    
+        
     #experimental
     (zp, sz) = final_state_max_k(o_len-1, T1, B)
 
@@ -58,12 +74,14 @@ def viterbi(observed, B, T, start_p, p, q=None):
 
     #set max
     x[o_len-1] = B[sz.i]
-
+    dprint("\n final round shows this yo state %s (p=%s)"%(sz,zp))
+        
     # Range generated is not inclusive right value!
     # Last item in list is 1 not 0! ARGH!
     for i in range(o_len-1, 0,-1):
         # print 'round',i
         (zp, sz) = final_state_max_k(i-1, T1, B)
+        dprint("\n final round shows this yo state %s (p=%s)"%(sz,zp))
         # print zp, sz
         x[i-1] = B[sz.i]
 
@@ -105,10 +123,25 @@ def transition_max_k(j, T1, b, B, T, observed, p, q):
                 that gives max probability.
     @rtype: tuples
     '''
+    dprint("Finding likely hidden state for time %s to state %s\n"%(j,b))
     if q is None:
-        return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j]),k) for k in B])
+        tmpmax = -1
+        tmpk = -1
+        for k in B:
+            # dprint("\n%s\n%s\n%s\n"%
+            #     (T1[k.i,j-1],
+            #     T[k.i,b.i],
+            #     p(b,observed[j])))
+            val=T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j])
+            if val>tmpmax:
+                tmpmax = val
+                tmpk = k
+        dprint("MAX prob to %s for time %s given by state %s with %s\n---\n"%(b,j,tmpk,tmpmax))
+        return (tmpmax, tmpk)
+        # return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j]),k) for k in B])
     elif q is not None:
-        return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j])*q(b,observed[j]),k) for k in B])
+        raise RuntimeError
+        # return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j])*q(b,observed[j]),k) for k in B])
     else:
         raise RuntimeError("What is wrong with q?")
 

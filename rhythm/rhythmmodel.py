@@ -56,6 +56,9 @@ class Syllable(object):
     def stress(self):
         raise RuntimeError("It is called ACCENT../")
 
+    def __repr__(self):
+        return "(\"{0}\",{1},{2})".format(self.s, self.d, self.e)
+
 def trans_p_strange(B, goalsum=1):
     '''
     Strange distribution
@@ -98,7 +101,7 @@ def trans_p_gauss(B,goalsum=1):
         T[i] = map(lambda x:x/s, T[i])
     return T
 
-def trans_p_randnorm(B,val=7):
+def trans_p_randnorm(B,val=1):
     '''
     generated values will have a summed value
     equal/"equal" to param sum
@@ -109,7 +112,7 @@ def trans_p_randnorm(B,val=7):
             if b.to < k.origin:
                 T[b.i][k.i] = round(ra.random(),4)
         su = sum(T[b.i])
-        if su != 0 and val > 1:
+        if su != 0:
             T[b.i] = [round((val*x)/su,4) for x in T[b.i]]
 
     return T
@@ -146,16 +149,17 @@ print B,'\n'
 
 S = [Syllable("Tom","SHORT","UNSTRESSED"), Syllable("ten","LONG","STRESSED")]
 
-start_p = [ra.random() for b in B]
-
-T = trans_p_randnorm(B,100)
+start_p = [1.0/len(B) for _ in B]
+# print "\n start p:%s"%start_p
+print
+T = trans_p_randnorm(B,1)
 
 numpy.set_printoptions(suppress=True, precision=5)
-print "T: %s\n"%T
+# print "T: %s\n"%T
 
-print "Sum of T's rows:"
-for row in range(0,len(T)):
-    print sum(T[row])
+# print "Sum of T's rows:"
+# for row in range(0,len(T)):
+    # print sum(T[row])
 
 # LOOK HERE
 e_p = range(len(B))
@@ -163,17 +167,19 @@ generate_e_p(e_p, B)
 d_p = range (len(B))
 generate_d_p(d_p, B)
 
-print "\nProbabilities:"
-for b in B:  
-    print "{0} \nwith e={1} and d={2}".format(b,e_p[b.i],d_p[b.i],sum(e_p[b.i].values()),sum(d_p[b.i].values()))
+# print "\nProbabilities:"
+# for b in B:  
+#     print "{0} \nwith e={1} and d={2}".format(b,e_p[b.i],d_p[b.i],sum(e_p[b.i].values()),sum(d_p[b.i].values()))
 
 
-print "\nSafety check:"
-print accent_p(B[7],S[1])
-print duration_p(B[7],S[0])
+# print "\nSafety check:"
+# print accent_p(B[7],S[1])
+# print duration_p(B[7],S[0])
 
-
-xpath = viterbi.viterbi(S,B,T,start_p,accent_p,duration_p)
+# Two emission functions
+# xpath = viterbi.viterbi(S,B,T,start_p,accent_p,duration_p)
+# One emission function
+xpath = viterbi.viterbi(S,B,T,start_p, accent_p)
 
 print "\nAnd they said, in great unison, that The Path shalt be:"
 
@@ -181,10 +187,11 @@ sounder = Sounder(5)
 sendlist = [(-1,1,b) for b in range(0,5)]
 for x in xpath:
     print x
+    print "Hidden state, transition values ",T[x.i]
     sendlist[x.origin] = (ra.randint(60,80),x.duration,x.origin)
 
-print sendlist
-sounder.set_notes(sendlist)
-sounder.send_notes()
-sounder.close()
+# print sendlist
+# sounder.set_notes(sendlist)
+# sounder.send_notes()
+# sounder.close()
 
