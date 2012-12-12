@@ -1,6 +1,6 @@
 #N canvas 577 44 842 678 10;
 #X declare -lib mrpeach;
-#N canvas 370 155 679 397 subpatch 1;
+#N canvas 370 155 679 397 subpatch 0;
 #X obj 376 -22 unpack f f f f;
 #X floatatom 376 7 5 0 0 0 - - -;
 #X floatatom 419 7 5 0 0 0 - - -;
@@ -109,7 +109,7 @@
 #X obj 178 126 noteout;
 #X obj 118 -52 bng 15 250 50 0 empty n1 empty 17 7 0 10 -261682 -1
 -1;
-#X msg 159 -9 69;
+#X msg 159 -9 -1;
 #X msg 153 -36 set \$1;
 #X text 85 -75 play note;
 #X obj 288 5 r ms16;
@@ -117,7 +117,7 @@
 #X obj 162 -64 unpack f f;
 #X obj 318 -26 r update_notes;
 #X floatatom 220 58 5 0 0 0 - - -;
-#X msg 234 -7 3;
+#X msg 234 -7 1;
 #X msg 233 -35 set \$1;
 #X obj 25 -14 print note1_is_now;
 #X obj 282 46 print duration_of_note1;
@@ -197,7 +197,7 @@
 #X obj 178 126 noteout;
 #X obj 118 -52 bng 15 250 50 0 empty n4 empty 17 7 0 10 -261682 -1
 -1;
-#X msg 159 -9 79;
+#X msg 159 -9 -1;
 #X msg 153 -36 set \$1;
 #X text 85 -75 play note;
 #X obj 288 5 r ms16;

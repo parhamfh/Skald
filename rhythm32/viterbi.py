@@ -12,7 +12,7 @@ def dprint(s=""):
     if DEBUG:
         print "<DEBUG>",s
 
-def viterbi(observed, B, T, start_p, p, q=None):
+def viterbi(observed, B, T, start_p, p):
     '''
         Run the Viterbi algorithm against our
         rhythm model which is a Mealy type HMM.
@@ -38,24 +38,16 @@ def viterbi(observed, B, T, start_p, p, q=None):
 
     dprint("For observations %s: %s \n"%(0, observed[0]))
     for b in B:
-        if q is None:
-            T1[b.i,0] = (start_p[b.i] *
-                    p(b, observed[0])) 
-            dprint("Highest probability for state %s: %s"%(b,T1[b.i,0]))
-        elif q is not None:
-            raise RuntimeError
-            # T1[b.i,0] = (start_p[b.i] *
-            #         p(b, observed[0]) *
-            #         q(b, observed[0]))
-            # dprint(T1[b.i,0])
-        else:
-            raise RuntimeError("What is wrong with q?")
+        T1[b.i,0] = (start_p[b.i] *
+                p(b, observed[0])) 
+        dprint("Highest probability for state %s: %s"%(b,T1[b.i,0]))
         T2[b.i,0] = 0
+    
     dprint()
     for t in range(1,o_len):
         dprint("For observations %s: %s "%(t, observed[t]))
         for b in B:
-            (pk, k) = transition_max_k(t, T1, b, B, T, observed, p, q)
+            (pk, k) = transition_max_k(t, T1, b, B, T, observed, p)
             T1[b.i,t] = pk
             T2[b.i,t] = k.i
         
@@ -75,7 +67,7 @@ def viterbi(observed, B, T, start_p, p, q=None):
         dprint("Most likely state at t=%s for optimal path is %s (p=%s)"%(t-1,x[t-1],T1[x[t-1].i,t-1]))
     return x
 
-def transition_max_k(j, T1, b, B, T, observed, p, q):
+def transition_max_k(j, T1, b, B, T, observed, p):
     '''
     Returns the next state which maximizes
     probability of transition to that state and
@@ -111,24 +103,5 @@ def transition_max_k(j, T1, b, B, T, observed, p, q):
                 that gives max probability.
     @rtype: tuples
     '''
-    dprint("Finding likely hidden state for time %s to state %s\n"%(j,b))
-    if q is None:
-        tmpmax = -1
-        tmpk = -1
-        for k in B:
-            # dprint("\n%s\n%s\n%s\n"%
-            #     (T1[k.i,j-1],
-            #     T[k.i,b.i],
-            #     p(b,observed[j])))
-            val=T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j])
-            if val>tmpmax:
-                tmpmax = val
-                tmpk = k
-        dprint("MAX prob to %s for time %s given by state %s with %s\n---\n"%(b,j,tmpk,tmpmax))
-        return (tmpmax, tmpk)
-        # return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j]),k) for k in B])
-    elif q is not None:
-        raise RuntimeError
-        # return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j])*q(b,observed[j]),k) for k in B])
-    else:
-        raise RuntimeError("What is wrong with q?")
+    dprint("Finding likely hidden state to transition to at time %s from state %s\n"%(j,b))
+    return max([(T1[k.i,j-1] * T[k.i,b.i]*p(b,observed[j]),k) for k in B])

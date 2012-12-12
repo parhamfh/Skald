@@ -1,4 +1,5 @@
 #!/usr/local/bin/python
+# coding: utf8
 
 import viterbi, numpy
 import random as ra
@@ -14,6 +15,7 @@ class BeatPair(object):
         self.orig = origin
         self.dest = to
         self.i = idx
+        self.syllable = None
 
     @property
     def origin(self):
@@ -26,6 +28,9 @@ class BeatPair(object):
     @property
     def duration(self):
         return self.to-self.origin+1
+
+    def add_syllable(self, s):
+        self.syllable = s
 
     def __repr__(self):
         return "{0}{3}({1},{2})".format('B', self.orig, self.dest, self.i)
@@ -139,9 +144,28 @@ def accent_p(b, emission):
 def duration_p(b, emission):
     return d_p[b.i][emission.duration]
 
-def print_beats(B):
-    pass
-## PLAY BALL ##
+def print_beats(x,obs):
+    st = ''
+    bl = [0 for _ in range(num_beats)]
+
+    for i in range(len(x)):
+        bl[x[i].origin] = obs[i].syllable
+    #16 beat chunks
+    bars = num_beats/16
+
+    for bar in range(bars):
+        part=bl[16*bar:16*( bar+1)]
+        part.insert(0,"||")
+        st += ' '+' '.join([str(lol) for lol in part])
+
+    #Print it pretty, sir
+    st += " ||"
+    st = st.replace("0","x").strip()
+    import re
+    spaces = re.sub('[^\|\|]', ' ',st)
+    topbar = ''.join(['-' for _ in range(len(spaces))])+'\n'+spaces
+    botbar = spaces+'\n'+''.join(['-' for _ in range(len(spaces))])
+    print topbar+'\n'+st+'\n'+botbar
 
 num_beats=32
 B=[]
@@ -155,7 +179,7 @@ for i in range(0,num_beats):
 
 dprint(B)
 
-S = [Syllable("Tom","SHORT","UNSTRESSED"), Syllable("ten","LONG","STRESSED")]
+S = [Syllable("Tom","SHORT","UNSTRESSED"), Syllable("ten","LONG","STRESSED"), Syllable("par","SHORT","UNSTRESSED")]
 
 start_p = [1.0/len(B) for _ in B]
 dprint("\n start p:%s\n"%start_p)
@@ -181,27 +205,20 @@ if DEBUG:
     for b in B:  
         dprint("{0} \nwith e={1} and d={2}".format(b,e_p[b.i],d_p[b.i],sum(e_p[b.i].values()),sum(d_p[b.i].values())))
 
-
-# print "\nSafety check:"
-# print accent_p(B[7],S[1])
-# print duration_p(B[7],S[0])
-
-# Two emission functions
-# xpath = viterbi.viterbi(S,B,T,start_p,accent_p,duration_p)
-# One emission function
 xpath = viterbi.viterbi(S,B,T,start_p, accent_p)
+print xpath
+print_beats(xpath, S)
+# print "\nAnd they said, in great unison, that The Path shalt be:"
 
-print "\nAnd they said, in great unison, that The Path shalt be:"
+# sendlist = [(-1,1,b) for b in range(0,32)]
+# for x in xpath:
+#     print x
+#     # print "Hidden state, transition values ",T[x.i]
+#     sendlist[x.origin] = (ra.randint(60,80),x.duration,x.origin)
 
-sounder = Sounder(32)
-sendlist = [(-1,1,b) for b in range(0,32)]
-for x in xpath:
-    print x
-    # print "Hidden state, transition values ",T[x.i]
-    sendlist[x.origin] = (ra.randint(60,80),x.duration,x.origin)
-
-print sendlist
-sounder.set_notes(sendlist)
-sounder.send_notes()
-sounder.close()
+# print sendlist
+# sounder = Sounder(32)
+# sounder.set_notes(sendlist)
+# sounder.send_notes()
+# sounder.close()
 
