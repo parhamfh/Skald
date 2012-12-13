@@ -31,7 +31,7 @@ class Ponder(object):
         if self.unused_filename(score_name):
             self.name = score_name
         else:
-            self.name = self.increment_score_name(score_name, score_name, 2)
+            self.name = self.increment_score_name(score_name, 1)
 
     def unused_filename(self, fn):
         # Fancy stackoverflow answer
@@ -44,18 +44,22 @@ class Ponder(object):
         else:
             return True
 
-    def increment_score_name(self, score_name, stem, order):
+    def increment_score_name(self, stem, order):
         '''
         We assume that since it exists it either has a 
         number or not, between the score name and the file
         extension .ly.
         '''
-        if score_name == stem:
-            return self.increment_score_name(score_name+str(order), stem, order)
+
+        # Special case: first check: name without number, recurse
+        if order == 1:
+            return self.increment_score_name(stem, order+1)
+        # Does it exist?
         elif self.unused_filename(stem+str(order)):
             return stem+str(order)
+        # Try higher number
         else:
-            return self.increment_score_name(score_name+str(order), stem, order+1)
+            return self.increment_score_name(stem, order+1)
 
     def generate_ly_file(self):
         pass
