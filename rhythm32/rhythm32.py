@@ -6,6 +6,7 @@ import random as ra
 from itertools import izip_longest
 
 from sounder import Sounder
+from ponder import Ponder
 
 class BeatPair(object):
     '''
@@ -144,7 +145,9 @@ def accent_p(b, emission):
 def duration_p(b, emission):
     return d_p[b.i][emission.duration]
 
-def send_to_pd(path):
+def generate_lilypond_score(xpath):
+    pon = Ponder(xpath,num_beats/16)
+def send_to_pd(xpath):
     # print "\nAnd they said, in great unison, that The Path shalt be:"
     sendlist = [(-1,1,b) for b in range(0,num_beats)]
     for x in xpath:
@@ -218,6 +221,9 @@ if DEBUG:
         dprint("{0} \nwith e={1} and d={2}".format(b,e_p[b.i],d_p[b.i],sum(e_p[b.i].values()),sum(d_p[b.i].values())))
 
 xpath = viterbi.viterbi(S,B,T,start_p, accent_p)
+
 print xpath
 print_beats(xpath, S)
+
+generate_lilypond_score(xpath)
 
