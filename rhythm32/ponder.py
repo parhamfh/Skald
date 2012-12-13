@@ -28,14 +28,12 @@ class Ponder(object):
         return self.name+self.FILE_EXTENSION
 
     def select_score_name(self, score_name):
-        print 'select',score_name
         if self.unused_filename(score_name):
             self.name = score_name
         else:
             self.name = self.increment_score_name(score_name, score_name, 2)
 
     def unused_filename(self, fn):
-        print 'unused',fn
         # Fancy stackoverflow answer
         # try:
         #     with open(path.join(self.subfolder,fn)) as f: return False
@@ -52,12 +50,9 @@ class Ponder(object):
         number or not, between the score name and the file
         extension .ly.
         '''
-        print 'inc',score_name, stem, order
         if score_name == stem:
-            print "What"
             return self.increment_score_name(score_name+str(order), stem, order)
         elif self.unused_filename(stem+str(order)):
-            print "YES"
             return stem+str(order)
         else:
             return self.increment_score_name(score_name+str(order), stem, order+1)
