@@ -144,13 +144,25 @@ def accent_p(b, emission):
 def duration_p(b, emission):
     return d_p[b.i][emission.duration]
 
+def send_to_pd(path):
+    # print "\nAnd they said, in great unison, that The Path shalt be:"
+    sendlist = [(-1,1,b) for b in range(0,num_beats)]
+    for x in xpath:
+        sendlist[x.origin] = (ra.randint(60,80),x.duration,x.origin)
+
+    # print sendlist
+    sounder = Sounder(num_beats)
+    sounder.set_notes(sendlist)
+    sounder.send_notes()
+    sounder.close()
+
 def print_beats(x,obs):
     st = ''
     bl = [0 for _ in range(num_beats)]
 
     for i in range(len(x)):
         bl[x[i].origin] = obs[i].syllable
-    #16 beat chunks
+    # 16 beat chunks
     bars = num_beats/16
 
     for bar in range(bars):
@@ -158,7 +170,7 @@ def print_beats(x,obs):
         part.insert(0,"||")
         st += ' '+' '.join([str(lol) for lol in part])
 
-    #Print it pretty, sir
+    # Print it pretty, sir
     st += " ||"
     st = st.replace("0","x").strip()
     import re
@@ -208,17 +220,4 @@ if DEBUG:
 xpath = viterbi.viterbi(S,B,T,start_p, accent_p)
 print xpath
 print_beats(xpath, S)
-# print "\nAnd they said, in great unison, that The Path shalt be:"
-
-# sendlist = [(-1,1,b) for b in range(0,32)]
-# for x in xpath:
-#     print x
-#     # print "Hidden state, transition values ",T[x.i]
-#     sendlist[x.origin] = (ra.randint(60,80),x.duration,x.origin)
-
-# print sendlist
-# sounder = Sounder(32)
-# sounder.set_notes(sendlist)
-# sounder.send_notes()
-# sounder.close()
 
