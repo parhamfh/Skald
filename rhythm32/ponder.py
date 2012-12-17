@@ -1,8 +1,14 @@
+#!/usr/local/bin/python
+# coding: utf8
+
 from os import path
+
+from skaldmodel import BeatPair
 
 class Ponder(object):
 
     FILE_EXTENSION = ".ly"
+    STD_G = "g"
 
     def __init__(self, beats, 
         number_of_bars, 
@@ -62,7 +68,71 @@ class Ponder(object):
             return self.increment_score_name(stem, order+1)
 
     def generate_ly_file(self):
-        pass
+        notes = self.calculate_notes()
+
+    def calculate_notes(self):
+        notes = []
+        prev_note_index = 0
+        for b in self.beats: 
+            print "Note at 16th beat %s is %s long"%(b.origin, b.duration)
+            # append rests leading up to this beta
+            notes.append(self.calculate_rest_note(prev_note_index, b.origin))
+            # append actual marked beat
+            prev_note_index = b.origin+b.duration
+
+    def calculate_rest_note(self, start, next_start):
+        length = abs(next_start - start)
+        print 'Length of rest before: %s'%length
+        durations = self.get_duration(length)
+    
+    def get_duration(self, length):
+
+        # How many whole
+        note_length = 16
+        num_notes = length/note_length
+        duration = num_notes*note_length
+        left = length-duration
+        print "nr of notes: %s"%num_notes
+        print "length in 16th: %s"%duration
+        print "notes left: %s"%left
+        
+        #is dotted?
+        if self.is_dotted(left, note_length):
+            left -= note_length/2
+            output_notes = self.format_output_notes(num_notes, note_length, last_is_dotted=True)
+        else:
+            output_notes = self.format_output_notes(num_notes, note_length)
+
+        print output_notes
+        # How many halves
+
+        # How many quarters
+
+        # How many eights
+
+        # How many 16ths?
+
+        print
+    def is_dotted(self, left, note_length):
+        print left, note_length/2 
+        if left >= note_length/2:
+            print "TRUE JU"
+            return True
+        else:
+            return False
+
+    def format_output_notes(self, num_notes, note_length, last_is_dotted=False):
+        st = ""
+        for n in range(num_notes):
+            if n == 0:
+                st += self.STD_G+str(note_length)+' '
+            elif n <num_notes-1:
+                st += self.STD_G+' '
+            elif last_is_dotted:
+                st += self.STD_G+'.'
+            else:
+                st += self.STD_G
+        return st
 
     def generate_pdf(self):
         pass
@@ -72,3 +142,10 @@ class Ponder(object):
     
     def execute_binary(self):
         pass
+
+# When testing Ponder
+if __name__ == '__main__':
+    test = [BeatPair(29,30),BeatPair(31,31)]
+    print test
+    p = Ponder(test,2)
+    p.generate_ly_file()
