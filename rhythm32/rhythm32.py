@@ -91,7 +91,7 @@ def duration_p(b, emission):
 
 def generate_lilypond_score(xpath):
     pon = Ponder(xpath,num_beats/16)
-    pon.generate_ly_file()
+    pon.make_ly_file()
     
 def send_to_pd(xpath):
     # print "\nAnd they said, in great unison, that The Path shalt be:"
