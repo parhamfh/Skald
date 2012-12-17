@@ -9,6 +9,7 @@ class Ponder(object):
 
     FILE_EXTENSION = ".ly"
     STD_G = "g"
+    STD_R = "r"
 
     def __init__(self, beats, 
         number_of_bars, 
@@ -69,69 +70,157 @@ class Ponder(object):
 
     def generate_ly_file(self):
         notes = self.calculate_notes()
+        print notes
 
     def calculate_notes(self):
         notes = []
         prev_note_index = 0
         for b in self.beats: 
-            print "Note at 16th beat %s is %s long"%(b.origin, b.duration)
+            print "\nNote at 16th beat %s is %s long"%(b.origin, b.duration)
             # append rests leading up to this beta
-            notes.append(self.calculate_rest_note(prev_note_index, b.origin))
+            notes.append(self.calculate_rest_notes(prev_note_index, b.origin))
             # append actual marked beat
             prev_note_index = b.origin+b.duration
+            notes.append(self.calculate_real_notes(b.duration))
 
-    def calculate_rest_note(self, start, next_start):
-        length = abs(next_start - start)
-        print 'Length of rest before: %s'%length
-        durations = self.get_duration(length)
-    
-    def get_duration(self, length):
+        return notes
 
-        # How many whole
-        note_length = 16
-        num_notes = length/note_length
+    def calculate_real_notes(self, note_duration):
+        nd = note_duration
+        note_list = []
+        for i in [16, 8, 4, 2, 1]:
+            output, left = self.fit_notes(nd, i)
+            if output is not None:
+                note_list.extend(output)
+                nd = left
+
+        return note_list
+
+    def fit_notes(self, rest_length, note_length):
+        num_notes = rest_length/note_length
         duration = num_notes*note_length
-        left = length-duration
-        print "nr of notes: %s"%num_notes
-        print "length in 16th: %s"%duration
-        print "notes left: %s"%left
+        left = rest_length-duration
+        # print "nr of notes that fit: %s"%num_notes
+        # print "duration of fitted notes in 16ths: %s"%duration
+        # print "notes left that did not fit: %s"%left
         
-        #is dotted?
-        if self.is_dotted(left, note_length):
-            left -= note_length/2
-            output_notes = self.format_output_notes(num_notes, note_length, last_is_dotted=True)
+        if num_notes > 0:
+            print note_length, ':', num_notes, duration, left
+            
+            # Is it dotted?
+            if self.is_dotted(left, note_length):
+                print "dotted last note"
+                left -= note_length/2
+                output_notes = self.format_output_notes(num_notes, note_length, last_is_dotted=True)
+
+            else:
+                output_notes = self.format_output_notes(num_notes, note_length)
+
+            return output_notes, left
         else:
-            output_notes = self.format_output_notes(num_notes, note_length)
+            return None, None
 
-        print output_notes
-        # How many halves
+    def format_output_notes(self, num_notes, note_length, last_is_dotted=False):
+        st = []
+        note_value = 16/note_length
 
-        # How many quarters
+        for n in range(num_notes):
+            # First note also describes note length
+            if n == 0:
+                # Is it also last note
+                if n == num_notes-1:
+                    # Dotted last note?
+                    if last_is_dotted:
+                        st.append(self.STD_G+str(note_value)+'.~')
+                    else:
+                        st.append(self.STD_G+str(note_value))
+                # First note
+                else:
+                    st.append(self.STD_G+str(note_value)+'~')
+            
+            # then add right amount of notes until...
+            elif n <num_notes-1:
+                st.append(self.STD_G+'~')
 
-        # How many eights
+            # ...last note that might be dotted
+            elif last_is_dotted:
+                st.append(self.STD_G+'.')
+            else:
+                st.append(self.STD_G)
+        return st
 
-        # How many 16ths?
+    def calculate_rest_notes(self, start, next_start):
+        rl = abs(next_start - start)
+        print 'Length of rest before: %s'%rl
+        rest_list = []
+        
+        # Whole, half, quarters, eigths, sixteens
+        for i in [16, 8 , 4, 2, 1]:
+            #print "\nTrying to fit note of %s length"%i
+            output, left = self.fit_rest_notes(rl, i)
+            if output is not None:
+                rest_list.extend(output)
+                rl = left
 
-        print
+        return rest_list
+
+    def fit_rest_notes(self, rest_length, note_length):
+        num_notes = rest_length/note_length
+        duration = num_notes*note_length
+        left = rest_length-duration
+        # print "nr of notes that fit: %s"%num_notes
+        # print "duration of fitted notes in 16ths: %s"%duration
+        # print "notes left that did not fit: %s"%left
+        
+        if num_notes > 0:
+            print note_length, ':', num_notes, duration, left
+            
+            # Is it dotted?
+            if self.is_dotted(left, note_length):
+                print "dotted last note"
+                left -= note_length/2
+                output_notes = self.format_rest_notes(num_notes, note_length, last_is_dotted=True)
+
+            else:
+                output_notes = self.format_rest_notes(num_notes, note_length)
+
+            return output_notes, left
+        else:
+            return None, None
+
     def is_dotted(self, left, note_length):
-        print left, note_length/2 
-        if left >= note_length/2:
-            print "TRUE JU"
+        
+        if left >= note_length/2 and note_length>1:
             return True
         else:
             return False
 
-    def format_output_notes(self, num_notes, note_length, last_is_dotted=False):
-        st = ""
+    def format_rest_notes(self, num_notes, note_length, last_is_dotted=False):
+        st = []
+        note_value = 16/note_length
         for n in range(num_notes):
+            # First note also describes note length
             if n == 0:
-                st += self.STD_G+str(note_length)+' '
+                # Is it also last note
+                if n == num_notes-1:
+                    # Dotted last note?
+                    if last_is_dotted:
+                        st.append(self.STD_R+str(note_value)+'.')
+                    else:
+                        st.append(self.STD_R+str(note_value))
+                # First note
+                else:
+                    st.append(self.STD_R+str(note_value)+' ')
+            
+            # then add right amount of notes until...
             elif n <num_notes-1:
-                st += self.STD_G+' '
+                st.append(self.STD_R+' ')
+
+            # ...last note that might be dotted
             elif last_is_dotted:
-                st += self.STD_G+'.'
+                st.append(self.STD_R+'.')
             else:
-                st += self.STD_G
+                st.append(self.STD_R)
         return st
 
     def generate_pdf(self):
