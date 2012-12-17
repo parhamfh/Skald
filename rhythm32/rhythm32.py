@@ -7,63 +7,7 @@ from itertools import izip_longest
 
 from sounder import Sounder
 from ponder import Ponder
-
-class BeatPair(object):
-    '''
-    Hidden state.
-    '''
-    def __init__(self, origin, to, idx):
-        self.orig = origin
-        self.dest = to
-        self.i = idx
-        self.syllable = None
-
-    @property
-    def origin(self):
-        return self.orig
-
-    @property
-    def to(self):
-        return self.dest
-
-    @property
-    def duration(self):
-        return self.to-self.origin+1
-
-    def add_syllable(self, s):
-        self.syllable = s
-
-    def __repr__(self):
-        return "{0}{3}({1},{2})".format('B', self.orig, self.dest, self.i)
-
-class Syllable(object):
-    '''
-    Output/emission.
-    '''
-
-    def __init__(self, syllable, duration, accent):
-        self.s = syllable
-        self.d = duration
-        self.e = accent
-
-    @property
-    def syllable(self):
-        return self.s
-    
-    @property
-    def duration(self):
-        return self.d
-
-    @property
-    def accent(self):
-        return self.e
-
-    @property
-    def stress(self):
-        raise RuntimeError("It is called ACCENT../")
-
-    def __repr__(self):
-        return "(\"{0}\",{1},{2})".format(self.s, self.d, self.e)
+from skaldmodel import BeatPair, Syllable
 
 DEBUG=False
 
@@ -147,6 +91,8 @@ def duration_p(b, emission):
 
 def generate_lilypond_score(xpath):
     pon = Ponder(xpath,num_beats/16)
+    pon.generate_ly_file()
+    
 def send_to_pd(xpath):
     # print "\nAnd they said, in great unison, that The Path shalt be:"
     sendlist = [(-1,1,b) for b in range(0,num_beats)]
@@ -182,15 +128,16 @@ def print_beats(x,obs):
     botbar = spaces+'\n'+''.join(['-' for _ in range(len(spaces))])
     print topbar+'\n'+st+'\n'+botbar
 
+
+
+#Number of total 16th note beats 
 num_beats=32
 B=[]
 
 #Only ring for the beats duration or this till the next designated state
-idx = 0
 for i in range(0,num_beats):
     for j in range (i,num_beats):
-        B.append(BeatPair(i,j,idx))
-        idx += 1
+        B.append(BeatPair(i,j))
 
 dprint(B)
 
