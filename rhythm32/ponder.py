@@ -75,22 +75,23 @@ class Ponder(object):
             return self.increment_score_name(stem, order+1)
 
     def make_ly_file(self):
+        print "\n====== Ponder: Calculating note values ======\n"
         notes = self.calculate_notes()
-        print notes
+        print notes,"\n\n====== Ponder: Generating .ly/.pdf ======\n"
         self.generate_pdf(notes)
-
+        print "\n====== Ponder: Process completed ======\n"
     def calculate_notes(self):
         notes = []
         prev_note_index = 0
         for b in self.beats: 
-            print "\nNote at 16th beat %s is %s long"%(b.origin, b.duration)
+            print "Note at 16th beat %s is %s long"%(b.origin, b.duration)
             # append rests leading up to this beta
             print "REST:"
-            notes.append(self.calculate_rest_notes(prev_note_index, b.origin))
+            notes.append(["REST"]+self.calculate_rest_notes(prev_note_index, b.origin))
             # append actual marked beat
             prev_note_index = b.origin+b.duration
             print "ACTUAL:"
-            notes.append(self.calculate_actual_notes(b.duration))
+            notes.append(["ACTUAL"]+self.calculate_actual_notes(b.duration))
 
         return notes
 
@@ -115,7 +116,7 @@ class Ponder(object):
         
         if num_notes > 0:
             print note_length, ':', num_notes, duration, left
-            print num_notes
+
             # Is it dotted?
             if self.is_dotted(left, note_length):
                 print "dotted last note"
@@ -132,14 +133,11 @@ class Ponder(object):
     def format_output_notes(self, num_notes, note_length, last_is_dotted=False):
         st = []
         note_value = 16/note_length
-        print "wtf",num_notes
         for n in range(num_notes):
             # First note also describes note length
             if n == 0:
                 # Is it also last note
                 if n == num_notes-1:
-                    print " here1\n\n"
-                    
                     # Dotted last note?
                     if last_is_dotted:
                         st.append(self.STD_G+str(note_value)+'.')
@@ -147,20 +145,16 @@ class Ponder(object):
                         st.append(self.STD_G+str(note_value))
                 # First note
                 else:
-                    print " here2\n\n"
-                    st.append(self.STD_G+str(note_value)+'~')
+                    st.append(self.STD_G+str(note_value)+' ')
             
             # then add right amount of notes until...
             elif n <num_notes-1:
-                print " here3\n\n"
-                st.append(self.STD_G+'~')
+                st.append(self.STD_G+' ')
 
             # ...last note that might be dotted
             elif last_is_dotted:
-                print " here4\n\n"
                 st.append(self.STD_G+'.')
             else:
-                print " here5\n\n"
                 st.append(self.STD_G)
         return st
 
@@ -252,8 +246,14 @@ class Ponder(object):
         
         for o in output_list:
             # is not empty
-            if o != []:
-                output += "  {0}\n".format(' '.join(o))
+            if len(o) > 1:
+                if o[0] == "REST":
+                    output += "  {0}\n".format(' '.join(o[1:]))
+                elif o[0] == "ACTUAL":
+                    output += "  {0}\n".format('~'.join(o[1:]))
+                else:
+                    raise RuntimeError("What is this?")
+
         output += "}\n"
 
         # Are there lyrics too?
@@ -274,9 +274,19 @@ class Ponder(object):
 
 # When testing Ponder
 if __name__ == '__main__':
-    #test = [BeatPair(29,30),BeatPair(31,31)]
+    
+    # REAL EXAMPLES from rhythm32
+    # WORKS
+    # [B172(5,27), B519(28,29), B526(30,31)]
+    # WORKS
+    # [B509(26,28), B523(29,30), B527(31,31)]
+    # WORKS
+    # test = [BeatPair(29,30),BeatPair(31,31)]
+    # WORKS
     test = [BeatPair(18,29, 434), BeatPair(30,30,525),BeatPair(31,31,527)]
+    # WORKS
     # test = [BeatPair(9,28, 271), BeatPair(29,30,523),BeatPair(31,31,527)]
+
     S = [Syllable("Tom","SHORT","UNSTRESSED"), Syllable("ten","LONG","STRESSED"), Syllable("par","SHORT","UNSTRESSED")]
     print test
     p = Ponder(test,2, S)
