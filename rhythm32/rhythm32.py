@@ -89,10 +89,10 @@ def accent_p(b, emission):
 def duration_p(b, emission):
     return d_p[b.i][emission.duration]
 
-def generate_lilypond_score(xpath):
-    pon = Ponder(xpath,num_beats/16)
+def generate_lilypond_score(xpath, observations):
+    pon = Ponder(xpath,num_beats/16, observations)
     pon.make_ly_file()
-    
+
 def send_to_pd(xpath):
     # print "\nAnd they said, in great unison, that The Path shalt be:"
     sendlist = [(-1,1,b) for b in range(0,num_beats)]
@@ -172,5 +172,5 @@ xpath = viterbi.viterbi(S,B,T,start_p, accent_p)
 print xpath
 print_beats(xpath, S)
 
-generate_lilypond_score(xpath)
+generate_lilypond_score(xpath, S)
 

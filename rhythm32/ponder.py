@@ -4,21 +4,26 @@
 from os import path
 from subprocess import call
 
-from skaldmodel import BeatPair
+from skaldmodel import BeatPair, Syllable
 
 class Ponder(object):
 
     FILE_EXTENSION = ".ly"
     STD_G = "g"
     STD_R = "r"
+    lyrics = None
 
     def __init__(self, beats, 
-        number_of_bars, 
+        number_of_bars,
+        observations=None, 
         time_signature=(4,4),
         clef='"treble"',
-        score_name="skald"):
+        score_name="skald",
+        syllables=[]):
         self.beats = beats
         self.bars = number_of_bars
+        self.lyrics = observations
+
         self.t_s = "%s/%s"%(time_signature[0],time_signature[1])
         self.clef = clef
 
@@ -110,7 +115,7 @@ class Ponder(object):
         
         if num_notes > 0:
             print note_length, ':', num_notes, duration, left
-            
+            print num_notes
             # Is it dotted?
             if self.is_dotted(left, note_length):
                 print "dotted last note"
@@ -127,29 +132,35 @@ class Ponder(object):
     def format_output_notes(self, num_notes, note_length, last_is_dotted=False):
         st = []
         note_value = 16/note_length
-
+        print "wtf",num_notes
         for n in range(num_notes):
             # First note also describes note length
             if n == 0:
                 # Is it also last note
                 if n == num_notes-1:
+                    print " here1\n\n"
+                    
                     # Dotted last note?
                     if last_is_dotted:
-                        st.append(self.STD_G+str(note_value)+'.~')
+                        st.append(self.STD_G+str(note_value)+'.')
                     else:
                         st.append(self.STD_G+str(note_value))
                 # First note
                 else:
+                    print " here2\n\n"
                     st.append(self.STD_G+str(note_value)+'~')
             
             # then add right amount of notes until...
             elif n <num_notes-1:
+                print " here3\n\n"
                 st.append(self.STD_G+'~')
 
             # ...last note that might be dotted
             elif last_is_dotted:
+                print " here4\n\n"
                 st.append(self.STD_G+'.')
             else:
+                print " here5\n\n"
                 st.append(self.STD_G)
         return st
 
@@ -244,6 +255,13 @@ class Ponder(object):
             if o != []:
                 output += "  {0}\n".format(' '.join(o))
         output += "}\n"
+
+        # Are there lyrics too?
+        if self.lyrics is not None:
+            output += "\\addlyrics {\n  "
+            for l in self.lyrics:
+                output += "{0} ".format(l.syllable)
+            output += "\n}"
         return output
 
     def write_to_ly_file(self, output):
@@ -257,8 +275,9 @@ class Ponder(object):
 # When testing Ponder
 if __name__ == '__main__':
     #test = [BeatPair(29,30),BeatPair(31,31)]
-    # B434(18,29), B525(30,30), B527(31,31)]
-    test = [BeatPair(18,29,434), BeatPair(30,30,525),BeatPair(31,31,527)]
+    test = [BeatPair(18,29, 434), BeatPair(30,30,525),BeatPair(31,31,527)]
+    # test = [BeatPair(9,28, 271), BeatPair(29,30,523),BeatPair(31,31,527)]
+    S = [Syllable("Tom","SHORT","UNSTRESSED"), Syllable("ten","LONG","STRESSED"), Syllable("par","SHORT","UNSTRESSED")]
     print test
-    p = Ponder(test,2)
+    p = Ponder(test,2, S)
     p.make_ly_file()
