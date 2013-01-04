@@ -3,7 +3,6 @@
 
 import viterbi, numpy
 import random as ra
-from itertools import izip_longest
 
 from sounder import Sounder
 from ponder import Ponder
