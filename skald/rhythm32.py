@@ -3,7 +3,7 @@
 
 import viterbi, numpy
 import random as ra
-
+ 
 from sounder import Sounder
 from ponder import Ponder
 from skaldmodel import BeatPair, Syllable

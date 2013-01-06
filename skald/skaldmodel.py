@@ -7,10 +7,12 @@ class BeatPair(object):
     def __init__(self, origin, to, idx=-1):
         self.orig = origin
         self.dest = to
+        
         if idx >= -1:
             self.i = self._get_index()
         else:
             self.i = idx
+        
         self.syllable = None
 
     def _get_index(self):
