@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>skald.hmm.viterbi'</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="skald-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="skald-module.html">Package&nbsp;skald</a> ::
+        <a href="skald.hmm-module.html">Package&nbsp;hmm</a> ::
+        Package&nbsp;viterbi'
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="skald.hmm.viterbi%27-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="skald.hmm.viterbi%27-module.html">Package skald.hmm.viterbi'</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">'''</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring">    Viterbi implementation modified for an HMM with two emissions,</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">    one occuring over transitions (edges) and one from a state.</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring">    Based on algorithm on U{en.wikipedia.org&lt;http://en.wikipedia.org/wiki/Viterbi_algorithm&gt;}. </tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring">'''</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">numpy</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable skald.hmm.Hmm.DEBUG=skald.hmm.Hmm-class.html#DEBUG,Variable skald.hmm.model.HmmModel.DEBUG=skald.hmm.model.HmmModel-class.html#DEBUG,Variable skald.hmm.viterbi'.DEBUG=skald.hmm.viterbi%27-module.html#DEBUG"><a title="skald.hmm.Hmm.DEBUG
+skald.hmm.model.HmmModel.DEBUG
+skald.hmm.viterbi'.DEBUG" class="py-name" href="#" onclick="return doclink('link-0', 'DEBUG', 'link-0');">DEBUG</a></tt><tt class="py-op">=</tt><tt class="py-name">False</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"> </tt>
+<a name="dprint"></a><div id="dprint-def"><a name="L11"></a><tt class="py-lineno"> 11</tt> <a class="py-toggle" href="#" id="dprint-toggle" onclick="return toggle('dprint');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.viterbi'-module.html#dprint">dprint</a><tt class="py-op">(</tt><tt class="py-param">s</tt><tt class="py-op">=</tt><tt class="py-string">""</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="dprint-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="dprint-expanded"><a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt id="link-1" class="py-name"><a title="skald.hmm.Hmm.DEBUG
+skald.hmm.model.HmmModel.DEBUG
+skald.hmm.viterbi'.DEBUG" class="py-name" href="#" onclick="return doclink('link-1', 'DEBUG', 'link-0');">DEBUG</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt> <tt class="py-string">"&lt;DEBUG&gt;"</tt><tt class="py-op">,</tt><tt class="py-name">s</tt> </tt>
+</div><a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"> </tt>
+<a name="viterbi"></a><div id="viterbi-def"><a name="L15"></a><tt class="py-lineno"> 15</tt> <a class="py-toggle" href="#" id="viterbi-toggle" onclick="return toggle('viterbi');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.viterbi'-module.html#viterbi">viterbi</a><tt class="py-op">(</tt><tt class="py-param">observed</tt><tt class="py-op">,</tt> <tt class="py-param">B</tt><tt class="py-op">,</tt> <tt class="py-param">T</tt><tt class="py-op">,</tt> <tt class="py-param">start_p</tt><tt class="py-op">,</tt> <tt class="py-param">p</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="viterbi-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="viterbi-expanded"><a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line">    <tt class="py-docstring">'''</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-docstring">        Run the Viterbi algorithm against our</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-docstring">        rhythm model which is a Mealy type HMM.</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-docstring">        @param B: the set of the 32 hidden states (the beats)</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-docstring">        @type B: list</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-docstring">        @param p: the duration emission probability for each state</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-docstring">        @type p: numpy.matrix</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-docstring">        @param observed: set of observed syllables</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-docstring">        @type observed: list</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"><tt class="py-docstring">        @param T: transition matrix for hidden states</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt class="py-docstring">        @type T: numpy.matrix</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-docstring">        @param start_p: start probabilities for the states</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"><tt class="py-docstring">        @type start_p: list of probabilities</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-docstring">    '''</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">    <tt class="py-name">o_len</tt> <tt class="py-op">=</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-2" class="py-name" targets="Variable skald.hmm.model.health.elements.observed=skald.hmm.model.health.elements-module.html#observed"><a title="skald.hmm.model.health.elements.observed" class="py-name" href="#" onclick="return doclink('link-2', 'observed', 'link-2');">observed</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">    <tt class="py-name">T1</tt> <tt class="py-op">=</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">matrix</tt><tt class="py-op">(</tt> <tt class="py-op">[</tt> <tt class="py-op">[</tt><tt class="py-name">y</tt> <tt class="py-keyword">for</tt> <tt class="py-name">y</tt> <tt class="py-keyword">in</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">zeros</tt><tt class="py-op">(</tt><tt class="py-name">o_len</tt><tt class="py-op">)</tt><tt class="py-op">]</tt> <tt class="py-keyword">for</tt> <tt class="py-name">_</tt> <tt class="py-keyword">in</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">zeros</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-op">]</tt> <tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">    <tt class="py-name">T2</tt> <tt class="py-op">=</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">matrix</tt><tt class="py-op">(</tt> <tt class="py-op">[</tt> <tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-op">*</tt> <tt class="py-name">o_len</tt> <tt class="py-keyword">for</tt> <tt class="py-name">_</tt> <tt class="py-keyword">in</tt> <tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">*</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt> <tt class="py-op">]</tt> <tt class="py-op">)</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line"> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">    <tt id="link-3" class="py-name" targets="Method skald.hmm.Hmm.dprint()=skald.hmm.Hmm-class.html#dprint,Method skald.hmm.model.HmmModel.dprint()=skald.hmm.model.HmmModel-class.html#dprint,Function skald.hmm.viterbi'.dprint()=skald.hmm.viterbi%27-module.html#dprint"><a title="skald.hmm.Hmm.dprint
+skald.hmm.model.HmmModel.dprint
+skald.hmm.viterbi'.dprint" class="py-name" href="#" onclick="return doclink('link-3', 'dprint', 'link-3');">dprint</a></tt><tt class="py-op">(</tt><tt class="py-string">"For observations %s: %s \n"</tt><tt class="py-op">%</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt> <tt id="link-4" class="py-name"><a title="skald.hmm.model.health.elements.observed" class="py-name" href="#" onclick="return doclink('link-4', 'observed', 'link-2');">observed</a></tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">B</tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">        <tt class="py-name">T1</tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt id="link-5" class="py-name" targets="Variable skald.hmm.model.health.elements.start_p=skald.hmm.model.health.elements-module.html#start_p"><a title="skald.hmm.model.health.elements.start_p" class="py-name" href="#" onclick="return doclink('link-5', 'start_p', 'link-5');">start_p</a></tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt> <tt class="py-op">*</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">                <tt class="py-name">p</tt><tt class="py-op">(</tt><tt class="py-name">b</tt><tt class="py-op">,</tt> <tt id="link-6" class="py-name"><a title="skald.hmm.model.health.elements.observed" class="py-name" href="#" onclick="return doclink('link-6', 'observed', 'link-2');">observed</a></tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt>  </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">        <tt id="link-7" class="py-name"><a title="skald.hmm.Hmm.dprint
+skald.hmm.model.HmmModel.dprint
+skald.hmm.viterbi'.dprint" class="py-name" href="#" onclick="return doclink('link-7', 'dprint', 'link-3');">dprint</a></tt><tt class="py-op">(</tt><tt class="py-string">"Highest probability for state %s: %s"</tt><tt class="py-op">%</tt><tt class="py-op">(</tt><tt class="py-name">b</tt><tt class="py-op">,</tt><tt class="py-name">T1</tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">        <tt class="py-name">T2</tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">     </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">    <tt id="link-8" class="py-name"><a title="skald.hmm.Hmm.dprint
+skald.hmm.model.HmmModel.dprint
+skald.hmm.viterbi'.dprint" class="py-name" href="#" onclick="return doclink('link-8', 'dprint', 'link-3');">dprint</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">t</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-number">1</tt><tt class="py-op">,</tt><tt class="py-name">o_len</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">        <tt id="link-9" class="py-name"><a title="skald.hmm.Hmm.dprint
+skald.hmm.model.HmmModel.dprint
+skald.hmm.viterbi'.dprint" class="py-name" href="#" onclick="return doclink('link-9', 'dprint', 'link-3');">dprint</a></tt><tt class="py-op">(</tt><tt class="py-string">"For observations %s: %s "</tt><tt class="py-op">%</tt><tt class="py-op">(</tt><tt class="py-name">t</tt><tt class="py-op">,</tt> <tt id="link-10" class="py-name"><a title="skald.hmm.model.health.elements.observed" class="py-name" href="#" onclick="return doclink('link-10', 'observed', 'link-2');">observed</a></tt><tt class="py-op">[</tt><tt class="py-name">t</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">B</tt><tt class="py-op">:</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">            <tt class="py-op">(</tt><tt class="py-name">pk</tt><tt class="py-op">,</tt> <tt class="py-name">k</tt><tt class="py-op">)</tt> <tt class="py-op">=</tt> <tt id="link-11" class="py-name" targets="Function skald.hmm.viterbi'.transition_max_k()=skald.hmm.viterbi%27-module.html#transition_max_k"><a title="skald.hmm.viterbi'.transition_max_k" class="py-name" href="#" onclick="return doclink('link-11', 'transition_max_k', 'link-11');">transition_max_k</a></tt><tt class="py-op">(</tt><tt class="py-name">t</tt><tt class="py-op">,</tt> <tt class="py-name">T1</tt><tt class="py-op">,</tt> <tt class="py-name">b</tt><tt class="py-op">,</tt> <tt class="py-name">B</tt><tt class="py-op">,</tt> <tt id="link-12" class="py-name" targets="Variable skald.hmm.model.health.elements.T=skald.hmm.model.health.elements-module.html#T"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-12', 'T', 'link-12');">T</a></tt><tt class="py-op">,</tt> <tt id="link-13" class="py-name"><a title="skald.hmm.model.health.elements.observed" class="py-name" href="#" onclick="return doclink('link-13', 'observed', 'link-2');">observed</a></tt><tt class="py-op">,</tt> <tt class="py-name">p</tt><tt class="py-op">)</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">            <tt class="py-name">T1</tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-name">t</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">pk</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">            <tt class="py-name">T2</tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-name">t</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">k</tt><tt class="py-op">.</tt><tt class="py-name">i</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">         </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">    <tt class="py-comment">#pick best last observation</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">    <tt class="py-op">(</tt><tt class="py-name">zp</tt><tt class="py-op">,</tt> <tt class="py-name">sz</tt><tt class="py-op">)</tt> <tt class="py-op">=</tt> <tt class="py-name">max</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-op">(</tt><tt class="py-name">T1</tt><tt class="py-op">[</tt><tt class="py-name">k</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-name">o_len</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">,</tt><tt class="py-name">k</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">B</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">    <tt class="py-comment">#initialize path vector</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">    <tt class="py-name">x</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> <tt class="py-op">*</tt> <tt class="py-name">o_len</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">     </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">    <tt class="py-comment"># dprint("T2 matrix with possible paths: %s\n"%T2)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">    <tt class="py-comment">#backtrack using T2</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">    <tt class="py-name">x</tt><tt class="py-op">[</tt><tt class="py-name">o_len</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">B</tt><tt class="py-op">[</tt><tt class="py-name">sz</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line"> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">    <tt id="link-14" class="py-name"><a title="skald.hmm.Hmm.dprint
+skald.hmm.model.HmmModel.dprint
+skald.hmm.viterbi'.dprint" class="py-name" href="#" onclick="return doclink('link-14', 'dprint', 'link-3');">dprint</a></tt><tt class="py-op">(</tt><tt class="py-string">"Most likely last (t=%s) state for optimal path is %s (p=%s)"</tt><tt class="py-op">%</tt><tt class="py-op">(</tt><tt class="py-name">o_len</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">,</tt><tt class="py-name">x</tt><tt class="py-op">[</tt><tt class="py-name">o_len</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">,</tt><tt class="py-name">zp</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">t</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">o_len</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">,</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">        <tt class="py-name">x</tt><tt class="py-op">[</tt><tt class="py-name">t</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">B</tt><tt class="py-op">[</tt><tt class="py-name">T2</tt><tt class="py-op">[</tt><tt class="py-name">x</tt><tt class="py-op">[</tt><tt class="py-name">t</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-name">t</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">        <tt id="link-15" class="py-name"><a title="skald.hmm.Hmm.dprint
+skald.hmm.model.HmmModel.dprint
+skald.hmm.viterbi'.dprint" class="py-name" href="#" onclick="return doclink('link-15', 'dprint', 'link-3');">dprint</a></tt><tt class="py-op">(</tt><tt class="py-string">"Most likely state at t=%s for optimal path is %s (p=%s)"</tt><tt class="py-op">%</tt><tt class="py-op">(</tt><tt class="py-name">t</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">,</tt><tt class="py-name">x</tt><tt class="py-op">[</tt><tt class="py-name">t</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">,</tt><tt class="py-name">T1</tt><tt class="py-op">[</tt><tt class="py-name">x</tt><tt class="py-op">[</tt><tt class="py-name">t</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-name">t</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">x</tt> </tt>
+</div><a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"> </tt>
+<a name="viterbi_w_model"></a><div id="viterbi_w_model-def"><a name="L67"></a><tt class="py-lineno"> 67</tt> <a class="py-toggle" href="#" id="viterbi_w_model-toggle" onclick="return toggle('viterbi_w_model');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.viterbi'-module.html#viterbi_w_model">viterbi_w_model</a><tt class="py-op">(</tt><tt class="py-param">observations</tt><tt class="py-op">,</tt> <tt class="py-param">model</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="viterbi_w_model-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="viterbi_w_model-expanded"><a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">    <tt class="py-docstring">'''</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line"><tt class="py-docstring">    same as L{viterbi} but the parameters are described by the L{HmmModel}.</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"><tt class="py-docstring">    '''</tt> </tt>
+</div><a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">     </tt>
+<a name="transition_max_k"></a><div id="transition_max_k-def"><a name="L72"></a><tt class="py-lineno"> 72</tt> <a class="py-toggle" href="#" id="transition_max_k-toggle" onclick="return toggle('transition_max_k');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.viterbi'-module.html#transition_max_k">transition_max_k</a><tt class="py-op">(</tt><tt class="py-param">j</tt><tt class="py-op">,</tt> <tt class="py-param">T1</tt><tt class="py-op">,</tt> <tt class="py-param">b</tt><tt class="py-op">,</tt> <tt class="py-param">B</tt><tt class="py-op">,</tt> <tt class="py-param">T</tt><tt class="py-op">,</tt> <tt class="py-param">observed</tt><tt class="py-op">,</tt> <tt class="py-param">p</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="transition_max_k-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="transition_max_k-expanded"><a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">    <tt class="py-docstring">'''</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"><tt class="py-docstring">    Returns the next state which maximizes</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"><tt class="py-docstring">    probability of transition to that state and</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"><tt class="py-docstring">    emission probabilities.</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line"><tt class="py-docstring">    Returns a tuplet with index of state as well </tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"><tt class="py-docstring">    as value of probability.</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"><tt class="py-docstring">    @param j: the time for which the emission</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"><tt class="py-docstring">                probability is calculated. Is used</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"><tt class="py-docstring">                to index T1.</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line"><tt class="py-docstring">    @type j: int</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"><tt class="py-docstring">    @param T1: 2D matrix; where first index, i, is</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"><tt class="py-docstring">                state index and second, j, is time of </tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"><tt class="py-docstring">                emission. Elements give probability</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"><tt class="py-docstring">                of output j being emitted by state i. </tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-docstring">    @type T1: numpy.matrix</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt class="py-docstring">    @param b: The state which you are currently in.</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line"><tt class="py-docstring">    @type b: BeatState.</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"><tt class="py-docstring">    @param B: the set of the 32 hidden states (the beats)</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line"><tt class="py-docstring">    @type B: list</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"><tt class="py-docstring">    @param T: transition matrix for hidden states</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"><tt class="py-docstring">    @type T: numpy.matrix</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"><tt class="py-docstring">    @param observed: set of observed syllables</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"><tt class="py-docstring">    @type observed: list</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"><tt class="py-docstring">    @param p: the duration emission probability for each state</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"><tt class="py-docstring">    @type p: numpy.matrix</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"><tt class="py-docstring">    @return: tuplet with two values, first being max </tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"><tt class="py-docstring">                probability and second being index of state</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line"><tt class="py-docstring">                that gives max probability.</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"><tt class="py-docstring">    @rtype: tuples</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line"><tt class="py-docstring">    '''</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">    <tt id="link-16" class="py-name"><a title="skald.hmm.Hmm.dprint
+skald.hmm.model.HmmModel.dprint
+skald.hmm.viterbi'.dprint" class="py-name" href="#" onclick="return doclink('link-16', 'dprint', 'link-3');">dprint</a></tt><tt class="py-op">(</tt><tt class="py-string">"Finding likely hidden state to transition to at time %s from state %s\n"</tt><tt class="py-op">%</tt><tt class="py-op">(</tt><tt class="py-name">j</tt><tt class="py-op">,</tt><tt class="py-name">b</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">max</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-op">(</tt><tt class="py-name">T1</tt><tt class="py-op">[</tt><tt class="py-name">k</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-name">j</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> <tt class="py-op">*</tt> <tt id="link-17" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-17', 'T', 'link-12');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">k</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">*</tt><tt class="py-name">p</tt><tt class="py-op">(</tt><tt class="py-name">b</tt><tt class="py-op">,</tt><tt id="link-18" class="py-name"><a title="skald.hmm.model.health.elements.observed" class="py-name" href="#" onclick="return doclink('link-18', 'observed', 'link-2');">observed</a></tt><tt class="py-op">[</tt><tt class="py-name">j</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-name">k</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">B</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="skald-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Thu Jan 17 19:09:11 2013
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -1,13 +1,18 @@
 '''
 Created on Jan 4, 2013
 
+WHEN RUN ON WINDOWS:
+
+
+WHEN RUN ON OS X:
+
 @author: parhamfh
 '''
 
 import socket, threading, time, sys
 from threading import Lock
 
-class RemotePhoneticTranscriber(object):
+class RemoteTranscriber(object):
     '''
     Uses Sockets
     '''

@@ -1,8 +1,8 @@
-from remote import RemotePhoneticTranscriber
+from skald.transcribe.remote import RemoteTranscriber
 
-class PhoneticTranscriber(object):
+class Transcriber(object):
     '''
-    Transcribes Swedish text to phonetic representation
+    Transcribes the words in a Swedish text to their phonetic representation
     '''
     
     REMOTE_TRANSCRIBE = True
@@ -37,7 +37,7 @@ class PhoneticTranscriber(object):
         Uses a network connection to a remote server that can run the
         appropriate scrip to transcribe the input
         '''
-        rpt = RemotePhoneticTranscriber()
+        rpt = RemoteTranscriber()
         rpt.connect()
         response = rpt.transcribe_message(self.text)
         print response

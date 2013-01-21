@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>skald.skald</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="skald-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="skald-module.html">Package&nbsp;skald</a> ::
+        Module&nbsp;skald
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="skald.skald-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="skald.skald-module.html">Module skald.skald</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-docstring">'''</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-docstring">Created on Jan 3, 2013</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-docstring">@author: parhamfh</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-docstring">'''</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">random</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Package skald=skald-module.html,Module skald.skald=skald.skald-module.html"><a title="skald
+skald.skald" class="py-name" href="#" onclick="return doclink('link-0', 'skald', 'link-0');">skald</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Package skald.pd=skald.pd-module.html"><a title="skald.pd" class="py-name" href="#" onclick="return doclink('link-1', 'pd', 'link-1');">pd</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Module skald.pd.sounder=skald.pd.sounder-module.html"><a title="skald.pd.sounder" class="py-name" href="#" onclick="return doclink('link-2', 'sounder', 'link-2');">sounder</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Class skald.pd.sounder.Sounder=skald.pd.sounder.Sounder-class.html"><a title="skald.pd.sounder.Sounder" class="py-name" href="#" onclick="return doclink('link-3', 'Sounder', 'link-3');">Sounder</a></tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name" targets="Package skald.lilypond=skald.lilypond-module.html"><a title="skald.lilypond" class="py-name" href="#" onclick="return doclink('link-4', 'lilypond', 'link-4');">lilypond</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Module skald.lilypond.ponder=skald.lilypond.ponder-module.html"><a title="skald.lilypond.ponder" class="py-name" href="#" onclick="return doclink('link-5', 'ponder', 'link-5');">ponder</a></tt> <tt class="py-keyword">import</tt> <tt id="link-6" class="py-name" targets="Class skald.lilypond.ponder.Ponder=skald.lilypond.ponder.Ponder-class.html"><a title="skald.lilypond.ponder.Ponder" class="py-name" href="#" onclick="return doclink('link-6', 'Ponder', 'link-6');">Ponder</a></tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-7" class="py-name"><a title="skald
+skald.skald" class="py-name" href="#" onclick="return doclink('link-7', 'skald', 'link-0');">skald</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Package skald.hmm=skald.hmm-module.html"><a title="skald.hmm" class="py-name" href="#" onclick="return doclink('link-8', 'hmm', 'link-8');">hmm</a></tt> <tt class="py-keyword">import</tt> <tt id="link-9" class="py-name" targets="Class skald.hmm.Hmm=skald.hmm.Hmm-class.html"><a title="skald.hmm.Hmm" class="py-name" href="#" onclick="return doclink('link-9', 'Hmm', 'link-9');">Hmm</a></tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-10" class="py-name"><a title="skald
+skald.skald" class="py-name" href="#" onclick="return doclink('link-10', 'skald', 'link-0');">skald</a></tt><tt class="py-op">.</tt><tt id="link-11" class="py-name"><a title="skald.hmm" class="py-name" href="#" onclick="return doclink('link-11', 'hmm', 'link-8');">hmm</a></tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Package skald.hmm.model=skald.hmm.model-module.html"><a title="skald.hmm.model" class="py-name" href="#" onclick="return doclink('link-12', 'model', 'link-12');">model</a></tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Package skald.hmm.model.rhythm=skald.hmm.model.rhythm-module.html"><a title="skald.hmm.model.rhythm" class="py-name" href="#" onclick="return doclink('link-13', 'rhythm', 'link-13');">rhythm</a></tt> <tt class="py-keyword">import</tt> <tt id="link-14" class="py-name" targets="Class skald.hmm.model.rhythm.RhythmModel=skald.hmm.model.rhythm.RhythmModel-class.html"><a title="skald.hmm.model.rhythm.RhythmModel" class="py-name" href="#" onclick="return doclink('link-14', 'RhythmModel', 'link-14');">RhythmModel</a></tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-15" class="py-name"><a title="skald
+skald.skald" class="py-name" href="#" onclick="return doclink('link-15', 'skald', 'link-0');">skald</a></tt><tt class="py-op">.</tt><tt id="link-16" class="py-name"><a title="skald.hmm" class="py-name" href="#" onclick="return doclink('link-16', 'hmm', 'link-8');">hmm</a></tt><tt class="py-op">.</tt><tt id="link-17" class="py-name"><a title="skald.hmm.model" class="py-name" href="#" onclick="return doclink('link-17', 'model', 'link-12');">model</a></tt><tt class="py-op">.</tt><tt id="link-18" class="py-name" targets="Package skald.hmm.model.health=skald.hmm.model.health-module.html"><a title="skald.hmm.model.health" class="py-name" href="#" onclick="return doclink('link-18', 'health', 'link-18');">health</a></tt> <tt class="py-keyword">import</tt> <tt id="link-19" class="py-name" targets="Class skald.hmm.model.health.HealthModel=skald.hmm.model.health.HealthModel-class.html"><a title="skald.hmm.model.health.HealthModel" class="py-name" href="#" onclick="return doclink('link-19', 'HealthModel', 'link-19');">HealthModel</a></tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-20" class="py-name"><a title="skald
+skald.skald" class="py-name" href="#" onclick="return doclink('link-20', 'skald', 'link-0');">skald</a></tt><tt class="py-op">.</tt><tt id="link-21" class="py-name"><a title="skald.hmm" class="py-name" href="#" onclick="return doclink('link-21', 'hmm', 'link-8');">hmm</a></tt><tt class="py-op">.</tt><tt id="link-22" class="py-name"><a title="skald.hmm.model" class="py-name" href="#" onclick="return doclink('link-22', 'model', 'link-12');">model</a></tt><tt class="py-op">.</tt><tt id="link-23" class="py-name"><a title="skald.hmm.model.health" class="py-name" href="#" onclick="return doclink('link-23', 'health', 'link-18');">health</a></tt><tt class="py-op">.</tt><tt id="link-24" class="py-name" targets="Module skald.hmm.model.elements=skald.hmm.model.elements-module.html,Module skald.hmm.model.health.elements=skald.hmm.model.health.elements-module.html,Module skald.hmm.model.rhythm.elements=skald.hmm.model.rhythm.elements-module.html"><a title="skald.hmm.model.elements
+skald.hmm.model.health.elements
+skald.hmm.model.rhythm.elements" class="py-name" href="#" onclick="return doclink('link-24', 'elements', 'link-24');">elements</a></tt> <tt class="py-keyword">import</tt> <tt id="link-25" class="py-name" targets="Class skald.hmm.model.health.elements.Symptom=skald.hmm.model.health.elements.Symptom-class.html"><a title="skald.hmm.model.health.elements.Symptom" class="py-name" href="#" onclick="return doclink('link-25', 'Symptom', 'link-25');">Symptom</a></tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"> </tt>
+<a name="Skald"></a><div id="Skald-def"><a name="L15"></a><tt class="py-lineno">15</tt> <a class="py-toggle" href="#" id="Skald-toggle" onclick="return toggle('Skald');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="skald.skald.Skald-class.html">Skald</a><tt class="py-op">(</tt><tt class="py-base-class">object</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Skald-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="Skald-expanded"><a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-docstring">'''</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">    Connects the dots. </tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt class="py-docstring">    </tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt class="py-docstring">    Takes in input from user. Converts input to observations</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-docstring">    Loads the model.</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"><tt class="py-docstring">    Runs Viterbi algorithm.</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt class="py-docstring">    Adjusts probabilities.</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"><tt class="py-docstring">    Generates and outputs score sheet.</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"><tt class="py-docstring">    </tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"><tt class="py-docstring">    Unless you set health_example as True which will try the model math</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"><tt class="py-docstring">    against the trivial example on Wikipedia. </tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"><tt class="py-docstring">    '''</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line"> </tt>
+<a name="Skald.__init__"></a><div id="Skald.__init__-def"><a name="L30"></a><tt class="py-lineno">30</tt> <a class="py-toggle" href="#" id="Skald.__init__-toggle" onclick="return toggle('Skald.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.skald.Skald-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">health_example</tt><tt class="py-op">=</tt><tt class="py-name">True</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Skald.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Skald.__init__-expanded"><a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt class="py-docstring">'''</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line"><tt class="py-docstring">        Constructor</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt class="py-docstring">        '''</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">health_example</tt><tt class="py-op">:</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">            <tt class="py-keyword">print</tt> <tt class="py-string">'Running Wikipedia Health Model example.'</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line"><tt class="py-comment">#            hm = HealthModel(hidden_states, observations) </tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">            <tt id="link-26" class="py-name" targets="Variable skald.hmm.model.health.elements.observed=skald.hmm.model.health.elements-module.html#observed"><a title="skald.hmm.model.health.elements.observed" class="py-name" href="#" onclick="return doclink('link-26', 'observed', 'link-26');">observed</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt id="link-27" class="py-name"><a title="skald.hmm.model.health.elements.Symptom" class="py-name" href="#" onclick="return doclink('link-27', 'Symptom', 'link-25');">Symptom</a></tt><tt class="py-op">(</tt><tt class="py-string">'normal'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt>  </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">                        <tt id="link-28" class="py-name"><a title="skald.hmm.model.health.elements.Symptom" class="py-name" href="#" onclick="return doclink('link-28', 'Symptom', 'link-25');">Symptom</a></tt><tt class="py-op">(</tt><tt class="py-string">'cold'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">                        <tt id="link-29" class="py-name"><a title="skald.hmm.model.health.elements.Symptom" class="py-name" href="#" onclick="return doclink('link-29', 'Symptom', 'link-25');">Symptom</a></tt><tt class="py-op">(</tt><tt class="py-string">'dizzy'</tt><tt class="py-op">)</tt><tt class="py-op">]</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">  </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name"><a title="skald.hmm" class="py-name" href="#" onclick="return doclink('link-30', 'hmm', 'link-8');">hmm</a></tt> <tt class="py-op">=</tt> <tt id="link-31" class="py-name"><a title="skald.hmm.Hmm" class="py-name" href="#" onclick="return doclink('link-31', 'Hmm', 'link-9');">Hmm</a></tt><tt class="py-op">(</tt><tt id="link-32" class="py-name"><a title="skald.hmm.model.health.HealthModel" class="py-name" href="#" onclick="return doclink('link-32', 'HealthModel', 'link-19');">HealthModel</a></tt><tt class="py-op">,</tt> <tt id="link-33" class="py-name"><a title="skald.hmm.model.health.elements.observed" class="py-name" href="#" onclick="return doclink('link-33', 'observed', 'link-26');">observed</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">             </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">             </tt>
+<a name="Skald.generate_lilypond_score"></a><div id="Skald.generate_lilypond_score-def"><a name="L44"></a><tt class="py-lineno">44</tt> <a class="py-toggle" href="#" id="Skald.generate_lilypond_score-toggle" onclick="return toggle('Skald.generate_lilypond_score');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.skald.Skald-class.html#generate_lilypond_score">generate_lilypond_score</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">xpath</tt><tt class="py-op">,</tt> <tt class="py-param">observations</tt><tt class="py-op">,</tt> <tt class="py-param">num_beats</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Skald.generate_lilypond_score-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Skald.generate_lilypond_score-expanded"><a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">        <tt class="py-name">pon</tt> <tt class="py-op">=</tt> <tt id="link-34" class="py-name"><a title="skald.lilypond.ponder.Ponder" class="py-name" href="#" onclick="return doclink('link-34', 'Ponder', 'link-6');">Ponder</a></tt><tt class="py-op">(</tt><tt class="py-name">xpath</tt><tt class="py-op">,</tt><tt class="py-name">num_beats</tt><tt class="py-op">/</tt><tt class="py-number">16</tt><tt class="py-op">,</tt> <tt class="py-name">observations</tt><tt class="py-op">)</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">        <tt class="py-name">pon</tt><tt class="py-op">.</tt><tt id="link-35" class="py-name" targets="Method skald.lilypond.ponder.Ponder.make_ly_file()=skald.lilypond.ponder.Ponder-class.html#make_ly_file"><a title="skald.lilypond.ponder.Ponder.make_ly_file" class="py-name" href="#" onclick="return doclink('link-35', 'make_ly_file', 'link-35');">make_ly_file</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">     </tt>
+<a name="Skald.send_to_pd"></a><div id="Skald.send_to_pd-def"><a name="L48"></a><tt class="py-lineno">48</tt> <a class="py-toggle" href="#" id="Skald.send_to_pd-toggle" onclick="return toggle('Skald.send_to_pd');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.skald.Skald-class.html#send_to_pd">send_to_pd</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">xpath</tt><tt class="py-op">,</tt> <tt class="py-param">num_beats</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Skald.send_to_pd-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Skald.send_to_pd-expanded"><a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">        <tt class="py-comment"># print "\nAnd they said, in great unison, that The Path shalt be:"</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">        <tt class="py-name">sendlist</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">(</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">,</tt><tt class="py-number">1</tt><tt class="py-op">,</tt><tt class="py-name">b</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-name">num_beats</tt><tt class="py-op">)</tt><tt class="py-op">]</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">x</tt> <tt class="py-keyword">in</tt> <tt class="py-name">xpath</tt><tt class="py-op">:</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">            <tt class="py-name">sendlist</tt><tt class="py-op">[</tt><tt class="py-name">x</tt><tt class="py-op">.</tt><tt id="link-36" class="py-name" targets="Variable skald.hmm.model.rhythm.elements.BeatPair.origin=skald.hmm.model.rhythm.elements.BeatPair-class.html#origin"><a title="skald.hmm.model.rhythm.elements.BeatPair.origin" class="py-name" href="#" onclick="return doclink('link-36', 'origin', 'link-36');">origin</a></tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">randint</tt><tt class="py-op">(</tt><tt class="py-number">60</tt><tt class="py-op">,</tt><tt class="py-number">80</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-name">x</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name" targets="Variable skald.hmm.model.rhythm.elements.BeatPair.duration=skald.hmm.model.rhythm.elements.BeatPair-class.html#duration,Variable skald.hmm.model.rhythm.elements.Syllable.duration=skald.hmm.model.rhythm.elements.Syllable-class.html#duration"><a title="skald.hmm.model.rhythm.elements.BeatPair.duration
+skald.hmm.model.rhythm.elements.Syllable.duration" class="py-name" href="#" onclick="return doclink('link-37', 'duration', 'link-37');">duration</a></tt><tt class="py-op">,</tt><tt class="py-name">x</tt><tt class="py-op">.</tt><tt id="link-38" class="py-name"><a title="skald.hmm.model.rhythm.elements.BeatPair.origin" class="py-name" href="#" onclick="return doclink('link-38', 'origin', 'link-36');">origin</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">     </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">        <tt class="py-comment"># print sendlist</tt> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">        <tt id="link-39" class="py-name"><a title="skald.pd.sounder" class="py-name" href="#" onclick="return doclink('link-39', 'sounder', 'link-2');">sounder</a></tt> <tt class="py-op">=</tt> <tt id="link-40" class="py-name"><a title="skald.pd.sounder.Sounder" class="py-name" href="#" onclick="return doclink('link-40', 'Sounder', 'link-3');">Sounder</a></tt><tt class="py-op">(</tt><tt class="py-name">num_beats</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">        <tt id="link-41" class="py-name"><a title="skald.pd.sounder" class="py-name" href="#" onclick="return doclink('link-41', 'sounder', 'link-2');">sounder</a></tt><tt class="py-op">.</tt><tt id="link-42" class="py-name" targets="Method skald.pd.sounder.Sounder.set_notes()=skald.pd.sounder.Sounder-class.html#set_notes"><a title="skald.pd.sounder.Sounder.set_notes" class="py-name" href="#" onclick="return doclink('link-42', 'set_notes', 'link-42');">set_notes</a></tt><tt class="py-op">(</tt><tt class="py-name">sendlist</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">        <tt id="link-43" class="py-name"><a title="skald.pd.sounder" class="py-name" href="#" onclick="return doclink('link-43', 'sounder', 'link-2');">sounder</a></tt><tt class="py-op">.</tt><tt id="link-44" class="py-name" targets="Method skald.pd.sounder.Sounder.send_notes()=skald.pd.sounder.Sounder-class.html#send_notes"><a title="skald.pd.sounder.Sounder.send_notes" class="py-name" href="#" onclick="return doclink('link-44', 'send_notes', 'link-44');">send_notes</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="skald-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Jan 19 17:43:14 2013
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
