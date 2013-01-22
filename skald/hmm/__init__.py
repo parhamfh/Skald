@@ -1,11 +1,11 @@
 
 # Decorator just because Pydev is stupid
 import viterbi as vtb
- 
+
 class Hmm(object):
     
     DEBUG=False
-    
+
     def __init__(self, Model, observations):
         self.model = Model()
         self.observations = observations
@@ -30,8 +30,8 @@ class Hmm(object):
                 print x
         except AttributeError:
             print "No path exists. State sequence has not been calculated yet."
-        except TypeError:
-            print "Print what check this out"
+        except TypeError, te:
+            print "Print what check this out: {0}".format(te)
     
     def dprint(self, s=""):
         if self.DEBUG:
