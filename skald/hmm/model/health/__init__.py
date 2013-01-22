@@ -42,7 +42,7 @@ class HealthModel(HmmModel):
         return self.trans_p
     @property
     def emission_probabilities(self):
-        return self.emission_ps
+        return self.emission_p
     @property
     def emission_function(self):
         return self.health_p
