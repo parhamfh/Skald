@@ -28,6 +28,7 @@ def viterbi(observed, B, T, start_p, p):
         @param start_p: start probabilities for the states
         @type start_p: list of probabilities
     '''
+    
     o_len = len(observed)
 
     T1 = numpy.matrix( [ [y for y in numpy.zeros(o_len)] for _ in numpy.zeros(len(B)) ] )
@@ -68,8 +69,8 @@ def viterbi_w_model(observations, model):
     '''
     same as L{viterbi} but the parameters are described by the L{HmmModel}.
     '''
-    viterbi(observations, model.hidden_states, model.transition_probabilities,
-             model.start_probabilities, model.emission_probabilities)
+    return viterbi(observations, model.hidden_states, model.transition_probabilities,
+             model.start_probabilities, model.emission_function)
     
 def transition_max_k(j, T1, b, B, T, observed, p):
     '''

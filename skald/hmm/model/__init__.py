@@ -39,10 +39,17 @@ class HmmModel(object):
         Returns the hidden states of this model
         '''
 
+    @abstractproperty
+    def emission_function(self):
+        '''
+        Returns the function that given a state and an emission calculates
+        the probability of that state emitting that particular emission.
+        '''
+ 
     @abstractmethod
     def emission_p_of_state(self, state, emission):
         '''
-        Return the probability that this state emits this observation
+        Return the probability that given state emits given observation.
         
         @param state: The hidden state whose emission probability you seek 
         @type state: L{HmmModelHiddenState}

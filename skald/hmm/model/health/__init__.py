@@ -21,11 +21,10 @@ class HealthModel(HmmModel):
 
         self.start_p = [0.6, 0.4]  # index: 0 'Healthy', 1 'Fever'
         
-        self.emission_p = {'Healthy':{'normal': 0.5, 'cold': 0.4, 'dizzy': 0.1},
-                           'Fever':{'normal': 0.1, 'cold': 0.3, 'dizzy': 0.6}}
+        self.emission_p = [{'normal': 0.5, 'cold': 0.4, 'dizzy': 0.1},
+                           {'normal': 0.1, 'cold': 0.3, 'dizzy': 0.6}]
         
-        self.trans_p = {'Healthy' : {'Healthy': 0.7, 'Fever': 0.3},
-                        'Fever' : {'Healthy': 0.4, 'Fever': 0.6}}
+        self.trans_p = numpy.matrix([[0.7, 0.3], [0.4, 0.6]])
         
         self.T = numpy.matrix([[0.7, 0.3],[0.4, 0.6]])
     
@@ -41,9 +40,12 @@ class HealthModel(HmmModel):
     @property
     def hidden_states(self):
         return self._hidden_states
+    @property
+    def emission_function(self):
+        return self.health_p
     
     def emission_p_of_state(self, state, emission):
-        return self.health_p(state, emission)
+        return self.emission_function(state, emission)
 
     def health_p(self, state, emission):
-        return self.emission_probabilities()[state.i][emission.feeling]
+        return self.emission_probabilities[state.i][emission.feeling]
