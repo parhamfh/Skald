@@ -7,13 +7,16 @@ class Hmm(object):
     DEBUG=False
 
     def __init__(self, Model, observations):
-        self.model = Model()
+        self._model = Model()
         self.observations = observations
     
     @property
     def path(self):
         return self._path
-    
+    @property
+    def model(self):
+        return self._model
+        
     def find_most_likely_state_seq(self, use_viterbi = True):
         if use_viterbi:
             self._path = vtb.viterbi_w_model(self.observations, self.model)

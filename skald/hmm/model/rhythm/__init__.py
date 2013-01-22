@@ -25,7 +25,7 @@ class RhythmModel(HmmModel):
         if start_p is not None:
             self.start_p = start_p
         else:
-            self.start_p = [1.0/len(num_beats) for _ in num_beats]
+            self.start_p = [1.0/len(self.B) for _ in self.B]
 
         # The transition probabilities between each hidden state
         self.T = self.trans_p_randnorm(self.B,1)
@@ -108,7 +108,7 @@ class RhythmModel(HmmModel):
 #    def duration_p(self, b, emission):
 #        return self.d_p[b.i][emission.duration]
 
-    def print_beats(self, x,obs):
+    def print_beats(self, x, obs):
         st = ''
         bl = [0 for _ in range(self.num_beats)]
     
@@ -133,7 +133,7 @@ class RhythmModel(HmmModel):
 
     @property
     def hidden_states(self):
-        return self._hidden_states
+        return self.B
     
     @property
     def start_probabilities(self):
@@ -141,7 +141,7 @@ class RhythmModel(HmmModel):
     
     @property
     def transition_probabilities(self):
-        return self.trans_p
+        return self.T
     
     @property
     def emission_probabilities(self):

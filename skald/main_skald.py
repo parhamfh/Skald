@@ -26,7 +26,7 @@ class Skald(object):
     '''
 
 
-    def __init__(self, health_example=True):
+    def __init__(self, health_example=False):
         '''
         Constructor
         '''
@@ -41,14 +41,15 @@ class Skald(object):
             self.hmm = Hmm(HealthModel, observed)
             self.hmm.find_most_likely_state_seq()
             self.hmm.print_path()
-        
-        print 'Running Rhythm Model calculations.'
-        observed = [Syllable("Tom","SHORT","UNSTRESSED"),
-                    Syllable("ten","LONG","STRESSED"),
-                    Syllable("par","SHORT","UNSTRESSED")]
-        self.hmm = Hmm(RhythmModel, observed)
-        self.hmm.find_most_likely_state_seq()
-        self.hmm.print_path()
+        else:
+            print 'Running Rhythm Model calculations.'
+            observed = [Syllable("Tom","SHORT","UNSTRESSED"),
+                        Syllable("ten","LONG","STRESSED"),
+                        Syllable("par","SHORT","UNSTRESSED")]
+            self.hmm = Hmm(RhythmModel, observed)
+            self.path = self.hmm.find_most_likely_state_seq()
+            self.hmm.print_path()
+            self.hmm.model.print_beats(self.path, observed)
 
     def generate_lilypond_score(self, xpath, observations, num_beats):
         pon = Ponder(xpath,num_beats/16, observations)
