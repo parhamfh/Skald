@@ -12,8 +12,28 @@ class RhythmModel(HmmModel):
     def __init__(self, num_beats=32, start_p = None, debug = False):        
         # Number of beats / hidden states
         self.num_beats = num_beats
-        
 
+        # The hidden states
+        self.B=[]
+        #Only ring for the beats duration or this till the next designated state
+        for i in range(0,num_beats):
+            for j in range (i,num_beats):
+                self.B.append(BeatPair(i,j))
+        
+        # The start probabilities for the hidden states
+        # (used by viterbi at t=0)
+        if start_p is not None:
+            self.start_p = start_p
+        else:
+            self.start_p = [1.0/len(num_beats) for _ in num_beats]
+
+        # The transition probabilities between each hidden state
+        self.T = self.trans_p_randnorm(self.B,1)
+        
+        # Generate emission probabilities
+        self.emission_p = range(len(self.B))
+        self.generate_e_p(self.emission_p, self.B)
+        
     def trans_p_strange(self, B, goalsum=1):
         '''
         Strange distribution
@@ -72,23 +92,22 @@ class RhythmModel(HmmModel):
     
         return T
     
-    def generate_e_p(self, e_p, beats):
+    def generate_e_p(self, emission_p, beats):
         for b in beats:
             sh = random.random()
-            e_p[b.i] = {"UNSTRESSED":sh, "STRESSED": 1-sh}
+            emission_p[b.i] = {"UNSTRESSED":sh, "STRESSED": 1-sh}
     
-    def generate_d_p(self, d_p, beats):
-        for b in beats:
-            sh = random.random()
-            d_p[b.i] = {"SHORT":sh, "LONG": 1-sh}
+#    def generate_d_p(self, d_p, beats):
+#        for b in beats:
+#            sh = random.random()
+#            d_p[b.i] = {"SHORT":sh, "LONG": 1-sh}
     
     def accent_p(self, b, emission):
-        return self.e_p[b.i][emission.accent]
+        return self.emission_probabilities[b.i][emission.accent]
     
-    def duration_p(self, b, emission):
-        return self.d_p[b.i][emission.duration]
-    
-    
+#    def duration_p(self, b, emission):
+#        return self.d_p[b.i][emission.duration]
+
     def print_beats(self, x,obs):
         st = ''
         bl = [0 for _ in range(self.num_beats)]
@@ -111,9 +130,27 @@ class RhythmModel(HmmModel):
         topbar = ''.join(['-' for _ in range(len(spaces))])+'\n'+spaces
         botbar = spaces+'\n'+''.join(['-' for _ in range(len(spaces))])
         print topbar+'\n'+st+'\n'+botbar
+
+    @property
+    def hidden_states(self):
+        return self._hidden_states
     
-#    
-#    
+    @property
+    def start_probabilities(self):
+        return self.start_p
+    
+    @property
+    def transition_probabilities(self):
+        return self.trans_p
+    
+    @property
+    def emission_probabilities(self):
+        return self.emission_p
+
+    @property
+    def emission_function(self):
+        return self.accent_p
+
 #    #Number of total 16th note beats 
 #    num_beats=32
 #    B=[]
@@ -140,7 +177,7 @@ class RhythmModel(HmmModel):
 #        for row in range(0,len(T)):
 #            dprint(sum(T[row]))
 #    
-#    # LOOK HERE
+#    # Before these refered to the accEnt and Duration of the Syllables
 #    e_p = range(len(B))
 #    generate_e_p(e_p, B)
 #    d_p = range (len(B))
