@@ -28,6 +28,9 @@ class HealthModel(HmmModel):
         
         self.T = numpy.matrix([[0.7, 0.3],[0.4, 0.6]])
     
+    def health_p(self, state, emission):
+        return self.emission_probabilities[state.i][emission.feeling]
+    
     @property
     def start_probabilities(self):
         return self.start_p
@@ -43,9 +46,5 @@ class HealthModel(HmmModel):
     @property
     def emission_function(self):
         return self.health_p
-    
     def emission_p_of_state(self, state, emission):
         return self.emission_function(state, emission)
-
-    def health_p(self, state, emission):
-        return self.emission_probabilities[state.i][emission.feeling]

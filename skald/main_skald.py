@@ -9,8 +9,7 @@ from skald.pd.sounder import Sounder
 from skald.lilypond.ponder import Ponder
 from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
-from skald.hmm.model.health import HealthModel
-from skald.hmm.model.health.elements import Symptom
+from skald.hmm.model.rhythm.elements import Syllable
 
 class Skald(object):
     '''
@@ -33,6 +32,8 @@ class Skald(object):
         '''
         if health_example:
             print 'Running Wikipedia Health Model example.'
+            from skald.hmm.model.health import HealthModel
+            from skald.hmm.model.health.elements import Symptom
             observed = [Symptom('normal'), 
                         Symptom('cold'),
                         Symptom('dizzy')]
@@ -40,8 +41,15 @@ class Skald(object):
             self.hmm = Hmm(HealthModel, observed)
             self.hmm.find_most_likely_state_seq()
             self.hmm.print_path()
-            
-            
+        
+        print 'Running Rhythm Model calculations.'
+        observed = [Syllable("Tom","SHORT","UNSTRESSED"),
+                    Syllable("ten","LONG","STRESSED"),
+                    Syllable("par","SHORT","UNSTRESSED")]
+        self.hmm = Hmm(RhythmModel, observed)
+        self.hmm.find_most_likely_state_seq()
+        self.hmm.print_path()
+
     def generate_lilypond_score(self, xpath, observations, num_beats):
         pon = Ponder(xpath,num_beats/16, observations)
         pon.make_ly_file()
