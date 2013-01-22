@@ -32,19 +32,17 @@ class HealthModel(HmmModel):
         return self.emission_probabilities[state.i][emission.feeling]
     
     @property
+    def hidden_states(self):
+        return self._hidden_states
+    @property
     def start_probabilities(self):
         return self.start_p
-    @property
-    def emission_probabilities(self):
-        return self.emission_p
     @property
     def transition_probabilities(self):
         return self.trans_p
     @property
-    def hidden_states(self):
-        return self._hidden_states
+    def emission_probabilities(self):
+        return self.emission_ps
     @property
     def emission_function(self):
         return self.health_p
-    def emission_p_of_state(self, state, emission):
-        return self.emission_function(state, emission)
