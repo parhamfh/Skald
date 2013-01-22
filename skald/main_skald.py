@@ -33,13 +33,11 @@ class Skald(object):
         '''
         if health_example:
             print 'Running Wikipedia Health Model example.'
-#            hm = HealthModel(hidden_states, observations) 
             observed = [Symptom('normal'), 
                         Symptom('cold'),
                         Symptom('dizzy')]
  
             self.hmm = Hmm(HealthModel, observed)
-            self.hmm.print_path()
             self.hmm.find_most_likely_state_seq()
             self.hmm.print_path()
             
