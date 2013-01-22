@@ -9,9 +9,8 @@ from skald.hmm.model.rhythm.elements import BeatPair, Syllable
 
 class RhythmModel(HmmModel):
     
-    def __init__(self, num_beats, debug):
-        super(RhythmModel,self).__init__(debug)
-        
+    def __init__(self, num_beats=32, start_p = None, debug = False):        
+        # Number of beats / hidden states
         self.num_beats = num_beats
         
 
