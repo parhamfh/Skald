@@ -80,6 +80,7 @@ class Ponder(object):
         print notes,"\n\n====== Ponder: Generating .ly/.pdf ======\n"
         self.generate_pdf(notes)
         print "\n====== Ponder: Process completed ======\n"
+
     def calculate_notes(self):
         notes = []
         prev_note_index = 0
