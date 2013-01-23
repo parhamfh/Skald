@@ -44,15 +44,22 @@ class Skald(object):
         
         else:
             print 'Running Rhythm Model calculations.'
-            observed = [Syllable("Tom","SHORT","UNSTRESSED"),
-                        Syllable("ten","LONG","STRESSED"),
-                        Syllable("par","SHORT","UNSTRESSED")]
-            self.hmm = Hmm(RhythmModel, observed)
-            self.path = self.hmm.find_most_likely_state_seq()
-            self.hmm.print_path()
-            self.hmm.model.print_beats(self.path, observed)
-            self.generate_lilypond_score(self.path, observed, 32)
+            self.observed = [Syllable("Tom","SHORT","UNSTRESSED"),
+                             Syllable("ten","LONG","STRESSED"),
+                             Syllable("par","SHORT","UNSTRESSED")]
+#            self.user_plain_text = self.query_for_input()
+#            self.observed = self.convert_input()
 
+
+    def run_model(self, no_score = False):
+        self.hmm = Hmm(RhythmModel, self.observed)
+        self.path = self.hmm.find_most_likely_state_seq()
+        self.hmm.print_path()
+        self.hmm.model.print_beats(self.path, self.observed)
+        
+        if not no_score:
+            self.generate_lilypond_score(self.path, self.observed, 32)
+    
     def generate_lilypond_score(self, xpath, observations, num_beats):
         pon = Ponder(xpath,num_beats/16, observations)
         pon.make_ly_file()
@@ -67,3 +74,11 @@ class Skald(object):
         sounder = Sounder(num_beats)
         sounder.set_notes(sendlist)
         sounder.send_notes()
+    
+    def query_for_input(self):
+        pass
+    
+    def convert_input(self):
+        pass
+        
+        
