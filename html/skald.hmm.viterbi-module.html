@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>skald.hmm.viterbi</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="skald-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="skald-module.html">Package&nbsp;skald</a> ::
+        <a href="skald.hmm-module.html">Package&nbsp;hmm</a> ::
+        Package&nbsp;viterbi
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="skald.hmm.viterbi-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PACKAGE DESCRIPTION ==================== -->
+<h1 class="epydoc">Package viterbi</h1><p class="nomargin-top"><span class="codelink"><a href="skald.hmm.viterbi-pysrc.html">source&nbsp;code</a></span></p>
+<p>Viterbi implementation modified for an HMM with two emissions, one 
+  occuring over transitions (edges) and one from a state.</p>
+  <p>Based on algorithm on <a 
+  href="http://en.wikipedia.org/wiki/Viterbi_algorithm" 
+  target="_top">en.wikipedia.org</a>.</p>
+
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="dprint"></a><span class="summary-sig-name">dprint</span>(<span class="summary-sig-arg">s</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="skald.hmm.viterbi-pysrc.html#dprint">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="skald.hmm.viterbi-module.html#viterbi" class="summary-sig-name">viterbi</a>(<span class="summary-sig-arg">observed</span>,
+        <span class="summary-sig-arg">B</span>,
+        <span class="summary-sig-arg">T</span>,
+        <span class="summary-sig-arg">start_p</span>,
+        <span class="summary-sig-arg">p</span>)</span><br />
+      Run the Viterbi algorithm against our rhythm model which is a Mealy 
+      type HMM.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="skald.hmm.viterbi-pysrc.html#viterbi">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="viterbi_w_model"></a><span class="summary-sig-name">viterbi_w_model</span>(<span class="summary-sig-arg">observations</span>,
+        <span class="summary-sig-arg">model</span>)</span><br />
+      same as <a href="skald.hmm.viterbi-module.html#viterbi" 
+      class="link">viterbi</a> but the parameters are described by the <a 
+      href="skald.hmm.model.HmmModel-class.html" class="link">HmmModel</a>.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="skald.hmm.viterbi-pysrc.html#viterbi_w_model">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">tuples</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="skald.hmm.viterbi-module.html#transition_max_k" class="summary-sig-name">transition_max_k</a>(<span class="summary-sig-arg">j</span>,
+        <span class="summary-sig-arg">T1</span>,
+        <span class="summary-sig-arg">b</span>,
+        <span class="summary-sig-arg">B</span>,
+        <span class="summary-sig-arg">T</span>,
+        <span class="summary-sig-arg">observed</span>,
+        <span class="summary-sig-arg">p</span>)</span><br />
+      Returns the next state which maximizes probability of transition to 
+      that state and emission probabilities.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="skald.hmm.viterbi-pysrc.html#transition_max_k">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="DEBUG"></a><span class="summary-name">DEBUG</span> = <code title="False">False</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="'skald.hmm.viterbi'"><code class="variable-quote">'</code><code class="variable-string">skald.hmm.viterbi</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Function Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-FunctionDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="viterbi"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">viterbi</span>(<span class="sig-arg">observed</span>,
+        <span class="sig-arg">B</span>,
+        <span class="sig-arg">T</span>,
+        <span class="sig-arg">start_p</span>,
+        <span class="sig-arg">p</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="skald.hmm.viterbi-pysrc.html#viterbi">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Run the Viterbi algorithm against our rhythm model which is a Mealy 
+  type HMM.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>B</code></strong> (list) - the set of the 32 hidden states (the beats)</li>
+        <li><strong class="pname"><code>p</code></strong> (numpy.matrix) - the duration emission probability for each state</li>
+        <li><strong class="pname"><code>observed</code></strong> (list) - set of observed syllables</li>
+        <li><strong class="pname"><code>T</code></strong> (numpy.matrix) - transition matrix for hidden states</li>
+        <li><strong class="pname"><code>start_p</code></strong> (list of probabilities) - start probabilities for the states</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="transition_max_k"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">transition_max_k</span>(<span class="sig-arg">j</span>,
+        <span class="sig-arg">T1</span>,
+        <span class="sig-arg">b</span>,
+        <span class="sig-arg">B</span>,
+        <span class="sig-arg">T</span>,
+        <span class="sig-arg">observed</span>,
+        <span class="sig-arg">p</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="skald.hmm.viterbi-pysrc.html#transition_max_k">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the next state which maximizes probability of transition to 
+  that state and emission probabilities. Returns a tuplet with index of 
+  state as well as value of probability.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>j</code></strong> (int) - the time for which the emission probability is calculated. Is 
+          used to index T1.</li>
+        <li><strong class="pname"><code>T1</code></strong> (numpy.matrix) - 2D matrix; where first index, i, is state index and second, j, is
+          time of emission. Elements give probability of output j being 
+          emitted by state i.</li>
+        <li><strong class="pname"><code>b</code></strong> (BeatState.) - The state which you are currently in.</li>
+        <li><strong class="pname"><code>B</code></strong> (list) - the set of the 32 hidden states (the beats)</li>
+        <li><strong class="pname"><code>T</code></strong> (numpy.matrix) - transition matrix for hidden states</li>
+        <li><strong class="pname"><code>observed</code></strong> (list) - set of observed syllables</li>
+        <li><strong class="pname"><code>p</code></strong> (numpy.matrix) - the duration emission probability for each state</li>
+    </ul></dd>
+    <dt>Returns: tuples</dt>
+        <dd>tuplet with two values, first being max probability and second 
+          being index of state that gives max probability.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="skald-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Jan 21 13:18:07 2013
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

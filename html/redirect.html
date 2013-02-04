@@ -1,0 +1,38 @@
+<html><head><title>Epydoc Redirect Page</title>
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="pragma" content="no-cache" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+<!--
+var pages = ["skald.transcribe.remote.RemoteWindowsPhoneticTranscriber-c", "skald.hmm.model.health.elements.HealthCondition-c", "skald.hmm.model.elements.HmmModelHiddenState-c", "skald.hmm.model.elements.HmmModelObservation-c", "skald.transcribe.remote.RemoteTranscriber-c", "skald.transcribe.remote.TranscriberThread-c", "skald.hmm.model.rhythm.elements.BeatPair-c", "skald.hmm.model.rhythm.elements.Syllable-c", "skald.hmm.model.health.elements.Symptom-c", "skald.transcribe.remote.ListenerThread-c", "skald.hmm.model.health.HealthModel-c", "skald.hmm.model.rhythm.RhythmModel-c", "skald.hmm.model.health.elements-m", "skald.hmm.model.rhythm.elements-m", "skald.lilypond.ponder.Ponder-c", "skald.transcribe.Transcriber-c", "skald.hmm.model.elements-m", "skald.hmm.model.HmmModel-c", "skald.parser.InputParser-c", "skald.pd.sounder.Sounder-c", "skald.transcribe.remote-m", "skald.hmm.model.health-m", "skald.hmm.model.rhythm-m", "skald.lilypond.ponder-m", "skald.hmm.viterbi-m", "skald.pd.sounder-m", "skald.transcribe-m", "skald.main.Skald-c", "skald.hmm.model-m", "skald.lilypond-m", "skald.hmm.Hmm-c", "skald.parser-m", "abc.ABCMeta-c", "skald.main-m", "skald.hmm-m", "skald.pd-m", "skald-m"];
+var dottedName = get_anchor();
+if (dottedName) {
+    var target = redirect_url(dottedName);
+    if (target) window.location.replace(target);
+}
+// -->
+</script>
+
+<h3>Epydoc Auto-redirect page</h3>
+
+<p>When javascript is enabled, this page will redirect URLs of
+the form <tt>redirect.html#<i>dotted.name</i></tt> to the
+documentation for the object with the given fully-qualified
+dotted name.</p>
+<p><a id="message"> &nbsp; </a></p>
+
+<script type="text/javascript">
+<!--
+if (dottedName) {
+    var msg = document.getElementById("message");
+    msg.innerHTML = "No documentation found for <tt>"+
+                    dottedName+"</tt>";
+}
+// -->
+</script>
+
+</body>
+</html>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>skald.hmm.model.rhythm</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="skald-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="skald-module.html">Package&nbsp;skald</a> ::
+        <a href="skald.hmm-module.html">Package&nbsp;hmm</a> ::
+        <a href="skald.hmm.model-module.html">Package&nbsp;model</a> ::
+        Package&nbsp;rhythm
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="skald.hmm.model.rhythm-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="skald.hmm.model.rhythm-module.html">Package skald.hmm.model.rhythm</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment">#!/usr/local/bin/python</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-comment"># coding: utf8</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">numpy</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">random</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Package skald=skald-module.html"><a title="skald" class="py-name" href="#" onclick="return doclink('link-0', 'skald', 'link-0');">skald</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Package skald.hmm=skald.hmm-module.html"><a title="skald.hmm" class="py-name" href="#" onclick="return doclink('link-1', 'hmm', 'link-1');">hmm</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Package skald.hmm.model=skald.hmm.model-module.html"><a title="skald.hmm.model" class="py-name" href="#" onclick="return doclink('link-2', 'model', 'link-2');">model</a></tt> <tt class="py-keyword">import</tt> <tt id="link-3" class="py-name" targets="Class skald.hmm.model.HmmModel=skald.hmm.model.HmmModel-class.html"><a title="skald.hmm.model.HmmModel" class="py-name" href="#" onclick="return doclink('link-3', 'HmmModel', 'link-3');">HmmModel</a></tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-4" class="py-name"><a title="skald" class="py-name" href="#" onclick="return doclink('link-4', 'skald', 'link-0');">skald</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name"><a title="skald.hmm" class="py-name" href="#" onclick="return doclink('link-5', 'hmm', 'link-1');">hmm</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="skald.hmm.model" class="py-name" href="#" onclick="return doclink('link-6', 'model', 'link-2');">model</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Package skald.hmm.model.rhythm=skald.hmm.model.rhythm-module.html"><a title="skald.hmm.model.rhythm" class="py-name" href="#" onclick="return doclink('link-7', 'rhythm', 'link-7');">rhythm</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Module skald.hmm.model.elements=skald.hmm.model.elements-module.html,Module skald.hmm.model.health.elements=skald.hmm.model.health.elements-module.html,Module skald.hmm.model.rhythm.elements=skald.hmm.model.rhythm.elements-module.html"><a title="skald.hmm.model.elements
+skald.hmm.model.health.elements
+skald.hmm.model.rhythm.elements" class="py-name" href="#" onclick="return doclink('link-8', 'elements', 'link-8');">elements</a></tt> <tt class="py-keyword">import</tt> <tt id="link-9" class="py-name" targets="Class skald.hmm.model.rhythm.elements.BeatPair=skald.hmm.model.rhythm.elements.BeatPair-class.html"><a title="skald.hmm.model.rhythm.elements.BeatPair" class="py-name" href="#" onclick="return doclink('link-9', 'BeatPair', 'link-9');">BeatPair</a></tt><tt class="py-op">,</tt> <tt id="link-10" class="py-name" targets="Class skald.hmm.model.rhythm.elements.Syllable=skald.hmm.model.rhythm.elements.Syllable-class.html"><a title="skald.hmm.model.rhythm.elements.Syllable" class="py-name" href="#" onclick="return doclink('link-10', 'Syllable', 'link-10');">Syllable</a></tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"> </tt>
+<a name="RhythmModel"></a><div id="RhythmModel-def"><a name="L10"></a><tt class="py-lineno"> 10</tt> <a class="py-toggle" href="#" id="RhythmModel-toggle" onclick="return toggle('RhythmModel');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html">RhythmModel</a><tt class="py-op">(</tt><tt class="py-base-class">HmmModel</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="RhythmModel-expanded"><a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line">     </tt>
+<a name="RhythmModel.__init__"></a><div id="RhythmModel.__init__-def"><a name="L12"></a><tt class="py-lineno"> 12</tt> <a class="py-toggle" href="#" id="RhythmModel.__init__-toggle" onclick="return toggle('RhythmModel.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">num_beats</tt><tt class="py-op">,</tt> <tt class="py-param">debug</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="RhythmModel.__init__-expanded"><a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-11" class="py-name" targets="Class skald.hmm.model.rhythm.RhythmModel=skald.hmm.model.rhythm.RhythmModel-class.html"><a title="skald.hmm.model.rhythm.RhythmModel" class="py-name" href="#" onclick="return doclink('link-11', 'RhythmModel', 'link-11');">RhythmModel</a></tt><tt class="py-op">,</tt><tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method skald.hmm.Hmm.__init__()=skald.hmm.Hmm-class.html#__init__,Method skald.hmm.model.HmmModel.__init__()=skald.hmm.model.HmmModel-class.html#__init__,Method skald.hmm.model.elements.HmmModelHiddenState.__init__()=skald.hmm.model.elements.HmmModelHiddenState-class.html#__init__,Method skald.hmm.model.elements.HmmModelObservation.__init__()=skald.hmm.model.elements.HmmModelObservation-class.html#__init__,Method skald.hmm.model.health.HealthModel.__init__()=skald.hmm.model.health.HealthModel-class.html#__init__,Method skald.hmm.model.health.elements.HealthCondition.__init__()=skald.hmm.model.health.elements.HealthCondition-class.html#__init__,Method skald.hmm.model.health.elements.Symptom.__init__()=skald.hmm.model.health.elements.Symptom-class.html#__init__,Method skald.hmm.model.rhythm.RhythmModel.__init__()=skald.hmm.model.rhythm.RhythmModel-class.html#__init__,Method skald.hmm.model.rhythm.elements.BeatPair.__init__()=skald.hmm.model.rhythm.elements.BeatPair-class.html#__init__,Method skald.hmm.model.rhythm.elements.Syllable.__init__()=skald.hmm.model.rhythm.elements.Syllable-class.html#__init__,Method skald.lilypond.ponder.Ponder.__init__()=skald.lilypond.ponder.Ponder-class.html#__init__,Method skald.main.Skald.__init__()=skald.main.Skald-class.html#__init__,Method skald.parser.InputParser.__init__()=skald.parser.InputParser-class.html#__init__,Method skald.pd.sounder.Sounder.__init__()=skald.pd.sounder.Sounder-class.html#__init__,Method skald.transcribe.Transcriber.__init__()=skald.transcribe.Transcriber-class.html#__init__,Method skald.transcribe.remote.ListenerThread.__init__()=skald.transcribe.remote.ListenerThread-class.html#__init__,Method skald.transcribe.remote.RemoteTranscriber.__init__()=skald.transcribe.remote.RemoteTranscriber-class.html#__init__,Method skald.transcribe.remote.RemoteWindowsPhoneticTranscriber.__init__()=skald.transcribe.remote.RemoteWindowsPhoneticTranscriber-class.html#__init__,Method skald.transcribe.remote.TranscriberThread.__init__()=skald.transcribe.remote.TranscriberThread-class.html#__init__"><a title="skald.hmm.Hmm.__init__
+skald.hmm.model.HmmModel.__init__
+skald.hmm.model.elements.HmmModelHiddenState.__init__
+skald.hmm.model.elements.HmmModelObservation.__init__
+skald.hmm.model.health.HealthModel.__init__
+skald.hmm.model.health.elements.HealthCondition.__init__
+skald.hmm.model.health.elements.Symptom.__init__
+skald.hmm.model.rhythm.RhythmModel.__init__
+skald.hmm.model.rhythm.elements.BeatPair.__init__
+skald.hmm.model.rhythm.elements.Syllable.__init__
+skald.lilypond.ponder.Ponder.__init__
+skald.main.Skald.__init__
+skald.parser.InputParser.__init__
+skald.pd.sounder.Sounder.__init__
+skald.transcribe.Transcriber.__init__
+skald.transcribe.remote.ListenerThread.__init__
+skald.transcribe.remote.RemoteTranscriber.__init__
+skald.transcribe.remote.RemoteWindowsPhoneticTranscriber.__init__
+skald.transcribe.remote.TranscriberThread.__init__" class="py-name" href="#" onclick="return doclink('link-12', '__init__', 'link-12');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">debug</tt><tt class="py-op">)</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line">         </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">num_beats</tt> <tt class="py-op">=</tt> <tt class="py-name">num_beats</tt> </tt>
+</div><a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line">         </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"> </tt>
+<a name="RhythmModel.trans_p_strange"></a><div id="RhythmModel.trans_p_strange-def"><a name="L18"></a><tt class="py-lineno"> 18</tt> <a class="py-toggle" href="#" id="RhythmModel.trans_p_strange-toggle" onclick="return toggle('RhythmModel.trans_p_strange');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html#trans_p_strange">trans_p_strange</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">B</tt><tt class="py-op">,</tt> <tt class="py-param">goalsum</tt><tt class="py-op">=</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel.trans_p_strange-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="RhythmModel.trans_p_strange-expanded"><a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line">        <tt class="py-docstring">'''</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-docstring">        Strange distribution</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-docstring">        ===</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-docstring">    </tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-docstring">        Starts out (round 1) by assuming equal distribution amongst the transitions</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-docstring">        to receive probabilities, calculates probability based on sum of probabilities </tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-docstring">        being 1. After this round</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"><tt class="py-docstring">        it assumes equal distribution between remaining transitions to receive</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt class="py-docstring">        probabilities, and calculates probability from 1-`previous probability`. </tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-docstring">        And goes on till final transition probability remains which is given the </tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"><tt class="py-docstring">        remainder of what is left of 1. </tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-docstring">    </tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"><tt class="py-docstring">        Is this anything real mathematical?</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"><tt class="py-docstring">        '''</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">        <tt id="link-13" class="py-name" targets="Variable skald.hmm.model.health.elements.T=skald.hmm.model.health.elements-module.html#T"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-13', 'T', 'link-13');">T</a></tt> <tt class="py-op">=</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">zeros</tt><tt class="py-op">(</tt><tt class="py-name">shape</tt><tt class="py-op">=</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">            <tt class="py-name">r</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">            <tt class="py-name">tot</tt> <tt class="py-op">=</tt> <tt class="py-name">goalsum</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">            <tt class="py-name">divisors</tt> <tt class="py-op">=</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">r</tt><tt class="py-op">)</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">            <tt class="py-name">div</tt> <tt class="py-op">=</tt> <tt class="py-name">round</tt><tt class="py-op">(</tt><tt class="py-name">tot</tt><tt class="py-op">/</tt><tt class="py-name">divisors</tt><tt class="py-op">,</tt><tt class="py-number">4</tt><tt class="py-op">)</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">j</tt> <tt class="py-keyword">in</tt> <tt class="py-name">r</tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">divisors</tt><tt class="py-op">&gt;</tt><tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">                    <tt class="py-name">v</tt> <tt class="py-op">=</tt> <tt class="py-name">round</tt><tt class="py-op">(</tt><tt class="py-name">abs</tt><tt class="py-op">(</tt><tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">gauss</tt><tt class="py-op">(</tt><tt class="py-name">div</tt><tt class="py-op">,</tt><tt class="py-name">div</tt><tt class="py-op">/</tt><tt class="py-number">2</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-number">4</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">                    <tt id="link-14" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-14', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-name">j</tt><tt class="py-op">]</tt><tt class="py-op">=</tt> <tt class="py-name">v</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">                    <tt class="py-name">tot</tt> <tt class="py-op">-=</tt> <tt class="py-name">v</tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">                    <tt class="py-name">divisors</tt> <tt class="py-op">-=</tt> <tt class="py-number">1</tt> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">                    <tt class="py-name">div</tt> <tt class="py-op">=</tt> <tt class="py-name">tot</tt><tt class="py-op">/</tt><tt class="py-name">divisors</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line">                <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">                    <tt id="link-15" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-15', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-name">j</tt><tt class="py-op">]</tt><tt class="py-op">=</tt><tt class="py-name">round</tt><tt class="py-op">(</tt><tt class="py-name">tot</tt><tt class="py-op">,</tt><tt class="py-number">4</tt><tt class="py-op">)</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt id="link-16" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-16', 'T', 'link-13');">T</a></tt> </tt>
+</div><a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">         </tt>
+<a name="RhythmModel.trans_p_gauss"></a><div id="RhythmModel.trans_p_gauss-def"><a name="L50"></a><tt class="py-lineno"> 50</tt> <a class="py-toggle" href="#" id="RhythmModel.trans_p_gauss-toggle" onclick="return toggle('RhythmModel.trans_p_gauss');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html#trans_p_gauss">trans_p_gauss</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">B</tt><tt class="py-op">,</tt><tt class="py-param">goalsum</tt><tt class="py-op">=</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel.trans_p_gauss-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="RhythmModel.trans_p_gauss-expanded"><a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">        <tt id="link-17" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-17', 'T', 'link-13');">T</a></tt> <tt class="py-op">=</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">zeros</tt><tt class="py-op">(</tt><tt class="py-name">shape</tt><tt class="py-op">=</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">j</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">,</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">                <tt class="py-name">v</tt> <tt class="py-op">=</tt> <tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">gauss</tt><tt class="py-op">(</tt><tt class="py-name">goalsum</tt><tt class="py-op">,</tt><tt class="py-name">goalsum</tt><tt class="py-op">)</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">                <tt id="link-18" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-18', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-name">j</tt><tt class="py-op">]</tt><tt class="py-op">=</tt> <tt class="py-name">v</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">            <tt class="py-name">s</tt> <tt class="py-op">=</tt> <tt class="py-name">sum</tt><tt class="py-op">(</tt><tt id="link-19" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-19', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">/</tt><tt class="py-name">goalsum</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">            <tt id="link-20" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-20', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">map</tt><tt class="py-op">(</tt><tt class="py-keyword">lambda</tt> <tt class="py-name">x</tt><tt class="py-op">:</tt><tt class="py-name">x</tt><tt class="py-op">/</tt><tt class="py-name">s</tt><tt class="py-op">,</tt> <tt id="link-21" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-21', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt id="link-22" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-22', 'T', 'link-13');">T</a></tt> </tt>
+</div><a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">     </tt>
+<a name="RhythmModel.trans_p_randnorm"></a><div id="RhythmModel.trans_p_randnorm-def"><a name="L60"></a><tt class="py-lineno"> 60</tt> <a class="py-toggle" href="#" id="RhythmModel.trans_p_randnorm-toggle" onclick="return toggle('RhythmModel.trans_p_randnorm');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html#trans_p_randnorm">trans_p_randnorm</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">B</tt><tt class="py-op">,</tt><tt class="py-param">val</tt><tt class="py-op">=</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel.trans_p_randnorm-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="RhythmModel.trans_p_randnorm-expanded"><a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">        <tt class="py-docstring">'''</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"><tt class="py-docstring">        generated values will have a summed value</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"><tt class="py-docstring">        equal/"equal" to param sum</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line"><tt class="py-docstring">        '''</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">        <tt id="link-23" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-23', 'T', 'link-13');">T</a></tt> <tt class="py-op">=</tt> <tt class="py-name">numpy</tt><tt class="py-op">.</tt><tt class="py-name">zeros</tt><tt class="py-op">(</tt><tt class="py-name">shape</tt><tt class="py-op">=</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">B</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">B</tt><tt class="py-op">:</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">k</tt> <tt class="py-keyword">in</tt> <tt class="py-name">B</tt><tt class="py-op">:</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">b</tt><tt class="py-op">.</tt><tt id="link-24" class="py-name" targets="Variable skald.hmm.model.rhythm.elements.BeatPair.to=skald.hmm.model.rhythm.elements.BeatPair-class.html#to"><a title="skald.hmm.model.rhythm.elements.BeatPair.to" class="py-name" href="#" onclick="return doclink('link-24', 'to', 'link-24');">to</a></tt> <tt class="py-op">&lt;</tt> <tt class="py-name">k</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name" targets="Variable skald.hmm.model.rhythm.elements.BeatPair.origin=skald.hmm.model.rhythm.elements.BeatPair-class.html#origin"><a title="skald.hmm.model.rhythm.elements.BeatPair.origin" class="py-name" href="#" onclick="return doclink('link-25', 'origin', 'link-25');">origin</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">                    <tt id="link-26" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-26', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-name">k</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">round</tt><tt class="py-op">(</tt><tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">random</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-number">4</tt><tt class="py-op">)</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">            <tt class="py-name">su</tt> <tt class="py-op">=</tt> <tt class="py-name">sum</tt><tt class="py-op">(</tt><tt id="link-27" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-27', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">su</tt> <tt class="py-op">!=</tt> <tt class="py-number">0</tt><tt class="py-op">:</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">                <tt id="link-28" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-28', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-name">round</tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt class="py-name">val</tt><tt class="py-op">*</tt><tt class="py-name">x</tt><tt class="py-op">)</tt><tt class="py-op">/</tt><tt class="py-name">su</tt><tt class="py-op">,</tt><tt class="py-number">4</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">x</tt> <tt class="py-keyword">in</tt> <tt id="link-29" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-29', 'T', 'link-13');">T</a></tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">]</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">     </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt id="link-30" class="py-name"><a title="skald.hmm.model.health.elements.T" class="py-name" href="#" onclick="return doclink('link-30', 'T', 'link-13');">T</a></tt> </tt>
+</div><a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">     </tt>
+<a name="RhythmModel.generate_e_p"></a><div id="RhythmModel.generate_e_p-def"><a name="L76"></a><tt class="py-lineno"> 76</tt> <a class="py-toggle" href="#" id="RhythmModel.generate_e_p-toggle" onclick="return toggle('RhythmModel.generate_e_p');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html#generate_e_p">generate_e_p</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">e_p</tt><tt class="py-op">,</tt> <tt class="py-param">beats</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel.generate_e_p-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="RhythmModel.generate_e_p-expanded"><a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">beats</tt><tt class="py-op">:</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">            <tt class="py-name">sh</tt> <tt class="py-op">=</tt> <tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">random</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">            <tt class="py-name">e_p</tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"UNSTRESSED"</tt><tt class="py-op">:</tt><tt class="py-name">sh</tt><tt class="py-op">,</tt> <tt class="py-string">"STRESSED"</tt><tt class="py-op">:</tt> <tt class="py-number">1</tt><tt class="py-op">-</tt><tt class="py-name">sh</tt><tt class="py-op">}</tt> </tt>
+</div><a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">     </tt>
+<a name="RhythmModel.generate_d_p"></a><div id="RhythmModel.generate_d_p-def"><a name="L81"></a><tt class="py-lineno"> 81</tt> <a class="py-toggle" href="#" id="RhythmModel.generate_d_p-toggle" onclick="return toggle('RhythmModel.generate_d_p');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html#generate_d_p">generate_d_p</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">d_p</tt><tt class="py-op">,</tt> <tt class="py-param">beats</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel.generate_d_p-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="RhythmModel.generate_d_p-expanded"><a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">b</tt> <tt class="py-keyword">in</tt> <tt class="py-name">beats</tt><tt class="py-op">:</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">            <tt class="py-name">sh</tt> <tt class="py-op">=</tt> <tt class="py-name">random</tt><tt class="py-op">.</tt><tt class="py-name">random</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">            <tt class="py-name">d_p</tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">"SHORT"</tt><tt class="py-op">:</tt><tt class="py-name">sh</tt><tt class="py-op">,</tt> <tt class="py-string">"LONG"</tt><tt class="py-op">:</tt> <tt class="py-number">1</tt><tt class="py-op">-</tt><tt class="py-name">sh</tt><tt class="py-op">}</tt> </tt>
+</div><a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">     </tt>
+<a name="RhythmModel.accent_p"></a><div id="RhythmModel.accent_p-def"><a name="L86"></a><tt class="py-lineno"> 86</tt> <a class="py-toggle" href="#" id="RhythmModel.accent_p-toggle" onclick="return toggle('RhythmModel.accent_p');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html#accent_p">accent_p</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">b</tt><tt class="py-op">,</tt> <tt class="py-param">emission</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel.accent_p-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="RhythmModel.accent_p-expanded"><a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">e_p</tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-name">emission</tt><tt class="py-op">.</tt><tt id="link-31" class="py-name" targets="Variable skald.hmm.model.rhythm.elements.Syllable.accent=skald.hmm.model.rhythm.elements.Syllable-class.html#accent"><a title="skald.hmm.model.rhythm.elements.Syllable.accent" class="py-name" href="#" onclick="return doclink('link-31', 'accent', 'link-31');">accent</a></tt><tt class="py-op">]</tt> </tt>
+</div><a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">     </tt>
+<a name="RhythmModel.duration_p"></a><div id="RhythmModel.duration_p-def"><a name="L89"></a><tt class="py-lineno"> 89</tt> <a class="py-toggle" href="#" id="RhythmModel.duration_p-toggle" onclick="return toggle('RhythmModel.duration_p');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html#duration_p">duration_p</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">b</tt><tt class="py-op">,</tt> <tt class="py-param">emission</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel.duration_p-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="RhythmModel.duration_p-expanded"><a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">d_p</tt><tt class="py-op">[</tt><tt class="py-name">b</tt><tt class="py-op">.</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-name">emission</tt><tt class="py-op">.</tt><tt id="link-32" class="py-name" targets="Variable skald.hmm.model.rhythm.elements.BeatPair.duration=skald.hmm.model.rhythm.elements.BeatPair-class.html#duration,Variable skald.hmm.model.rhythm.elements.Syllable.duration=skald.hmm.model.rhythm.elements.Syllable-class.html#duration"><a title="skald.hmm.model.rhythm.elements.BeatPair.duration
+skald.hmm.model.rhythm.elements.Syllable.duration" class="py-name" href="#" onclick="return doclink('link-32', 'duration', 'link-32');">duration</a></tt><tt class="py-op">]</tt> </tt>
+</div><a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">     </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">     </tt>
+<a name="RhythmModel.print_beats"></a><div id="RhythmModel.print_beats-def"><a name="L93"></a><tt class="py-lineno"> 93</tt> <a class="py-toggle" href="#" id="RhythmModel.print_beats-toggle" onclick="return toggle('RhythmModel.print_beats');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="skald.hmm.model.rhythm.RhythmModel-class.html#print_beats">print_beats</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">x</tt><tt class="py-op">,</tt><tt class="py-param">obs</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="RhythmModel.print_beats-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="RhythmModel.print_beats-expanded"><a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">        <tt class="py-name">st</tt> <tt class="py-op">=</tt> <tt class="py-string">''</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">        <tt class="py-name">bl</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-number">0</tt> <tt class="py-keyword">for</tt> <tt class="py-name">_</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">num_beats</tt><tt class="py-op">)</tt><tt class="py-op">]</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">     </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">x</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">            <tt class="py-name">bl</tt><tt class="py-op">[</tt><tt class="py-name">x</tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name"><a title="skald.hmm.model.rhythm.elements.BeatPair.origin" class="py-name" href="#" onclick="return doclink('link-33', 'origin', 'link-25');">origin</a></tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">obs</tt><tt class="py-op">[</tt><tt class="py-name">i</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt id="link-34" class="py-name" targets="Variable skald.hmm.model.rhythm.elements.Syllable.syllable=skald.hmm.model.rhythm.elements.Syllable-class.html#syllable"><a title="skald.hmm.model.rhythm.elements.Syllable.syllable" class="py-name" href="#" onclick="return doclink('link-34', 'syllable', 'link-34');">syllable</a></tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">        <tt class="py-comment"># 16 beat chunks</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">        <tt class="py-name">bars</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">num_beats</tt><tt class="py-op">/</tt><tt class="py-number">16</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">     </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">bar</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">bars</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">            <tt class="py-name">part</tt><tt class="py-op">=</tt><tt class="py-name">bl</tt><tt class="py-op">[</tt><tt class="py-number">16</tt><tt class="py-op">*</tt><tt class="py-name">bar</tt><tt class="py-op">:</tt><tt class="py-number">16</tt><tt class="py-op">*</tt><tt class="py-op">(</tt> <tt class="py-name">bar</tt><tt class="py-op">+</tt><tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">]</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">            <tt class="py-name">part</tt><tt class="py-op">.</tt><tt class="py-name">insert</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">,</tt><tt class="py-string">"||"</tt><tt class="py-op">)</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">            <tt class="py-name">st</tt> <tt class="py-op">+=</tt> <tt class="py-string">' '</tt><tt class="py-op">+</tt><tt class="py-string">' '</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">lol</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">lol</tt> <tt class="py-keyword">in</tt> <tt class="py-name">part</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">     </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">        <tt class="py-comment"># Print it pretty, sir</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">        <tt class="py-name">st</tt> <tt class="py-op">+=</tt> <tt class="py-string">" ||"</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">        <tt class="py-name">st</tt> <tt class="py-op">=</tt> <tt class="py-name">st</tt><tt class="py-op">.</tt><tt class="py-name">replace</tt><tt class="py-op">(</tt><tt class="py-string">"0"</tt><tt class="py-op">,</tt><tt class="py-string">"x"</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">strip</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">        <tt class="py-keyword">import</tt> <tt class="py-name">re</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">        <tt class="py-name">spaces</tt> <tt class="py-op">=</tt> <tt class="py-name">re</tt><tt class="py-op">.</tt><tt class="py-name">sub</tt><tt class="py-op">(</tt><tt class="py-string">'[^\|\|]'</tt><tt class="py-op">,</tt> <tt class="py-string">' '</tt><tt class="py-op">,</tt><tt class="py-name">st</tt><tt class="py-op">)</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">        <tt class="py-name">topbar</tt> <tt class="py-op">=</tt> <tt class="py-string">''</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-string">'-'</tt> <tt class="py-keyword">for</tt> <tt class="py-name">_</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">spaces</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">+</tt><tt class="py-string">'\n'</tt><tt class="py-op">+</tt><tt class="py-name">spaces</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">        <tt class="py-name">botbar</tt> <tt class="py-op">=</tt> <tt class="py-name">spaces</tt><tt class="py-op">+</tt><tt class="py-string">'\n'</tt><tt class="py-op">+</tt><tt class="py-string">''</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-string">'-'</tt> <tt class="py-keyword">for</tt> <tt class="py-name">_</tt> <tt class="py-keyword">in</tt> <tt class="py-name">range</tt><tt class="py-op">(</tt><tt class="py-name">len</tt><tt class="py-op">(</tt><tt class="py-name">spaces</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt> <tt class="py-name">topbar</tt><tt class="py-op">+</tt><tt class="py-string">'\n'</tt><tt class="py-op">+</tt><tt class="py-name">st</tt><tt class="py-op">+</tt><tt class="py-string">'\n'</tt><tt class="py-op">+</tt><tt class="py-name">botbar</tt> </tt>
+</div></div><a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">     </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line"><tt class="py-comment">#    #Number of total 16th note beats </tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"><tt class="py-comment">#    num_beats=32</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line"><tt class="py-comment">#    B=[]</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line"><tt class="py-comment">#    #Only ring for the beats duration or this till the next designated state</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line"><tt class="py-comment">#    for i in range(0,num_beats):</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line"><tt class="py-comment">#        for j in range (i,num_beats):</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line"><tt class="py-comment">#            B.append(BeatPair(i,j))</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line"><tt class="py-comment">#    dprint(B)</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line"><tt class="py-comment">#    S = [Syllable("Tom","SHORT","UNSTRESSED"), Syllable("ten","LONG","STRESSED"), Syllable("par","SHORT","UNSTRESSED")]</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line"><tt class="py-comment">#    start_p = [1.0/len(B) for _ in B]</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line"><tt class="py-comment">#    dprint("\n start p:%s\n"%start_p)</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line"><tt class="py-comment">#    T = trans_p_randnorm(B,1)</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line"><tt class="py-comment">#    numpy.set_printoptions(suppress=True, precision=5)</tt> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line"><tt class="py-comment">#    dprint("T: %s\n"%T)</tt> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line"><tt class="py-comment">#    dprint("Sum of T's rows:")</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line"><tt class="py-comment">#    if DEBUG:</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line"><tt class="py-comment">#        for row in range(0,len(T)):</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line"><tt class="py-comment">#            dprint(sum(T[row]))</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line"><tt class="py-comment">#    # LOOK HERE</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"><tt class="py-comment">#    e_p = range(len(B))</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"><tt class="py-comment">#    generate_e_p(e_p, B)</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line"><tt class="py-comment">#    d_p = range (len(B))</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line"><tt class="py-comment">#    generate_d_p(d_p, B)</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"><tt class="py-comment">#    </tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line"><tt class="py-comment">#    dprint("\nProbabilities:")</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line"><tt class="py-comment">#    if DEBUG:</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"><tt class="py-comment">#        for b in B:  </tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line"><tt class="py-comment">#            dprint("{0} \nwith e={1} and d={2}".format(b,e_p[b.i],d_p[b.i],sum(e_p[b.i].values()),sum(d_p[b.i].values())))</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="skald-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Jan 21 13:18:08 2013
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
