@@ -7,6 +7,7 @@ import random
 
 from skald.pd.sounder import Sounder
 from skald.lilypond.ponder import Ponder
+from skald.parser import InputParser
 from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
 from skald.hmm.model.rhythm.elements import Syllable
@@ -44,10 +45,10 @@ class Skald(object):
         
         else:
             print 'Running Rhythm Model calculations.'
-            self.observed = [Syllable("Tom","SHORT","UNSTRESSED"),
-                             Syllable("ten","LONG","STRESSED"),
-                             Syllable("par","SHORT","UNSTRESSED")]
-#            self.user_plain_text = self.query_for_input()
+#            self.observed = [Syllable("Tom","SHORT","UNSTRESSED"),
+#                             Syllable("ten","LONG","STRESSED"),
+#                             Syllable("par","SHORT","UNSTRESSED")]
+            self.user_plain_text = self.query_for_input()
 #            self.observed = self.convert_input()
 
 
@@ -76,7 +77,8 @@ class Skald(object):
         sounder.send_notes()
     
     def query_for_input(self):
-        pass
+        p = InputParser()
+        return p.prompt_for_input()
     
     def convert_input(self):
         pass
