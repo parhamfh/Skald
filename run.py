@@ -12,13 +12,16 @@ parser.add_argument('-n','--no-score', dest='no_score', action='store_true',
                     help="Do not generate a lilypond score.")
 #parser.add_argument('-t',choices=['input','transcribing']
                     # help='Test only specified functionality/module.')
+
 args = parser.parse_args()
 
 if args.model_choice == 'R':
     s = Skald()
     s.run_model(no_score=args.no_score)
+    
 elif args.model_choice == 'H':
     s = Skald(health_model=True)
+
 else:
     raise RuntimeError("Unknown choice of model. (should not be possible to get this message)")
 
