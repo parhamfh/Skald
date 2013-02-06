@@ -2,19 +2,24 @@ from skald.transcribe.remote import RemoteTranscriber
 
 class Transcriber(object):
     '''
-    Transcribes the words in a Swedish text to their phonetic representation
+    Transcribes the words in a Swedish text to their phonetic representation.
+    
+    Accepts a list of inputs as an input.
     '''
     
     REMOTE_TRANSCRIBE = True
     
-    def __init__(self, normal_text, remote=True):
+    def __init__(self, raw_text_or_list, remote=True):
         '''
         Constructor
         '''
-        self.text = normal_text
+        self.raw_text = raw_text_or_list
+        self.raw_text_is_list = isinstance(raw_text_or_list, list)
+        if not self.raw_text_is_list:
+            assert isinstance(raw_text_or_list, str)
         
         if not remote:
-            self.REMOTE_TRANSCRIBE = remote
+            self.REMOTE_TRANSCRIBE = False
     
     def transcribe(self):
         '''
@@ -23,6 +28,7 @@ class Transcriber(object):
         transcribing it remotely instead of locally.
         '''
         if self.REMOTE_TRANSCRIBE:
+            # TODO: handle if list
             return self.transcribe_remotely()
         
         elif not self.REMOTE_TRANSCRIBE:
@@ -48,4 +54,9 @@ class Transcriber(object):
         '''
         Cannot be done yet
         '''
+        # TODO: Handle if list
+        pass
+
+class PhonemeSet(object):
+    def __init__(self):
         pass

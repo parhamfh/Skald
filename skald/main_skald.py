@@ -5,12 +5,17 @@ Created on Jan 3, 2013
 '''
 import random
 
-from skald.pd.sounder import Sounder
-from skald.lilypond.ponder import Ponder
-from skald.parser import InputParser
+
 from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
-from skald.hmm.model.rhythm.elements import Syllable
+#from skald.hmm.model.rhythm.elements import Syllable
+
+from skald.lilypond.ponder import Ponder
+
+from skald.parser import InputParser
+from skald.misc.syllabification import SyllableTokenizer 
+from skald.transcribe import Transcriber
+from skald.pd.sounder import Sounder
 
 class Skald(object):
     '''
@@ -35,11 +40,11 @@ class Skald(object):
             print 'Running Wikipedia example: Health Model.'
             from skald.hmm.model.health import HealthModel
             from skald.hmm.model.health.elements import Symptom
-            observed = [Symptom('normal'), 
+            self.observations = [Symptom('normal'), 
                         Symptom('cold'),
                         Symptom('dizzy')]
  
-            self.hmm = Hmm(HealthModel, observed)
+            self.hmm = Hmm(HealthModel, self.observations)
             self.hmm.find_most_likely_state_seq()
             self.hmm.print_path()
         
@@ -48,8 +53,17 @@ class Skald(object):
 #            self.observed = [Syllable("Tom","SHORT","UNSTRESSED"),
 #                             Syllable("ten","LONG","STRESSED"),
 #                             Syllable("par","SHORT","UNSTRESSED")]
-            self.user_plain_text = self.query_for_input()
-#            self.observed = self.convert_input()
+            self.raw_input = self.query_for_input()
+            s_tokenizer = SyllableTokenizer(self.raw_input)
+            
+            #returns a SyllableSet
+            self.syllables = s_tokenizer.get_syllable_set()
+            
+            if not self.validate_input(self.syllables):
+                raise RuntimeError('Invalid input.'\
+                            'Please check input constraints.')
+
+            self.observation = self.transcribe_input(self.syllables)
 
 
     def run_model(self, no_score = False):
@@ -80,7 +94,28 @@ class Skald(object):
         p = InputParser()
         return p.prompt_for_input()
     
-    def convert_input(self):
-        pass
+    def validate_input(self, syllables):
+        # Check that there is only Swedish letters
         
+        # Check length of each line (number of syllables)
+        self.check_dispersion(syllables)
+    
+    def check_dispersion(self, syllabel_set):
+        '''
+        Each staff is a maximum of 32 syllables, each syllable representing at 
+        the least a 16th note, this means that 32 syllables at most can make up
+        2 bars. There is a maximum of 4 staffs. 
         
+        This means that the user can specify up to 4 lines of text with a
+        maximum of 32 syllables in each line. Empty staffs will be filled out
+        with rest notes. 
+        '''
+        return True
+
+    def transcribe_input(self, text_input=None):
+        if not text_input:
+            text_input = self.raw_input
+            
+        ph = Transcriber(text_input)
+        transcribed_input = ph.transcribe()
+        return transcribed_input

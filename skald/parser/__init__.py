@@ -21,7 +21,7 @@ class InputParser(object):
         '''
         self.raw_user_input = user_input
     
-    def prompt_for_input(self, custom_text = None):
+    def prompt_for_input(self, custom_text = None, read_from_file=False):
         
         # Prompt sysin for the text. should be able to pipe in text file
         # via terminal
@@ -48,42 +48,6 @@ class InputParser(object):
         print "string buffer contains: '{0}'".format(
                                         unicode(string_buffer).encode('utf8'))
         return string_buffer
-
-    def generate_observations(self, syllables):    
-
-        # Translate the input into syllables so each syllable is an entry in
-        # the list
-#        self.syllables = self.transcribe_input()
-#        print syllables
-
-        # Each syllable is an observation, but we can only have 32 syllables
-        # per line so they must be dispersed amongst the 4 staves
-        observation_sets = syllables if self.check_dispersion(syllables) else "kalas"
-        
-        ## GENERATE SYLLABLE OBJECTS FROM SYLLABLES
-        return observation_sets
-
-    def transcribe_input(self, text_input=None):
-        if not text_input:
-            text_input = self.raw_input
-            
-        ph = Transcriber(text_input)
-#        transcribed_input = ph.transcribe()
-        transcribed_input = 'bolo/{0}'.format(text_input)
-        return transcribed_input
-
-    def check_dispersion(self, syllabel_set):
-        '''
-        Each staff is a maximum of 32 syllables, each syllable representing at 
-        the least a 16th note, this means that 32 syllables at most can make up
-        2 bars. There is a maximum of 4 staffs. 
-        
-        This means that the user can specify up to 4 lines of text with a
-        maximum of 32 syllables in each line. Empty staffs will be filled out
-        with rest notes. 
-        '''
-        return True
-
 
 if __name__ == '__main__':
 
