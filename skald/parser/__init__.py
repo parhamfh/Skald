@@ -6,8 +6,6 @@ Created on Jan 3, 2013
 '''
 from os.path import expanduser
 
-from skald.transcribe import Transcriber
-
 class InputParser(object):
     '''
     InputParser translates the Swedish words into syllables and disperses them 
@@ -30,7 +28,7 @@ class InputParser(object):
     
     def _read_from_file(self):
         fp = open(expanduser('~/skald/unicode_text'))
-        print fp 
+        print fp
         with fp as f:
             for l in f.readlines():
                 print l
@@ -53,9 +51,7 @@ if __name__ == '__main__':
 
     ip = InputParser()
     inpu = ip.prompt_for_input()
-    trans_inpu = ip.transcribe_input(inpu)
-    gen_obs = ip.generate_observations(trans_inpu)
-    print gen_obs
+    print inpu
 
 #    s = raw_input('\n')
 #    print s
