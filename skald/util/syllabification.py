@@ -17,5 +17,8 @@ class SyllableTokenizer(object):
     def _mock_get_syllable_set(self):
         return 
 
+class MockSyllableTokenizer(SyllableTokenizer):
+    pass
+
 class SyllableSet(list):
     pass
