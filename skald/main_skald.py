@@ -14,7 +14,7 @@ from skald.lilypond.ponder import Ponder
 
 from skald.parser import InputParser
 from skald.misc.syllabification import SyllableTokenizer 
-from skald.transcribe import Transcriber
+from skald.transcribe import PhoneticTranscriber
 from skald.pd.sounder import Sounder
 
 class Skald(object):
@@ -32,7 +32,7 @@ class Skald(object):
     '''
 
 
-    def __init__(self, health_model=False):
+    def __init__(self, health_model=False, mock = False):
         '''
         Constructor
         '''
@@ -53,8 +53,9 @@ class Skald(object):
 #            self.observed = [Syllable("Tom","SHORT","UNSTRESSED"),
 #                             Syllable("ten","LONG","STRESSED"),
 #                             Syllable("par","SHORT","UNSTRESSED")]
-            self.raw_input = self.query_for_input()
-            s_tokenizer = SyllableTokenizer(self.raw_input)
+            self.raw_input = self.query_for_input(mock)
+            
+            s_tokenizer = SyllableTokenizer(self.raw_input, mock)
             
             #returns a SyllableSet
             self.syllables = s_tokenizer.get_syllable_set()
@@ -63,7 +64,7 @@ class Skald(object):
                 raise RuntimeError('Invalid input.'\
                             'Please check input constraints.')
 
-            self.observation = self.transcribe_input(self.syllables)
+            self.observation = self.transcribe_input(self.syllables, mock)
 
 
     def run_model(self, no_score = False):
@@ -90,7 +91,13 @@ class Skald(object):
         sounder.set_notes(sendlist)
         sounder.send_notes()
     
-    def query_for_input(self):
+    def query_for_input(self, mock):
+        if mock:
+            mockinput = ''
+            with open('mockinput', 'r') as mockfile:
+                mockinput = mockfile.read()
+#            print mockinput
+            return mockinput
         p = InputParser()
         return p.prompt_for_input()
     
@@ -99,6 +106,7 @@ class Skald(object):
         
         # Check length of each line (number of syllables)
         self.check_dispersion(syllables)
+        return True
     
     def check_dispersion(self, syllabel_set):
         '''
@@ -112,10 +120,15 @@ class Skald(object):
         '''
         return True
 
-    def transcribe_input(self, text_input=None):
+    def transcribe_input(self, text_input = None, mock = False):
         if not text_input:
             text_input = self.raw_input
             
-        ph = Transcriber(text_input)
+        
+        if mock:
+            ph = PhoneticTranscriber(text_input, mode=PhoneticTranscriber.MOCK)
+        else:
+            ph = PhoneticTranscriber(text_input, mode=PhoneticTranscriber.MOCK)
+            
         transcribed_input = ph.transcribe()
         return transcribed_input
