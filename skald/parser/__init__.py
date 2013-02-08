@@ -6,13 +6,33 @@ Created on Jan 3, 2013
 '''
 from os.path import expanduser
 
+class MetaMock(type):
+    
+    def __call__(self, *args, **kwargs):
+        obj = self.__new__(self, *args, **kwargs)
+        if "mock" in kwargs:
+            del kwargs["mock"]
+        obj.__init__(*args, **kwargs)
+        return obj
+
+#class InputParser(object):
+    
+       
 class InputParser(object):
     '''
     InputParser translates the Swedish words into syllables and disperses them 
     across the staffs.
     '''
     MAX_CHARS_LINE =  160
-
+    
+    __metaclass__=MetaMock
+    
+    def __new__(cls, *args, **kwargs):
+        if kwargs.pop('mock', None):
+            mock_cls = eval('{0}{1}'.format('Mock',cls.__name__))
+            return super(mock_cls, mock_cls).__new__(mock_cls)
+        return super(cls, cls).__new__(cls,*args, **kwargs)
+    
     def __init__(self, user_input = None):
         '''
         Constructor
@@ -46,6 +66,12 @@ class InputParser(object):
         print "string buffer contains: '{0}'".format(
                                         unicode(string_buffer).encode('utf8'))
         return string_buffer
+
+class MockInputParser(object):
+
+    def prompt_for_input(self, custom_text = None, read_from_file=None):
+        with open('mockinput') as fp:
+            return fp.read()
 
 if __name__ == '__main__':
 

@@ -5,20 +5,23 @@ Created on Feb 6, 2013
 '''
 
 class SyllableTokenizer(object):
-    
-    
-    def __init__(self, list_per_newline = True, mock = False):
-        self.MOCK_MODE = mock 
+    def __new__(cls, *args, **kwargs):
+        if kwargs.pop('mock', None):
+            return MockSyllableTokenizer()
         
-    def get_syllable_set(self):
-        if self.MOCK_MODE:
-            return self._mock_get_syllable_set()
+        return RealSyllableTokenizer(*args, **kwargs)
+       
+class RealSyllableTokenizer(object):
     
-    def _mock_get_syllable_set(self):
-        return 
-
-class MockSyllableTokenizer(SyllableTokenizer):
-    pass
-
+    def __init__(self, list_per_newline = True):
+        pass
+    
+    def get_syllable_set(self):
+        pass
+    
+class MockSyllableTokenizer(object):
+    def get_syllable_set(self):
+        return 'MOCKENIZER'
+    
 class SyllableSet(list):
     pass

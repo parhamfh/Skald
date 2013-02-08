@@ -13,7 +13,7 @@ from skald.hmm.model.rhythm import RhythmModel
 from skald.lilypond.ponder import Ponder
 
 from skald.parser import InputParser
-from skald.misc.syllabification import SyllableTokenizer 
+from skald.util.syllabification import SyllableTokenizer
 from skald.transcribe import PhoneticTranscriber
 from skald.pd.sounder import Sounder
 
@@ -32,12 +32,12 @@ class Skald(object):
     '''
 
 
-    def __init__(self, health_model=False, mock = False):
+    def __init__(self, health_model=False, mock = None):
         '''
         Constructor
         '''
         if health_model:
-            print 'Running Wikipedia example: Health Model.'
+            print 'Running Wikipedia example: Health model.'
             from skald.hmm.model.health import HealthModel
             from skald.hmm.model.health.elements import Symptom
             self.observations = [Symptom('normal'), 
@@ -49,23 +49,27 @@ class Skald(object):
             self.hmm.print_path()
         
         else:
-            print 'Running Rhythm Model calculations.'
+            print 'Running Rhythm model calculations.'
 #            self.observed = [Syllable("Tom","SHORT","UNSTRESSED"),
 #                             Syllable("ten","LONG","STRESSED"),
 #                             Syllable("par","SHORT","UNSTRESSED")]
             self.raw_input = self.query_for_input(mock)
-            
-            s_tokenizer = SyllableTokenizer(self.raw_input, mock)
-            
-            #returns a SyllableSet
-            self.syllables = s_tokenizer.get_syllable_set()
-            
-            if not self.validate_input(self.syllables):
-                raise RuntimeError('Invalid input.'\
-                            'Please check input constraints.')
-
-            self.observation = self.transcribe_input(self.syllables, mock)
-
+            print self.raw_input
+#            s_tokenizer = SyllableTokenizer(self.raw_input, mock = mock)
+#
+#            #returns a SyllableSet
+#            self.syllables = s_tokenizer.get_syllable_set()
+#            
+#            if not self.validate_input(self.syllables):
+#                raise RuntimeError('Invalid input.'\
+#                            'Please check input constraints.')
+#
+#            ## SEE GITHUB issues! Mock stuff here anyway
+#            self.phonemes = self.transcribe_input(self.raw_input, mock)
+#            
+#            self.observations = self.mark_syllables_for_stress(self.syllables, self.phonemes)
+#            
+#            print self.observations
 
     def run_model(self, no_score = False):
         self.hmm = Hmm(RhythmModel, self.observed)
@@ -91,14 +95,8 @@ class Skald(object):
         sounder.set_notes(sendlist)
         sounder.send_notes()
     
-    def query_for_input(self, mock):
-        if mock:
-            mockinput = ''
-            with open('mockinput', 'r') as mockfile:
-                mockinput = mockfile.read()
-#            print mockinput
-            return mockinput
-        p = InputParser()
+    def query_for_input(self, mock = None):
+        p = InputParser(mock = mock)
         return p.prompt_for_input()
     
     def validate_input(self, syllables):
@@ -120,15 +118,15 @@ class Skald(object):
         '''
         return True
 
-    def transcribe_input(self, text_input = None, mock = False):
+    def transcribe_input(self, text_input = None, mock = None):
         if not text_input:
             text_input = self.raw_input
-            
         
-        if mock:
-            ph = PhoneticTranscriber(text_input, mode=PhoneticTranscriber.MOCK)
-        else:
-            ph = PhoneticTranscriber(text_input, mode=PhoneticTranscriber.MOCK)
-            
+        ph = PhoneticTranscriber(text_input, mock = mock)
+        
         transcribed_input = ph.transcribe()
         return transcribed_input
+    
+    def mark_syllables_for_stress(self, syllables, phonemes):
+        pass
+        

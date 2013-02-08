@@ -1,6 +1,14 @@
 from skald.transcribe.remote import RemoteTranscriber
 
+
 class PhoneticTranscriber(object):
+    def __new__(cls, *args, **kwargs):
+        if kwargs.pop('mock', None):
+            return MockPhoneticTranscriber()
+        
+        return RealPhoneticTranscriber(*args, **kwargs)
+
+class RealPhoneticTranscriber(object):
     '''
     Transcribes the words in a Swedish text to their phonetic representation.
     
@@ -35,19 +43,16 @@ class PhoneticTranscriber(object):
         '''
         if self.TRANSCRIBE_MODE == PhoneticTranscriber.REMOTE:
             # TODO: handle if list
-            return self.transcribe_remotely()
+            return self._transcribe_remotely()
         
         elif self.TRANSCRIBE_MODE == PhoneticTranscriber.LOCAL:
-            return self.transcribe_locally()
-        
-        elif self.TRANSCRIBE_MODE == PhoneticTranscriber.MOCK:
-            return self.transcribe_mockingly()
+            return self._transcribe_locally()
         
         else:
             raise RuntimeError("Something is wrong with REMOTE_TRANSCRIBE "\
                                "value.\n value: %s"%self.REMOTE_TRANSCRIBE)
             
-    def transcribe_remotely(self):
+    def _transcribe_remotely(self):
         '''
         Uses a network connection to a remote server that can run the
         appropriate scrip to transcribe the input
@@ -59,19 +64,21 @@ class PhoneticTranscriber(object):
         
         return response
     
-    def transcribe_locally(self):
+    def _transcribe_locally(self):
         '''
         Cannot be done yet
         '''
         # TODO: Handle if list
         pass
+        
+class MockPhoneticTranscriber(object):
 
-    def transcribe_mockingly(self):
+    def transcribe(self):
         '''
         Uses a Mock transcriber.
         '''
-        return self.raw_text
-        
+        return 'blo'
+
 class PhonemeSet(object):
     def __init__(self):
         pass
