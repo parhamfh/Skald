@@ -4,7 +4,7 @@ Created on Jan 3, 2013
 @author: parhamfh
 '''
 import random
-
+import sys
 
 from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
@@ -36,6 +36,7 @@ class Skald(object):
         '''
         Constructor
         '''
+        self.mock = mock
         if health_model:
             print 'Running Wikipedia example: Health model.'
             from skald.hmm.model.health import HealthModel
@@ -50,29 +51,27 @@ class Skald(object):
         
         else:
             print 'Running Rhythm model calculations.'
-#            self.observed = [Syllable("Tom","SHORT","UNSTRESSED"),
-#                             Syllable("ten","LONG","STRESSED"),
-#                             Syllable("par","SHORT","UNSTRESSED")]
+
             self.raw_input = self.query_for_input(mock)
-            print self.raw_input
-#            s_tokenizer = SyllableTokenizer(self.raw_input, mock = mock)
-#
-#            #returns a SyllableSet
-#            self.syllables = s_tokenizer.get_syllable_set()
-#            
-#            if not self.validate_input(self.syllables):
-#                raise RuntimeError('Invalid input.'\
-#                            'Please check input constraints.')
-#
-#            ## SEE GITHUB issues! Mock stuff here anyway
-#            self.phonemes = self.transcribe_input(self.raw_input, mock)
-#            
-#            self.observations = self.mark_syllables_for_stress(self.syllables, self.phonemes)
-#            
-#            print self.observations
+
+            s_tokenizer = SyllableTokenizer(self.raw_input, mock = mock)
+
+            #returns a SyllableSet
+            self.syllables = s_tokenizer.get_syllable_set()
+
+            if not self.validate_input(self.syllables):
+                raise RuntimeError('Invalid input.'\
+                            'Please check input constraints.')
+
+            ## SEE GITHUB issues! Mock stuff here anyway
+            self.phonemes = self.transcribe_input(mock = mock)
+            
+            self.mark_syllables_for_stress(self.syllables, self.phonemes)
+
+            print self.syllables[0]
 
     def run_model(self, no_score = False):
-        self.hmm = Hmm(RhythmModel, self.observed)
+        self.hmm = Hmm(RhythmModel, self.syllables)
         self.path = self.hmm.find_most_likely_state_seq()
         self.hmm.print_path()
         self.hmm.model.print_beats(self.path, self.observed)
@@ -100,10 +99,12 @@ class Skald(object):
         return p.prompt_for_input()
     
     def validate_input(self, syllables):
-        # Check that there is only Swedish letters
         
+        sys.stdout.write('\nWARNING! Validation not implemented in Skald \n\n')
+        # Check that there is only Swedish letters
+
         # Check length of each line (number of syllables)
-        self.check_dispersion(syllables)
+#        self.check_dispersion(syllables)
         return True
     
     def check_dispersion(self, syllabel_set):
@@ -121,12 +122,34 @@ class Skald(object):
     def transcribe_input(self, text_input = None, mock = None):
         if not text_input:
             text_input = self.raw_input
-        
+
         ph = PhoneticTranscriber(text_input, mock = mock)
         
         transcribed_input = ph.transcribe()
         return transcribed_input
     
     def mark_syllables_for_stress(self, syllables, phonemes):
-        pass
+        if self.mock:
+            for i in [0,2,3,4,7,10,11,13]:
+                syllables[0][i].e="STRESSED"
+#            print syllables[0]
+#            print
+            for i in [0,2,4,5,6,7,8,11,12]:
+                syllables[1][i].e="STRESSED"
+#            print syllables[1]
+#            print
+            for i in [0,1,2,5,6,7,8,11,12]:
+                syllables[2][i].e="STRESSED"
+#            print syllables[2]
+#            print
+            for i in [0,3,5,8,10,11,12]:
+                syllables[3][i].e="STRESSED"
+#            print syllables[3]
+#            print
+#            for s in self.syllables:
+#                print '---'
+#                print s
+            return syllables
+        else:
+            print 'Stress marking Not implemented yet...'
         

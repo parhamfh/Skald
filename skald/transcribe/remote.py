@@ -12,7 +12,7 @@ WHEN RUN ON OS X:
 import socket, threading, time, sys
 from threading import Lock
 
-class RemoteTranscriber(object):
+class RemotePhoneticTranscriber(object):
     '''
     Uses Sockets
     '''
@@ -191,20 +191,20 @@ class TranscriberThread(threading.Thread):
         return message
         
 if __name__ == '__main__':
-#    import platform
-#    
-#    if platform.system() == 'Darwin':
-##        rpt = RemotePhoneticTranscriber()
-#        print 'MAC ATTAC'
-#    
-#    elif platform.system() == 'Windows':
-#        rwpt = RemoteWindowsPhoneticTranscriber()
-#        rwpt.start_transcoding()
-#    else:
-#        print("Doing nothing, unspecified platform")
+    import platform
+    
+    if platform.system() == 'Darwin':
+        rpt = RemotePhoneticTranscriber()
+        print 'MAC ATTAC'
+    
+    elif platform.system() == 'Windows':
+        rwpt = RemoteWindowsPhoneticTranscriber(remote_is_local=True)
+        rwpt.start_transcoding()
+    else:
+        print("Doing nothing, unspecified platform")
 
-    rwpt = RemoteWindowsPhoneticTranscriber(remote_is_local=True)
-    rwpt.start_transcoding()
+#    rwpt = RemoteWindowsPhoneticTranscriber(remote_is_local=True)
+#    rwpt.start_transcoding()
     try:
         print "MAIN IS BACK"
         #rwpt.listen_thread.join()

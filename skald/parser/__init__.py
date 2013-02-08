@@ -7,7 +7,6 @@ Created on Jan 3, 2013
 from os.path import expanduser
 
 class MetaMock(type):
-    
     def __call__(self, *args, **kwargs):
         obj = self.__new__(self, *args, **kwargs)
         if "mock" in kwargs:
@@ -15,9 +14,6 @@ class MetaMock(type):
         obj.__init__(*args, **kwargs)
         return obj
 
-#class InputParser(object):
-    
-       
 class InputParser(object):
     '''
     InputParser translates the Swedish words into syllables and disperses them 
