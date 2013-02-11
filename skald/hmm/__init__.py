@@ -39,5 +39,4 @@ class Hmm(object):
     def dprint(self, s=""):
         if self.DEBUG:
             print "<DEBUG>",s
-            
-    
+

@@ -19,7 +19,7 @@ args = parser.parse_args()
 
 if args.model_choice == 'R':
     s = Skald(mock = args.mock)
-#    s.run_model(no_score=args.no_score)
+    s.run_model(no_score=args.no_score)
     
 elif args.model_choice == 'H':
     s = Skald(health_model=True, mock = args.mock)
