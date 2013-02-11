@@ -13,7 +13,7 @@ from skald.hmm.model.rhythm import RhythmModel
 from skald.lilypond.ponder import Ponder
 
 from skald.parser import InputParser
-from skald.util.syllabification import SyllableTokenizer
+from skald.util.syllabification import SyllableTokenizer, SyllableSet
 from skald.transcribe import PhoneticTranscriber
 from skald.pd.sounder import Sounder
 
@@ -68,16 +68,29 @@ class Skald(object):
             
             self.mark_syllables_for_stress(self.syllables, self.phonemes)
 
-            print self.syllables[0]
-
     def run_model(self, no_score = False):
-        self.hmm = Hmm(RhythmModel, self.syllables)
-        self.path = self.hmm.find_most_likely_state_seq()
-        self.hmm.print_path()
-        self.hmm.model.print_beats(self.path, self.observed)
+        self.observations= self.syllables
+        if isinstance(self.observations, SyllableSet):
+            o_len = len(self.observations)
+            self.hmm = [None] * o_len
+            self.path = [None] * o_len
+
+            for i in range(o_len):
+                self.hmm[i] = Hmm(RhythmModel, self.observations[i])
+                self.path[i] = self.hmm[i].find_most_likely_state_seq()
+                self.hmm[i].print_path()
+                self.hmm[i].model.print_beats(self.path[i], self.observations[i])
+                
+            if not no_score:
+                self.generate_lilypond_score(self.path, self.observations, 32*o_len)
+        else:
+            self.hmm = Hmm(RhythmModel, self.observations)
+            self.path = self.hmm.find_most_likely_state_seq()
+            self.hmm.print_path()
+            self.hmm.model.print_beats(self.path, self.observation)
         
-        if not no_score:
-            self.generate_lilypond_score(self.path, self.observed, 32)
+            if not no_score:
+                self.generate_lilypond_score(self.path, self.observed, 32)
     
     def generate_lilypond_score(self, xpath, observations, num_beats):
         pon = Ponder(xpath,num_beats/16, observations)

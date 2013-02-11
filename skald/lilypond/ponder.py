@@ -5,6 +5,7 @@ from os import path
 from subprocess import call
 
 from skald.hmm.model.rhythm import BeatPair, Syllable
+from skald.util.syllabification import SyllableSet
 
 class Ponder(object):
 
@@ -20,9 +21,18 @@ class Ponder(object):
         clef='"treble"',        #The quotes are IN the string
         score_name="skald",
         syllables=[]):
-        self.beats = beats
-        self.bars = number_of_bars
-        self.lyrics = observations
+        
+        if isinstance(observations,SyllableSet):
+            print beats
+            print number_of_bars
+            print observations
+            self.beats = [b for bt in beats for b in bt] 
+            self.bars = number_of_bars * len(observations)
+            self.lyrics = [o for ob in observations for o in ob]
+        else:
+            self.beats = beats
+            self.bars = number_of_bars
+            self.lyrics = observations
 
         self.t_s = "%s/%s"%(time_signature[0],time_signature[1])
         self.clef = clef
