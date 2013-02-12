@@ -77,6 +77,10 @@ class BeatPath(object):
         def path(self):
             return self._path
 
+        @path.setter
+        def path(self,value):
+            self._path = value
+
         def __repr__(self):
             return 'BeatPath #{0}'.format(self.path)
 
@@ -88,7 +92,7 @@ class BeatPathSet(object):
     Upon calling BeatPathSet[key] (with or without assignment) a 
     BeatPath will be instantiated if it is the first time referencing that key.
     
-    If it also is an assignment, the BeatPath's u{set_value} method will be
+    If it also is an assignment, the BeatPath's u{set_list} method will be
     called.
     
     Due to the way BeatPathSet wraps BeatPath objects and access to them, the 
