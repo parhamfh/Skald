@@ -164,6 +164,7 @@ class Ponder(object):
         bar_index = [(15,16)]
         index_before_bar = [b for (a,b) in bar_index if a and b in range(start_index,end_index)] 
         if index_before_bar is not None: 
+        if index_before_bar != []: 
             return True, index_before_bar
         else:
             return False, -1
