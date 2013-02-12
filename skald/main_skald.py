@@ -77,14 +77,14 @@ class Skald(object):
 
             for i in range(o_len):
                 self.hmm[i] = Hmm(RhythmModel, self.observations[i])
-                self.path[i] = self.hmm[i].find_most_likely_state_seq()
+                self.beat_paths[i] = self.hmm[i].find_most_likely_state_seq()
                 self.hmm[i].print_path()
-                self.hmm[i].model.print_beats(self.path[i], self.observations[i])
+                self.hmm[i].model.print_beats(self.beat_paths[i].path, self.observations[i])
                 # TODO: fix this, very ugly!
                 BeatPair._reset_object_counter()
                 
             if not no_score:
-                self.generate_lilypond_score(self.path, self.observations, 32*o_len)
+                self.generate_lilypond_score(self.beat_paths, self.observations, 32*o_len)
         else:
             self.hmm = Hmm(RhythmModel, self.observations)
             self.path = self.hmm.find_most_likely_state_seq()

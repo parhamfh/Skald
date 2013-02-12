@@ -1,6 +1,5 @@
-#!/usr/local/bin/python
-
-class BeatPath(object):
+class BeatPath(object): 
+        
         '''
         A list that represents a path of Beats as calculated by the HMM.
         each entry in the list is a BeatPair.
@@ -12,6 +11,9 @@ class BeatPath(object):
             self._path = list_of_beat_pairs
             self._index = idx 
         
+        def __len__(self):
+            return len(self.path)
+            
         def set_list(self, value):
             self.path = value
 
@@ -84,7 +86,6 @@ class BeatPathSet(object):
     @property
     def paths(self):
         return self._paths
-
 if True:
     print '====='
     bps = BeatPathSet(4)
@@ -105,6 +106,9 @@ if True:
 
     for a in bps[0]:
         print a,a
+
+    print 'length'
+    print len(bps[1])
 
 [
 [['REST', 'r4'], ['ACTUAL', 'g4.', 'g16'], ['REST'], ['ACTUAL', 'g4', 'g16'], ['REST'], ['ACTUAL', 'g8'], ['REST'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g8'], ['REST'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g16'], ['REST', 'r16'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g8'], ['REST'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g16'], ['REST', 'r4.'], ['ACTUAL', 'g8'], ['REST', 'r8'], ['ACTUAL', 'g4'], ['REST', 'r2.', 'r8.'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g16'], ['REST', 'r2.'], ['ACTUAL', 'g16'], ['REST'], ['ACTUAL', 'g8'], ['REST', 'r16'], ['ACTUAL', 'g16'], ['REST', 'r16'], ['ACTUAL', 'g16'], ['REST', 'r2.'], ['ACTUAL', 'g16'], ['REST', 'r2'], ['ACTUAL', 'g8.'], ['REST', 'r16'], ['ACTUAL', 'g8.'], ['REST', 'r1'], ['ACTUAL', 'g16']],

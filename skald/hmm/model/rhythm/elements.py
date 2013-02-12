@@ -27,7 +27,7 @@ class BeatPair(HmmModelHiddenState):
     
     @staticmethod
     def _reset_object_counter():
-        BeatPath.object_counter = 0
+        BeatPair.object_counter = 0
     
     @property
     def origin(self):
@@ -48,6 +48,7 @@ class BeatPair(HmmModelHiddenState):
         return "{0}{3}({1},{2})".format('B', self.orig, self.dest, self.i)
 
 class BeatPath(object):
+        
         '''
         A list that represents a path of Beats as calculated by the HMM.
         each entry in the list is a BeatPair.
@@ -59,6 +60,9 @@ class BeatPath(object):
             self._path = list_of_beat_pairs
             self._index = idx 
         
+        def __len__(self):
+            return len(self.path)
+            
         def set_list(self, value):
             self.path = value
 
