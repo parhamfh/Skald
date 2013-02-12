@@ -164,7 +164,12 @@ class Ponder(object):
                         note_staff += "  {0}".format(self.format_note_string(o[1:]))
                     else:
                         raise RuntimeError("What is this?")
-            note_staff += " |\n}\n"
+            
+            #TODO: ugly to use variable meant for other thing. rename
+            if lyrics_i == len(output_note_lists)-1:
+                note_staff += ' \\bar "|." \n}\n'
+            else:
+                note_staff += " |\n}\n"
             
             output +=note_staff
             #Are there lyrics too?
