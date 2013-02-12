@@ -1,0 +1,168 @@
+# When testing Ponder
+if __name__ == '__main__':
+    
+    # REAL EXAMPLES from rhythm32
+    # WORKS
+    # [B172(5,27), B519(28,29), B526(30,31)]
+    # WORKS
+    # [B509(26,28), B523(29,30), B527(31,31)]
+    # WORKS
+    # test = [BeatPair(29,30),BeatPair(31,31)]
+    # WORKS
+#    test = [BeatPair(18,29, 434), BeatPair(30,30,525),BeatPair(31,31,527)]
+    # WORKS
+    # test = [BeatPair(9,28, 271), BeatPair(29,30,523),BeatPair(31,31,527)]
+
+#    S = [Syllable("Tom","SHORT","UNSTRESSED"), Syllable("ten","LONG","STRESSED"), Syllable("par","SHORT","UNSTRESSED")]
+#    print test
+#    p = Ponder(test,2, S)
+#    p.make_ly_file()
+    obs = SyllableSet()
+    obs.append([Syllable('Vo','SHORT','UNSTRESSED'),
+                Syllable('re','SHORT','UNSTRESSED'),
+                
+                Syllable('mig','SHORT','UNSTRESSED'),
+                
+                Syllable('det','SHORT','UNSTRESSED'),
+                
+                Syllable('för','SHORT','UNSTRESSED'),
+                Syllable('un','SHORT','UNSTRESSED'),
+                Syllable('nat','SHORT','UNSTRESSED'),
+                Syllable('att','SHORT','UNSTRESSED'),
+                
+                Syllable('hög','SHORT','UNSTRESSED'),
+                Syllable('tids','SHORT','UNSTRESSED'),
+                Syllable('stolt','SHORT','UNSTRESSED'),
+                
+                Syllable('som','SHORT','UNSTRESSED'),
+                
+                Syllable('des','SHORT','UNSTRESSED'),
+                Syllable('sa','SHORT','UNSTRESSED')])
+    
+    obs.append([Syllable('kun','SHORT','UNSTRESSED'),
+                Syllable('na','SHORT','UNSTRESSED'),
+                
+                Syllable('lyft','SHORT','UNSTRESSED'),
+                Syllable('a','SHORT','UNSTRESSED'),
+                
+                Syllable('mig','SHORT','UNSTRESSED'),
+                
+                Syllable('upp,','SHORT','UNSTRESSED'),
+                
+                Syllable('dit','SHORT','UNSTRESSED'),
+                
+                Syllable('ej','SHORT','UNSTRESSED'),
+                
+                Syllable('värld','SHORT','UNSTRESSED'),
+                Syllable('ar','SHORT','UNSTRESSED'),
+                Syllable('nas','SHORT','UNSTRESSED'),
+                
+                Syllable('jäkt','SHORT','UNSTRESSED'),
+                
+                Syllable('når','SHORT','UNSTRESSED')])
+    
+    obs.append([Syllable('och','SHORT','UNSTRESSED'),
+               
+                Syllable('hur','SHORT','UNSTRESSED'),
+                
+                Syllable('vred','SHORT','UNSTRESSED'),
+                Syllable('gat','SHORT','UNSTRESSED'),
+                
+                Syllable('om','SHORT','UNSTRESSED'),
+                Syllable('kring','SHORT','UNSTRESSED'),
+                
+                Syllable('mig','SHORT','UNSTRESSED'),
+                
+                Syllable('än','SHORT','UNSTRESSED'),
+                
+                Syllable('storm','SHORT','UNSTRESSED'),
+                Syllable('ar','SHORT','UNSTRESSED'),
+                Syllable('nas','SHORT','UNSTRESSED'),
+                
+                Syllable('brus','SHORT','UNSTRESSED'),
+                
+                Syllable('går','SHORT','UNSTRESSED')])
+    
+    obs.append([Syllable('bä','SHORT','UNSTRESSED'),
+                Syllable('ra','SHORT','UNSTRESSED'),
+               
+                Syllable('sol','SHORT','UNSTRESSED'),
+                Syllable('skim','SHORT','UNSTRESSED'),
+                Syllable('rets','SHORT','UNSTRESSED'),
+                
+                Syllable('gyll','SHORT','UNSTRESSED'),
+                Syllable('e','SHORT','UNSTRESSED'),
+                Syllable('ne','SHORT','UNSTRESSED'),
+                
+                Syllable('krans','SHORT','UNSTRESSED'),
+                
+                Syllable('om','SHORT','UNSTRESSED'),
+                Syllable('kring','SHORT','UNSTRESSED'),
+                
+                Syllable('min','SHORT','UNSTRESSED'),
+                
+                Syllable('hjäss','SHORT','UNSTRESSED'),
+                Syllable('a','SHORT','UNSTRESSED')])
+    
+    bps = BeatPathSet(4)
+    
+    bps[0] = [BeatPair(4,10,128),
+                BeatPair(11,15,301),
+                BeatPair(16,17,393),
+                BeatPair(18,18,423),
+                BeatPair(19,20,438),
+                BeatPair(21,21,462),
+                BeatPair(22,22,473),
+                BeatPair(23,23,483),
+                BeatPair(25,25,500),
+                BeatPair(26,27,508),
+                BeatPair(28,28,518),
+                BeatPair(29,29,522),
+                BeatPair(30,30,525),
+                BeatPair(31,31,527)]
+    
+    bps[1] = [BeatPair(6,7,178),
+                BeatPair(10,13,278),
+                BeatPair(14,14,357),
+                BeatPair(15,17,377),
+                BeatPair(18,20,425),
+                BeatPair(21,22,463),
+                BeatPair(23,24,484),
+                BeatPair(25,26,501),
+                BeatPair(27,27,513),
+                BeatPair(28,28,518),
+                BeatPair(29,29,522),
+                BeatPair(30,30,525),
+                BeatPair(31,31,527)]
+    
+    bps[2] = [BeatPair(12,12,318),
+                BeatPair(13,14,339),
+                BeatPair(16,16,392),
+                BeatPair(18,18,423),
+                BeatPair(20,20,450),
+                BeatPair(21,21,462),
+                BeatPair(22,22,473),
+                BeatPair(23,24,484),
+                BeatPair(25,27,502),
+                BeatPair(28,28,518),
+                BeatPair(29,29,522),
+                BeatPair(30,30,525),
+                BeatPair(31,31,527)]
+    
+    bps[3] = [BeatPair(8,10,230),
+                BeatPair(12,14,320),
+                BeatPair(17,17,408),
+                BeatPair(18,18,423),
+                BeatPair(19,21,439),
+                BeatPair(22,22,439),
+                BeatPair(23,23,483),
+                BeatPair(24,24,492),
+                BeatPair(25,25,492),
+                BeatPair(27,27,513),
+                BeatPair(28,28,518),
+                BeatPair(29,29,522),
+                BeatPair(30,30,525),
+                BeatPair(31,31,527)]
+    
+    p = Ponder(bps, obs)
+    p.make_ly_file()
