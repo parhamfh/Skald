@@ -24,6 +24,11 @@ class BeatPair(HmmModelHiddenState):
     def _get_index(self):
         BeatPair.object_counter += 1
         return BeatPair.object_counter-1
+    
+    @staticmethod
+    def _reset_object_counter():
+        BeatPath.object_counter = 0
+    
     @property
     def origin(self):
         return self.orig
