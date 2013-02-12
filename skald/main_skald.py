@@ -8,7 +8,7 @@ import sys
 
 from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
-#from skald.hmm.model.rhythm.elements import Syllable
+from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
 
 from skald.lilypond.ponder import Ponder
 
@@ -73,13 +73,15 @@ class Skald(object):
         if isinstance(self.observations, SyllableSet):
             o_len = len(self.observations)
             self.hmm = [None] * o_len
-            self.path = [None] * o_len
+            self.beat_paths = BeatPathSet(o_len)
 
             for i in range(o_len):
                 self.hmm[i] = Hmm(RhythmModel, self.observations[i])
                 self.path[i] = self.hmm[i].find_most_likely_state_seq()
                 self.hmm[i].print_path()
                 self.hmm[i].model.print_beats(self.path[i], self.observations[i])
+                # TODO: fix this, very ugly!
+                BeatPair._reset_object_counter()
                 
             if not no_score:
                 self.generate_lilypond_score(self.path, self.observations, 32*o_len)
@@ -93,7 +95,8 @@ class Skald(object):
                 self.generate_lilypond_score(self.path, self.observed, 32)
     
     def generate_lilypond_score(self, xpath, observations, num_beats):
-        pon = Ponder(xpath,num_beats/16, observations)
+#        pon = Ponder(xpath,num_beats/16, observations)
+        pon = Ponder(xpath, observations)
         pon.make_ly_file()
     
     def send_to_pd(self, xpath, num_beats):
