@@ -13,10 +13,11 @@ class BeatPair(HmmModelHiddenState):
         self.orig = origin
         self.dest = to
         
-        if idx >= -1:
-            self.i = self._get_index()
-        else:
+        if idx > -1:
             self.i = idx
+        else:
+            self.i = self._get_index()
+            
         
         self.syllable = None
 
