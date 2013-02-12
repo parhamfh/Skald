@@ -20,8 +20,6 @@ class RhythmModel(HmmModel):
             for j in range (i,num_beats):
                 self.B.append(BeatPair(i,j))
         
-        # TODO: FULT! #####
-        BeatPair.object_counter = 0
         ###################
         
         # The start probabilities for the hidden states
