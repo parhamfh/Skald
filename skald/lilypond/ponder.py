@@ -153,13 +153,20 @@ class Ponder(object):
         print "\n====== Ponder: Process completed ======\n"
 
     def note_across_bar(self,start_index,end_index):
-        bar_index = [15,16]
-        crossed_bar_indices = [i for i in range(start_index,end_index) if i in bar_index] 
-        if crossed_bar_indices is not None:
-            # return True, crossed_bar_indices 
-            return True
+        '''
+        Check if a range representing a duration of notes (rest or actual)
+        crosses over bar lines. 
+        
+        The bars are represented as a tuple with the index of the preceeding
+        and following index. If both are present in the range, that means that
+        the rest or note will cross the bar line. 
+        '''
+        bar_index = [(15,16)]
+        index_before_bar = [b for (a,b) in bar_index if a and b in range(start_index,end_index)] 
+        if index_before_bar is not None: 
+            return True, index_before_bar
         else:
-            return False
+            return False, -1
 
     def calculate_notes(self):
         note_lists = [[] for _ in range(self.beat_path_set.number_of_bp)]
@@ -176,18 +183,32 @@ class Ponder(object):
                 # append actual marked beat
                 prev_note_index = b.origin+b.duration
                 
-                anote=self.calculate_actual_notes(b.duration)
+                anote=self.calculate_actual_notes(b.duration, b.origin)
 #                print "ACTUAL FOLLOWING: %s"%anote
                 note_lists[bp.i].append(["ACTUAL"]+anote)
                 
                 
-#                print "NOTE DONE === %s\n"%note_lists[bp.i]
-                
+#            print "NOTE LIST DONE === %s\n"%note_lists[bp.i]
+
+            
         return note_lists
 
-    def calculate_actual_notes(self, note_duration):
+    def calculate_actual_notes(self, note_duration, note_start):
         nd = note_duration
         note_list = []
+        
+        # CHECK IF REST GOES OVER BAR LINES
+        is_across, next_bar_indexes = self.note_across_bar(note_start, note_start+note_duration+1)
+        if is_across:
+            # if we cross bar boundaries...
+            s = note_start
+            for i in next_bar_indexes:
+                #for each bar fill out with rests
+                note_list.extend(self.fill_duration_with_notes(i-s))
+                nd -= (i-s)
+                s = i+1
+                note_list.extend([" | "])
+        
         # Big notes -> Smaller notes. Whole -> 16th
         for i in [16, 8, 4, 2, 1]:
             output, left = self.fit_notes(nd, i)
@@ -196,7 +217,19 @@ class Ponder(object):
                 nd = left
 
         return note_list
+    
 
+    def fill_duration_with_notes(self, duration):
+        return_list = []
+        # Whole, half, quarters, eigths, sixteens
+        for i in [16, 8 , 4, 2, 1]:
+            #print "\nTrying to fit note of %s length"%i
+            output, left = self.fit_notes(duration, i)
+            if output is not None:
+                return_list.extend(output)
+                duration = left
+        return return_list
+    
     def fit_notes(self, rest_length, note_length):
         num_notes = rest_length/note_length
         duration = num_notes*note_length
@@ -241,7 +274,6 @@ class Ponder(object):
             # then add right amount of notes until... (observe that it is < not <=)
             elif n <num_notes-1:
                 st.append(self.STD_G+' ')
-                raise RuntimeError('Ended up in this strange condition with the dotted note')
 
             # ...last note that might be dotted
             elif last_is_dotted:
@@ -253,20 +285,38 @@ class Ponder(object):
 
     def calculate_preceeding_rest_notes(self, start, next_start):
 
-        rl = abs(next_start - start)
-#        print 'Length of rest before: %s'%rl
+        rest_length = abs(next_start - start)
         rest_list = []
+
+#        print 'Length of rest before: %s'%rl
+
+        # CHECK IF REST GOES OVER BAR LINES
+        is_across, next_bar_indexes = self.note_across_bar(start, next_start)
+        if is_across:
+            # if we cross bar boundaries...
+            s = start
+            for i in next_bar_indexes:
+                #for each bar fill out with rests
+                rest_list.extend(self.fill_duration_with_rest_notes(i-s))
+                rest_length -= (i-s)
+                s = i+1
+                rest_list.extend([" | "])
         
+        rest_list.extend(self.fill_duration_with_rest_notes(rest_length))
+
+        return rest_list
+    
+    def fill_duration_with_rest_notes(self, duration):
+        return_list = []
         # Whole, half, quarters, eigths, sixteens
         for i in [16, 8 , 4, 2, 1]:
             #print "\nTrying to fit note of %s length"%i
-            output, left = self.fit_rest_notes(rl, i)
+            output, left = self.fit_rest_notes(duration, i)
             if output is not None:
-                rest_list.extend(output)
-                rl = left
-
-        return rest_list
-
+                return_list.extend(output)
+                duration = left
+        return return_list
+    
     def fit_rest_notes(self, rest_length, note_length):
         num_notes = rest_length/note_length
         duration = num_notes*note_length
@@ -314,7 +364,6 @@ class Ponder(object):
                 # First note
                 else:
                     st.append(self.STD_R+str(note_value)+' ')
-                    raise RuntimeError('Ended up in this strange condition with the dotted note')
             
             # then add right amount of notes until...
             elif n <num_notes-1:
