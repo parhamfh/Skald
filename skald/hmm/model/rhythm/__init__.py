@@ -10,6 +10,9 @@ from skald.hmm.model.rhythm.elements import BeatPair, Syllable
 class RhythmModel(HmmModel):
     
     def __init__(self, num_beats=32, start_p = None, debug = False):        
+    def __init__(self, num_beats=32, start_p = None, debug = False, obs = None):        
+        
+        self.set_debug(True)
         # Number of beats / hidden states
         self.num_beats = num_beats
 
@@ -79,6 +82,7 @@ class RhythmModel(HmmModel):
         return T
     
     def trans_p_randnorm(self, B,val=1):
+    def trans_p_randnorm(self, B, val=1):
         '''
         generated values will have a summed value
         equal/"equal" to param sum

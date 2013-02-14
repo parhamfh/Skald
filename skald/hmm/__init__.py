@@ -7,7 +7,7 @@ class Hmm(object):
     DEBUG=False
 
     def __init__(self, Model, observations):
-        self._model = Model()
+        self._model = Model(obs = observations)
         self.observations = observations
     
     @property

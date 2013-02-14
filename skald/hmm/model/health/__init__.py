@@ -12,7 +12,7 @@ class HealthModel(HmmModel):
     '''
     def __init__(self, debug = False):
         # Init
-        self._set_debug(debug)
+        self.set_debug(debug)
         
         # Set model probabilities
         self._hidden_states = [HealthCondition(0,'Healthy'), 

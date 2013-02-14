@@ -79,6 +79,9 @@ class Skald(object):
                 self.hmm[i] = Hmm(RhythmModel, self.observations[i])
                 self.beat_paths[i] = self.hmm[i].find_most_likely_state_seq()
                 self.hmm[i].print_path()
+                # TODO: circumventing BeatPaths lacking implementation
+                # It should wrap it's list properly instead of
+                # explicitly referencing the internal 'path' variable 
                 self.hmm[i].model.print_beats(self.beat_paths[i].path, self.observations[i])
                 # TODO: fix this, very ugly!
                 BeatPair._reset_object_counter()

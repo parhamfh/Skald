@@ -7,7 +7,7 @@ class HmmModel(object):
     
     DEBUG = False
         
-    def _set_debug(self, debug):
+    def set_debug(self, debug):
         self.DEBUG = debug
 
     def dprint(self, s=""):
