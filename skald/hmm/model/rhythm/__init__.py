@@ -38,7 +38,45 @@ class RhythmModel(HmmModel):
         # Generate emission probabilities
         self.emission_p = range(len(self.B))
         self.generate_e_p(self.emission_p, self.B)
+    def trans_p_static(self, B, num_obs):
+        T = numpy.zeros(shape=(len(B),len(B)))
+        ratio = round(32.0 / num_obs) # global probability peak
+#        print '\nratio: ',ratio, num_obs
+        relative_ratio = ratio/ 32
+#        print "relative ratio (of global peak): ", relative_ratio,'\n'
+        nogo_counter = 0
+        go_counter = 0
+        for b in B:
+            dist = 32 - b.to
+            self.dprint('{0}| b.to {1} distance to last note: {2}'.format(b,b.to, dist))
+            relative_peak = numpy.ceil(dist*relative_ratio)
+            self.dprint('rel_peak: %s'%relative_peak)
+            prob_range = range(31, b.to+int(relative_peak)-1,-1)
+            self.dprint('prob range: %s (%s)'%(prob_range, len(prob_range)))
+            for k in B:
+                if b.to < k.origin:
+                    go_counter +=1
+                    diff = k.origin - b.to 
+#                    print 'diff', diff, b.to, k.origin
+                    if diff < relative_peak:
+                        T[b.i][k.i] = 0
+                    else:
+                        T[b.i][k.i] = prob_range[diff-int(relative_peak)]
+                else:
+                    nogo_counter +=1
+            self.dprint("Prob vector looks like: %s"%T[b.i])
+            su = sum(T[b.i])
+            # Normalize to 1
+            if su != 0:
+                T[b.i] = [round(x/su,4) for x in T[b.i]]
+        self.dprint("\n\nNOGOs: %s"%nogo_counter)
+        self.dprint("GOs: %s"%go_counter)
+        self.dprint("SUM: %s\n"%(nogo_counter+go_counter))
         
+#        numpy.set_printoptions(threshold=numpy.nan)
+#        print T
+        return T
+    
     def trans_p_strange(self, B, goalsum=1):
         '''
         Strange distribution
@@ -98,7 +136,22 @@ class RhythmModel(HmmModel):
     
         return T
     
-    def generate_e_p(self, emission_p, beats):
+    def generate_e_p_static(self, emission_p, beats):
+#        raise RuntimeError('NOT IMPLEMENTED STATIC Emission_P')
+        for b in beats:
+            if b.origin in [0, 16]:
+                # DOWNBEAT
+                emission_p[b.i] = {"UNSTRESSED":0.1, "STRESSED": 0.9}
+            elif b.origin in [8, 24]:
+                # ON-BEATS
+                emission_p[b.i] = {"UNSTRESSED":0.25, "STRESSED": 0.75}
+            elif b.origin in [4,12,20,28]:
+                # OFF-BEATS 
+                emission_p[b.i] = {"UNSTRESSED":0.4, "STRESSED": 0.6}
+            else:
+                emission_p[b.i] = {"UNSTRESSED":0.9, "STRESSED": 0.1}
+    
+    def generate_e_p_random(self, emission_p, beats):
         for b in beats:
             sh = random.random()
             emission_p[b.i] = {"UNSTRESSED":sh, "STRESSED": 1-sh}
