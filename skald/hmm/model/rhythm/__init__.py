@@ -9,10 +9,9 @@ from skald.hmm.model.rhythm.elements import BeatPair, Syllable
 
 class RhythmModel(HmmModel):
     
-    def __init__(self, num_beats=32, start_p = None, debug = False):        
     def __init__(self, num_beats=32, start_p = None, debug = False, obs = None):        
         
-        self.set_debug(True)
+        self.set_debug(False)
         # Number of beats / hidden states
         self.num_beats = num_beats
 
@@ -33,11 +32,15 @@ class RhythmModel(HmmModel):
             self.start_p = [1.0/len(self.B) for _ in self.B]
 
         # The transition probabilities between each hidden state
-        self.T = self.trans_p_randnorm(self.B,1)
-        
+        self.T = self.trans_p_static(self.B, len(obs))
+#        self.T = self.trans_p_randnorm(self.B, 1)
+
         # Generate emission probabilities
         self.emission_p = range(len(self.B))
-        self.generate_e_p(self.emission_p, self.B)
+        self.generate_e_p_static(self.emission_p, self.B)
+#        self.generate_e_p_random(self.emission_p, self.B)
+        self.dprint("Finished setup of Rhythm model.")
+    
     def trans_p_static(self, B, num_obs):
         T = numpy.zeros(shape=(len(B),len(B)))
         ratio = round(32.0 / num_obs) # global probability peak
@@ -47,28 +50,31 @@ class RhythmModel(HmmModel):
         nogo_counter = 0
         go_counter = 0
         for b in B:
-            dist = 32 - b.to
-            self.dprint('{0}| b.to {1} distance to last note: {2}'.format(b,b.to, dist))
+            dist = 31 - b.to
+            self.dprint('{0}| b.to ({1}) distance to last note: {2}'.format(b,b.to, dist))
             relative_peak = numpy.ceil(dist*relative_ratio)
             self.dprint('rel_peak: %s'%relative_peak)
-            prob_range = range(31, b.to+int(relative_peak)-1,-1)
-            self.dprint('prob range: %s (%s)'%(prob_range, len(prob_range)))
+#            prob_range2 = range(31, b.to+int(relative_peak)-1,-1)
+#            self.dprint("{0} {1}".format(prob_range2, len(prob_range2)))
+            prob_range = range(dist-int(relative_peak), -1, -1)
+            self.dprint('prob range: {0} (length: {1})'.format(prob_range,
+                                                                len(prob_range)))
             for k in B:
                 if b.to < k.origin:
                     go_counter +=1
                     diff = k.origin - b.to 
-#                    print 'diff', diff, b.to, k.origin
+                    #print 'diff', diff, b.to, k.origin
                     if diff < relative_peak:
                         T[b.i][k.i] = 0
                     else:
                         T[b.i][k.i] = prob_range[diff-int(relative_peak)]
                 else:
                     nogo_counter +=1
-            self.dprint("Prob vector looks like: %s"%T[b.i])
             su = sum(T[b.i])
             # Normalize to 1
             if su != 0:
-                T[b.i] = [round(x/su,4) for x in T[b.i]]
+                T[b.i] = [round(x/su,7) for x in T[b.i]]
+#            self.dprint("Prob vector looks like: %s"%T[b.i])
         self.dprint("\n\nNOGOs: %s"%nogo_counter)
         self.dprint("GOs: %s"%go_counter)
         self.dprint("SUM: %s\n"%(nogo_counter+go_counter))
@@ -119,7 +125,6 @@ class RhythmModel(HmmModel):
             T[i] = map(lambda x:x/s, T[i])
         return T
     
-    def trans_p_randnorm(self, B,val=1):
     def trans_p_randnorm(self, B, val=1):
         '''
         generated values will have a summed value
