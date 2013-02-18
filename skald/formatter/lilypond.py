@@ -7,7 +7,7 @@ from subprocess import call
 from skald.hmm.model.rhythm.elements import BeatPair, Syllable, BeatPathSet, BeatPath
 from skald.util.syllabification import SyllableSet
 
-class Ponder(object):
+class LilypondFormatter(object):
 
     FILE_EXTENSION = ".ly"
     STD_G = "g"
@@ -198,11 +198,11 @@ class Ponder(object):
         self.execute_binary()
     
     def make_ly_file(self):
-        print "\n====== Ponder: Calculating note values ======\n"
+        print "\n====== LilypondFormatter: Calculating note values ======\n"
         note_lists = self.calculate_notes()
-        print "====== Ponder: Generating .ly/.pdf ======"
+        print "====== LilypondFormatter: Generating .ly/.pdf ======"
         self.generate_pdf(note_lists)
-        print "\n====== Ponder: Process completed ======\n"
+        print "\n====== LilypondFormatter: Process completed ======\n"
 
     def note_across_bar(self,start_index,end_index, bar_tuples):
         '''
@@ -449,7 +449,7 @@ class Ponder(object):
         return st
 
 
-# When testing Ponder
+# When testing LilypondFormatter
 if __name__ == '__main__':
     
     # REAL EXAMPLES from rhythm32
@@ -466,7 +466,7 @@ if __name__ == '__main__':
 
 #    S = [Syllable("Tom","SHORT","UNSTRESSED"), Syllable("ten","LONG","STRESSED"), Syllable("par","SHORT","UNSTRESSED")]
 #    print test
-#    p = Ponder(test,2, S)
+#    p = LilypondFormatter(test,2, S)
 #    p.make_ly_file()
     obs = SyllableSet()
     obs.append([Syllable('Vo','SHORT','UNSTRESSED'),
@@ -615,5 +615,5 @@ if __name__ == '__main__':
                 BeatPair(30,30,525),
                 BeatPair(31,31,527)]
     
-    p = Ponder(bps, obs)
+    p = LilypondFormatter(bps, obs)
     p.make_ly_file()

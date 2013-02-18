@@ -10,7 +10,7 @@ from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
 from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
 
-from skald.lilypond.ponder import Ponder
+from skald.formatter.lilypond import LilypondFormatter
 
 from skald.parser import InputParser
 from skald.util.syllabification import SyllableTokenizer, SyllableSet
@@ -98,8 +98,8 @@ class Skald(object):
                 self.generate_lilypond_score(self.path, self.observed, 32)
     
     def generate_lilypond_score(self, xpath, observations, num_beats):
-#        pon = Ponder(xpath,num_beats/16, observations)
-        pon = Ponder(xpath, observations)
+#        pon = LilypondFormatter(xpath,num_beats/16, observations)
+        pon = LilypondFormatter(xpath, observations)
         pon.make_ly_file()
     
     def send_to_pd(self, xpath, num_beats):
