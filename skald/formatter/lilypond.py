@@ -7,7 +7,7 @@ from subprocess import call
 from skald.hmm.model.rhythm.elements import BeatPair, Syllable, BeatPathSet, BeatPath
 from skald.util.syllabification import SyllableSet
 
-class Ponder(object):
+class LilypondFormatter(object):
 
     FILE_EXTENSION = ".ly"
     STD_G = "g"
@@ -615,5 +615,5 @@ if __name__ == '__main__':
                 BeatPair(30,30,525),
                 BeatPair(31,31,527)]
     
-    p = Ponder(bps, obs)
+    p = LilypondFormatter(bps, obs)
     p.make_ly_file()
