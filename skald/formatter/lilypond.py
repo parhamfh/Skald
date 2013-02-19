@@ -451,7 +451,11 @@ class LilypondFormatter(object):
 
 # When testing LilypondFormatter
 if __name__ == '__main__':
+    '''
     
+    THIS IS FOR TESTING JUST THE LILYPOND FORMATTER
+    
+    '''
     # REAL EXAMPLES from rhythm32
     # WORKS
     # [B172(5,27), B519(28,29), B526(30,31)]
