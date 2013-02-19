@@ -9,7 +9,7 @@ from skald.util.syllabification import SyllableSet
 
 class LilypondFormatter(object):
 
-    FILE_EXTENSION = ".ly"
+    FILENAME_EXTENSION = ".ly"
     STD_G = "g"
     STD_R = "r"
     lyrics = None
@@ -64,7 +64,7 @@ class LilypondFormatter(object):
 
     @property
     def filename(self):
-        return self.name+self.FILE_EXTENSION
+        return self.name+self.FILENAME_EXTENSION
 
     def select_score_name(self, score_name):
         if self.unused_filename(score_name):
@@ -78,7 +78,7 @@ class LilypondFormatter(object):
         #     with open(path.join(self.subfolder,fn)) as f: return False
         # except IOError as e:
         #     return True
-        if path.isfile(path.join(self.subfolder,fn+self.FILE_EXTENSION)):
+        if path.isfile(path.join(self.subfolder,fn+self.FILENAME_EXTENSION)):
             return False
         else:
             return True
