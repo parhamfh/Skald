@@ -11,6 +11,7 @@ from skald.hmm.model.rhythm import RhythmModel
 from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
 
 from skald.formatter.lilypond import LilypondFormatter
+from skald.formatter.orpheus import OrpheusFormatter
 
 from skald.parser import InputParser
 from skald.util.syllabification import SyllableTokenizer, SyllableSet
@@ -68,7 +69,6 @@ class Skald(object):
             
             self.mark_syllables_for_stress(self.syllables, self.phonemes)
 
-    def run_model(self, no_score = False):
     def run_model(self, no_score = False, no_orpheus = False):
         self.observations= self.syllables
         if isinstance(self.observations, SyllableSet):
@@ -88,7 +88,10 @@ class Skald(object):
                 BeatPair._reset_object_counter()
                 
             if not no_score:
-                self.generate_lilypond_score(self.beat_paths, self.observations, 32*o_len)
+                self.generate_lilypond_score(self.beat_paths, self.observations)
+                
+            if not no_orpheus:
+                self.generate_orpheus_output(self.beat_paths)
         else:
             self.hmm = Hmm(RhythmModel, self.observations)
             self.path = self.hmm.find_most_likely_state_seq()
@@ -96,13 +99,17 @@ class Skald(object):
             self.hmm.model.print_beats(self.path, self.observation)
         
             if not no_score:
-                self.generate_lilypond_score(self.path, self.observed, 32)
+                self.generate_lilypond_score(self.path, self.observed)
     
-    def generate_lilypond_score(self, xpath, observations, num_beats):
+    def generate_lilypond_score(self, xpaths, observations):
 #        pon = LilypondFormatter(xpath,num_beats/16, observations)
-        pon = LilypondFormatter(xpath, observations)
+        pon = LilypondFormatter(xpaths, observations)
         pon.make_ly_file()
     
+    def generate_orpheus_output(self, paths):
+        orp = OrpheusFormatter(paths)
+        orp.make_rhythm_file()
+
     def send_to_pd(self, xpath, num_beats):
         # print "\nAnd they said, in great unison, that The Path shalt be:"
         sendlist = [(-1,1,b) for b in range(0,num_beats)]

@@ -9,10 +9,11 @@ class BeatPair(HmmModelHiddenState):
     '''
     object_counter = 0
 
-    def __init__(self, origin, to, idx=-1):
+    def __init__(self, origin, to, note_value = None, idx=-1):
         self.orig = origin
         self.dest = to
-        
+        self._note_value = note_value
+
         if idx > -1:
             self.i = idx
         else:
@@ -41,6 +42,10 @@ class BeatPair(HmmModelHiddenState):
     def duration(self):
         return self.to-self.origin+1
 
+    @property
+    def note_value(self):
+        return self._note_value
+    
     def add_syllable(self, s):
         self.syllable = s
 
