@@ -1,6 +1,7 @@
 *.pyc
 *.pdf
 *.ly
+*.orp
 .pydevproject
 .project
 .settings
