@@ -69,6 +69,7 @@ class Skald(object):
             self.mark_syllables_for_stress(self.syllables, self.phonemes)
 
     def run_model(self, no_score = False):
+    def run_model(self, no_score = False, no_orpheus = False):
         self.observations= self.syllables
         if isinstance(self.observations, SyllableSet):
             o_len = len(self.observations)
