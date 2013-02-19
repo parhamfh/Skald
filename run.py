@@ -20,9 +20,10 @@ parser.add_argument('-M','--mock', dest='mock', action='store_true',
 args = parser.parse_args()
 
 if args.model_choice == 'R':
-    s = Skald(mock = args.mock)
     print "Generate musical score: {0}".format("Yes" if not args.no_lilypond else "No")
     print "Generate output for Orpheus: {0}".format("Yes" if not args.no_orpheus else "No")
+    print "\n\n"
+    s = Skald(mock = args.mock)
     s.run_model(no_score=args.no_lilypond, no_orpheus=args.no_orpheus)
     
 elif args.model_choice == 'H':
