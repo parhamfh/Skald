@@ -157,22 +157,30 @@ class Skald(object):
     
     def mark_syllables_for_stress(self, syllables, phonemes):
         if self.mock:
-            for i in [0,2,3,4,7,10,11,13]:
+            for i in [0,2,3,5,7]:
                 syllables[0][i].e="STRESSED"
-#            print syllables[0]
-#            print
-            for i in [0,2,4,5,6,7,8,11,12]:
+            
+            for i in [0,3,4]:
                 syllables[1][i].e="STRESSED"
-#            print syllables[1]
-#            print
-            for i in [0,1,2,5,6,7,8,11,12]:
+            
+            for i in [0,2,4,5]:
                 syllables[2][i].e="STRESSED"
-#            print syllables[2]
-#            print
-            for i in [0,3,5,8,10,11,12]:
+            
+            for i in [0, 1, 2,5,6]:
                 syllables[3][i].e="STRESSED"
-#            print syllables[3]
-#            print
+            
+            for i in [0,1,2,5,6]:
+                syllables[4][i].e="STRESSED"
+            
+            for i in [0,1,4,5]:
+                syllables[5][i].e="STRESSED"
+            
+            for i in [0,3,5,8]:
+                syllables[6][i].e="STRESSED"
+            
+            for i in [1,2,3]:
+                syllables[7][i].e="STRESSED"
+
 #            for s in self.syllables:
 #                print '---'
 #                print s

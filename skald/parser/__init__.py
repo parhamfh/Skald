@@ -66,7 +66,7 @@ class InputParser(object):
 class MockInputParser(object):
 
     def prompt_for_input(self, custom_text = None, read_from_file=None):
-        with open('resources/mockinput') as fp:
+        with open('resources/mock/mockinput_shortverses') as fp:
             return fp.read()
 
 if __name__ == '__main__':

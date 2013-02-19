@@ -39,9 +39,9 @@ class MockSyllableTokenizer(object):
                     Syllable('för','SHORT','UNSTRESSED'),
                     Syllable('un','SHORT','UNSTRESSED'),
                     Syllable('nat','SHORT','UNSTRESSED'),
-                    Syllable('att','SHORT','UNSTRESSED'),
+                    Syllable('att','SHORT','UNSTRESSED')])
                     
-                    Syllable('hög','SHORT','UNSTRESSED'),
+        ss.append([Syllable('hög','SHORT','UNSTRESSED'),
                     Syllable('tids','SHORT','UNSTRESSED'),
                     Syllable('stolt','SHORT','UNSTRESSED'),
                     
@@ -58,9 +58,9 @@ class MockSyllableTokenizer(object):
                     
                     Syllable('mig','SHORT','UNSTRESSED'),
                     
-                    Syllable('upp,','SHORT','UNSTRESSED'),
+                    Syllable('upp,','SHORT','UNSTRESSED')])
                     
-                    Syllable('dit','SHORT','UNSTRESSED'),
+        ss.append([Syllable('dit','SHORT','UNSTRESSED'),
                     
                     Syllable('ej','SHORT','UNSTRESSED'),
                     
@@ -82,9 +82,9 @@ class MockSyllableTokenizer(object):
                     Syllable('om','SHORT','UNSTRESSED'),
                     Syllable('kring','SHORT','UNSTRESSED'),
                     
-                    Syllable('mig','SHORT','UNSTRESSED'),
+                    Syllable('mig','SHORT','UNSTRESSED')])
                     
-                    Syllable('än','SHORT','UNSTRESSED'),
+        ss.append([Syllable('än','SHORT','UNSTRESSED'),
                     
                     Syllable('storm','SHORT','UNSTRESSED'),
                     Syllable('ar','SHORT','UNSTRESSED'),
@@ -105,9 +105,9 @@ class MockSyllableTokenizer(object):
                     Syllable('e','SHORT','UNSTRESSED'),
                     Syllable('ne','SHORT','UNSTRESSED'),
                     
-                    Syllable('krans','SHORT','UNSTRESSED'),
+                    Syllable('krans','SHORT','UNSTRESSED')])
                     
-                    Syllable('om','SHORT','UNSTRESSED'),
+        ss.append([Syllable('om','SHORT','UNSTRESSED'),
                     Syllable('kring','SHORT','UNSTRESSED'),
                     
                     Syllable('min','SHORT','UNSTRESSED'),
