@@ -133,6 +133,10 @@ class BeatPathSet(object):
         else:
             #print "BeatPathSet.__setitem__: Index key out of bounds."
             raise IndexError("BeatPathSet.__setitem__: Index key out of bounds.")
+    
+    def __len__(self):
+        return len(self.paths)
+
     @property
     def number_of_bp(self):
         return self._number_of_bp
