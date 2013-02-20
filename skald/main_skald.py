@@ -91,7 +91,7 @@ class Skald(object):
                 self.generate_lilypond_score(self.beat_paths, self.observations)
                 
             if not no_orpheus:
-                self.generate_orpheus_output(self.beat_paths)
+                self.generate_orpheus_output(self.beat_paths, self.observations)
         else:
             self.hmm = Hmm(RhythmModel, self.observations)
             self.path = self.hmm.find_most_likely_state_seq()
@@ -106,8 +106,8 @@ class Skald(object):
         pon = LilypondFormatter(xpaths, observations)
         pon.make_ly_file()
     
-    def generate_orpheus_output(self, paths):
-        orp = OrpheusFormatter(paths)
+    def generate_orpheus_output(self, paths, observations):
+        orp = OrpheusFormatter(paths, observations)
         orp.make_rhythm_file()
 
     def send_to_pd(self, xpath, num_beats):
@@ -185,6 +185,7 @@ class Skald(object):
 #                print '---'
 #                print s
             return syllables
+        
         else:
             print 'Stress marking Not implemented yet...'
         
