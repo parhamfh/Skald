@@ -10,7 +10,7 @@ class HealthModel(HmmModel):
     Model 
     Copy of the wikipedia example on the Viterbi algorithm.
     '''
-    def __init__(self, debug = False):
+    def __init__(self, debug = False, obs = None):
         # Init
         self.set_debug(debug)
         
