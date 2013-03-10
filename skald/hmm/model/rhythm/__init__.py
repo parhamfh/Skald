@@ -7,6 +7,13 @@ import random
 from skald.hmm.model import HmmModel
 from skald.hmm.model.rhythm.elements import BeatPair, Syllable
 
+'''
+    Det är konstigt att __init__ tar emot obs, för en HMM ska inte göra det
+    implementera ny eller döp om HMMModel till InputOutputModel. 
+    För nu måste också u{HealthModel} ta emot den, utan att den använder den.
+    eller?
+
+'''
 class RhythmModel(HmmModel):
     
     def __init__(self, num_beats=32, start_p = None, debug = False, obs = None):        

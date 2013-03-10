@@ -14,7 +14,7 @@ from skald.formatter.lilypond import LilypondFormatter
 from skald.formatter.orpheus import OrpheusFormatter
 
 from skald.parser import InputParser
-from skald.util.syllabification import SyllableTokenizer, SyllableSet
+from skald.util.syllabification import SyllableTokenizer
 from skald.transcribe import PhoneticTranscriber
 from skald.pd.sounder import Sounder
 
@@ -32,24 +32,29 @@ class Skald(object):
     against the trivial example on Wikipedia. 
     '''
 
-
     def __init__(self, health_model=False, mock = None):
         '''
         Constructor
         '''
-        self.mock = mock
+        if mock:
+            if mock > 1:
+                self.mock_hmm = True
+            else:
+                self.mock_hmm = False
+            self.mock = True
+
         if health_model:
             print 'Running Wikipedia example: Health model.'
             from skald.hmm.model.health import HealthModel
             from skald.hmm.model.health.elements import Symptom
-            self.observations = [Symptom('normal'), 
+            self.observations = [Symptom('normal'),
                         Symptom('cold'),
                         Symptom('dizzy')]
- 
+
             self.hmm = Hmm(HealthModel, self.observations)
             self.hmm.find_most_likely_state_seq()
             self.hmm.print_path()
-        
+
         else:
             print 'Running Rhythm model calculations.'
 
@@ -69,38 +74,56 @@ class Skald(object):
             
             self.mark_syllables_for_stress(self.syllables, self.phonemes)
 
-    def run_model(self, no_score = False, no_orpheus = False):
-        self.observations= self.syllables
-        if isinstance(self.observations, SyllableSet):
-            o_len = len(self.observations)
-            self.hmm = [None] * o_len
-            self.beat_paths = BeatPathSet(o_len)
-
-            for i in range(o_len):
-                self.hmm[i] = Hmm(RhythmModel, self.observations[i])
-                self.beat_paths[i] = self.hmm[i].find_most_likely_state_seq()
-                self.hmm[i].print_path()
-                # TODO: circumventing BeatPaths lacking implementation
-                # It should wrap it's list properly instead of
-                # explicitly referencing the internal 'path' variable 
-                self.hmm[i].model.print_beats(self.beat_paths[i].path, self.observations[i])
-                # TODO: fix this, very ugly!
-                BeatPair._reset_object_counter()
-                
-            if not no_score:
-                self.generate_lilypond_score(self.beat_paths, self.observations)
-                
-            if not no_orpheus:
-                self.generate_orpheus_output(self.beat_paths, self.observations)
-        else:
-            self.hmm = Hmm(RhythmModel, self.observations)
-            self.path = self.hmm.find_most_likely_state_seq()
-            self.hmm.print_path()
-            self.hmm.model.print_beats(self.path, self.observation)
-        
-            if not no_score:
-                self.generate_lilypond_score(self.path, self.observed)
     
+    def run(self, no_score = False, no_orpheus = False):
+        
+        if self.mock_hmm:
+            self.mock_model()
+        else:            
+            self.run_model()
+            
+        if not no_score:
+            self.generate_lilypond_score(self.beat_paths, self.observations)
+            
+        if not no_orpheus:
+            self.generate_orpheus_output(self.beat_paths, self.observations)
+
+    def mock_model(self):
+        self.observations = self.syllables
+
+        from skald.hmm.model.rhythm.elements import BeatPath
+        
+        self.beat_paths = BeatPathSet(8, paths = [
+                                BeatPath(0, [BeatPair(16, 21, idx=397), BeatPair(23,23, idx=483), BeatPair(24,25, idx=493), BeatPair(26,26, idx=507), BeatPair(27,27, idx=513), BeatPair(28,28, idx=518), BeatPair(29,29, idx=522), BeatPair(30,31,idx=526)]),
+                                BeatPath(1, [BeatPair(16,25, idx=401), BeatPair(26,26, idx=507), BeatPair(27,27, idx=513), BeatPair(28,28, idx=518), BeatPair(29,29, idx=522), BeatPair(30,31, idx=526)]),
+                                BeatPath(2, [BeatPair(16,20, idx=396), BeatPair(22,22, idx=473), BeatPair(24,26, idx=494), BeatPair(27,27, idx=513), BeatPair(28,29, idx=519), BeatPair(30,31, idx=526)]),
+                                BeatPath(3, [BeatPair(16,17, idx=393), BeatPair(20,22, idx=452), BeatPair(24,25, idx=493), BeatPair(26,26, idx=507), BeatPair(27,27, idx=513), BeatPair(28,29, idx=519), BeatPair(30,31, idx=526)]),
+                                BeatPath(4, [BeatPair(16,17, idx=393), BeatPair(20,22, idx=452), BeatPair(24,25, idx=493), BeatPair(26,26, idx=507), BeatPair(27,27, idx=513), BeatPair(28,29, idx=519), BeatPair(30,31, idx=526)]),
+                                BeatPath(5, [BeatPair(16,22, idx=398), BeatPair(24,25, idx=493), BeatPair(26,26, idx=507), BeatPair(27,27, idx=513 ), BeatPair(28,29, idx=519), BeatPair(30,31, idx=526)]),
+                                BeatPath(6, [BeatPair(16,19, idx=395), BeatPair(21,21, idx=462), BeatPair(23,23, idx=483), BeatPair(24,25, idx=493), BeatPair(26,26, idx=507), BeatPair(27,27, idx=513), BeatPair(28,28, idx=518), BeatPair(29,29, idx=522), BeatPair(30,31, idx=526)]),
+                                BeatPath(7, [BeatPair(22,22, idx=473), BeatPair(24,27, idx=495), BeatPair(28,28, idx=518), BeatPair(29,29, idx=522), BeatPair(30,31,idx=526)])]
+                                         )
+
+    def run_model(self):
+        self.observations = self.syllables
+        # Sets of Syllables
+#        if isinstance(self.observations, SyllableSet):
+        o_len = len(self.observations)
+        self.hmm = [None] * o_len
+        self.beat_paths = BeatPathSet(o_len)
+
+        for i in range(o_len):
+            self.hmm[i] = Hmm(RhythmModel, self.observations[i])
+            self.beat_paths[i] = self.hmm[i].find_most_likely_state_seq()
+            self.hmm[i].print_path()
+            # TODO: circumventing BeatPaths lacking implementation
+            # It should wrap it's list properly instead of
+            # explicitly referencing the internal 'path' variable 
+            self.hmm[i].model.print_beats(self.beat_paths[i].path, self.observations[i])
+            # TODO: fix this, very ugly!
+            BeatPair._reset_object_counter()
+            
+
     def generate_lilypond_score(self, xpaths, observations):
 #        pon = LilypondFormatter(xpath,num_beats/16, observations)
         pon = LilypondFormatter(xpaths, observations)
@@ -109,7 +132,7 @@ class Skald(object):
     def generate_orpheus_output(self, paths, observations):
         orp = OrpheusFormatter(paths, observations)
         orp.make_rhythm_file()
-
+        
     def send_to_pd(self, xpath, num_beats):
         # print "\nAnd they said, in great unison, that The Path shalt be:"
         sendlist = [(-1,1,b) for b in range(0,num_beats)]
