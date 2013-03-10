@@ -4,31 +4,37 @@ import os.path
 
 class OrpheusFormatter(object):
 
+    # Format types
+    PYTHON = 0
+    STDOUT = 1
+    
     SUBFOLDER_NAME = 'orpheus'
     FILENAME_STEM = 'verse'
     FILENAME_EXTENSION = 'orp'
     TICKS_PER_16TH = 120
+    TICKS_OFFSET = 32 * TICKS_PER_16TH
     BEAT_INFO_INDENT = "    "
+    
 
-    def __init__(self, beat_path_set, observations_list):
-        self.beat_path_set = beat_path_set
+    def __init__(self, beat_path_set, observations_list, output_format=None):
+        self.beat_path_set = self.group_paths_in_eights(beat_path_set)
         self.observations_list = observations_list
 
+        if output_format == None:
+            self.output_format = OrpheusFormatter.PYTHON
+        else:
+            self.output_format = output_format
+
+#        for p in self.bps:
+#            for i in p:
+#                print i
+    
     def make_rhythm_file(self):
-        file_index = 1
-        for i in range(len(self.bps)):
-#            for bp in self.bps:
-            with open(self.path_to_file(file_index),'w') as fp:
-                self.write_out_header(fp)
-                mergedlist = map(lambda x,y,z :(x,y,z),self.bps[i], self.obs[i], range(len(self.bps[i])))
-                for b, o, idx in mergedlist:
-                    if idx ==  len(self.bps[i])-1:
-                        self.write_out_beat(b, o, fp, last = True)
-                        continue
-                    self.write_out_beat(b, o, fp)
-                self.write_out_footer(fp)
-            file_index += 1
-            
+        if self.output_format == OrpheusFormatter.PYTHON:
+            self.make_python_file()
+        elif self.output_format == OrpheusFormatter.STDOUT:
+            self.make_stdout_file()
+
     @property
     def bps(self):
         return self.beat_path_set
@@ -39,11 +45,74 @@ class OrpheusFormatter(object):
     
     @property
     def subfolder(self):
-        return self.SUBFOLDER_NAME
-    
+        if self.output_format == OrpheusFormatter.PYTHON:
+            return os.path.join(self.SUBFOLDER_NAME, 'python')
+        elif self.output_format == OrpheusFormatter.STDOUT:
+            return os.path.join(self.SUBFOLDER_NAME, 'stdout')
+
     @property
     def file_extension(self):
         return ".{0}".format(self.FILENAME_EXTENSION)
+    
+    def group_paths_in_eights(self, paths):
+#        num_files = math.ceil(len(paths)/8.0)
+        tmp = []
+        for i in xrange(0,len(paths),8):
+            tmp.append(paths[i:8])
+        return tmp
+        
+    def make_python_file(self):
+#        file_index = 1
+#        for i in range(len(self.bps)):
+##            for bp in self.bps:
+#            with open(self.path_to_file(file_index),'w') as fp:
+#                self.write_out_header(fp)
+#                mergedlist = map(lambda x,y,z :(x,y,z),self.bps[i], self.obs[i], range(len(self.bps[i])))
+#                for b, o, idx in mergedlist:
+#                    if idx ==  len(self.bps[i])-1:
+#                        self.write_out_beat(b, o, fp, last = True)
+#                        continue
+#                    self.write_out_beat(b, o, fp)
+#                self.write_out_footer(fp)
+#            file_index += 1
+
+        file_index = 1
+        for eight in self.bps:
+            with open(self.path_to_file(file_index),'w+') as fp:
+                self.write_out_header(fp)
+                offset=0
+                for bp in eight:
+                    self.write_out_path_info(fp, offset)
+                    mergedlist = map(lambda x,y,z :(x,y,z), 
+                                     bp,
+                                     self.obs[bp.i], 
+                                     range(len(bp)))
+                    for b, o, idx in mergedlist:
+                        if idx ==  len(bp)-1:
+                            self.write_out_beat(b, o, fp, ticks_offset=offset, 
+                                                last = True)
+                            continue
+                        self.write_out_beat(b, o, fp, ticks_offset=offset)
+                    offset += 1
+                self.write_out_footer(fp)
+            file_index += 1
+
+    def make_stdout_file(self):
+        file_index = 1
+        for eight in self.bps:
+            with open(self.path_to_file(file_index),'w') as fp:
+                for bp in eight:
+                    self.write_out_header(fp)
+                    mergedlist = map(lambda x,y,z :(x,y,z), bp, self.obs[bp.i], range(len(bp)))
+                    print mergedlist
+                    
+#                    for b, o, idx in mergedlist:
+#                        if idx ==  len(bp)-1:
+#                            self.write_out_beat(b, o, fp, last = True)
+#                            continue
+#                        self.write_out_beat(b, o, fp)
+#                    self.write_out_footer(fp)
+            file_index += 1
     
     def filename(self, index=None):
         if index is None:
@@ -70,29 +139,39 @@ class OrpheusFormatter(object):
         
         fp.write(FOOTER)
     
-    def write_out_beat(self, beat, observation, fp, last = False):
+    def write_out_path_info(self, fp, ticks_offset):
+        write_str = \
+        "\n{0}#################################################".format(self.BEAT_INFO_INDENT)+\
+        "\n{0}# BEAT PATH WITH TICKS OFFSET BY {1} ({2} bars)".format(self.BEAT_INFO_INDENT, 
+                                                         self.TICKS_OFFSET*
+                                                         ticks_offset,
+                                                         ticks_offset*2)+\
+        "\n{0}#################################################\n".format(self.BEAT_INFO_INDENT)
+        fp.write(write_str)
+        
+    def write_out_beat(self, beat, observation, fp, ticks_offset=0, last = False):
         write_str = \
         "\n{0}# Beat from index {1} through {2}\n".format(self.BEAT_INFO_INDENT,
                                                           beat.origin,
                                                           beat.to)+\
         "{0}{{\n".format(self.BEAT_INFO_INDENT)+\
         "{0}'onset': {1},\n".format(self.BEAT_INFO_INDENT*2,
-                                self.calculate_onset(beat))+\
+                                self.calculate_onset(beat, ticks_offset))+\
         "{0}'offset': {1},\n".format(self.BEAT_INFO_INDENT*2,
-                                  self.calculate_offset(beat))+\
+                                  self.calculate_offset(beat, ticks_offset))+\
         "{0}'pitch': {1},\n".format(self.BEAT_INFO_INDENT*2,
                                   self.calculate_pitch(beat))+\
         "{0}'syllable': '{1}'\n".format(self.BEAT_INFO_INDENT*2,
                                   observation.syllable)+\
         "{0}}}{1}\n".format(self.BEAT_INFO_INDENT, ',' if not last else '')
-        
+
         fp.write(write_str)
         
-    def calculate_onset(self, beat):
-        return beat.origin*self.TICKS_PER_16TH
+    def calculate_onset(self, beat, ticks_offset):
+        return beat.origin*self.TICKS_PER_16TH+self.TICKS_OFFSET*ticks_offset
     
-    def calculate_offset(self, beat):
-        return (1+beat.to) * self.TICKS_PER_16TH
+    def calculate_offset(self, beat, ticks_offset):
+        return (1+beat.to) * self.TICKS_PER_16TH+self.TICKS_OFFSET*ticks_offset
     
     def calculate_pitch(self, beat):
         if beat.note_value is not None:
