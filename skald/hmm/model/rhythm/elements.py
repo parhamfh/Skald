@@ -91,7 +91,7 @@ class BeatPath(object):
             self._path = value
 
         def __repr__(self):
-            return 'BeatPath #{0}'.format(self.path)
+            return 'BeatPath#{1} => {0}'.format(self.path, self.i)
 
 class BeatPathSet(object):
     '''
@@ -108,12 +108,17 @@ class BeatPathSet(object):
     BeatPath object will never have to be explicitly instantiated for the class.
     '''
 
-    def __init__(self, number_of_beatpaths):
+    def __init__(self, number_of_beatpaths, paths = None):
         self._number_of_bp = number_of_beatpaths
-        self._paths = [None] * number_of_beatpaths
+        if paths is None:
+            self._paths = [None] * number_of_beatpaths
+        else:
+            self._paths = paths
     
     def __getitem__(self, key):
-        if key < self.number_of_bp and key >= 0:
+        if type(key) == slice:
+            return self.paths[key]
+        elif key < self.number_of_bp and key >= 0:
             if self.paths[key] is None:
                 #print '__getitem__: Creating BeatPath object for index %s'%key
                 self.paths[key] = BeatPath(key)
@@ -121,7 +126,7 @@ class BeatPathSet(object):
             return self.paths[key]
         else:
             #print "BeatPathSet.__getitem__: Index key out of bounds."
-            raise IndexError("BeatPathSet.__getitem__: Index key out of bounds.")
+            raise IndexError("BeatPathSet.__getitem__: Index key out of bounds. key={0}, self.number_of_bp={1}".format(key,self.number_of_bp))
     
     def __setitem__(self, key, value):
         if key < self.number_of_bp and key >= 0:
@@ -144,6 +149,16 @@ class BeatPathSet(object):
     @property
     def paths(self):
         return self._paths
+    
+    def __repr__(self):
+        # should be "unambigious"
+        # If paths is a container (which it is) the conataining items'
+        # __repr__ method will be called instead of __str__
+        return '{0}'.format(self.paths)
+        
+    def __str__(self):
+        # should be "readable"
+        return "BeatPathSet: {0}".format(self.__repr__())
 
 class Syllable(HmmModelObservation):
     '''
