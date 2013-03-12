@@ -17,7 +17,7 @@ class OrpheusFormatter(object):
     
 
     def __init__(self, beat_path_set, observations_list, output_format=None):
-        self.beat_path_set = self.group_paths_in_eights(beat_path_set)
+        self.beat_path_set = self.group_paths_in_fours(beat_path_set)
         self.observations_list = observations_list
 
         if output_format == None:
@@ -54,11 +54,12 @@ class OrpheusFormatter(object):
     def file_extension(self):
         return ".{0}".format(self.FILENAME_EXTENSION)
     
-    def group_paths_in_eights(self, paths):
-#        num_files = math.ceil(len(paths)/8.0)
+    def group_paths_in_fours(self, paths):
+        # num_files = math.ceil(len(paths)/4.0)
         tmp = []
-        for i in xrange(0,len(paths),8):
-            tmp.append(paths[i:8])
+        for i in xrange(0,len(paths),4):
+            tmp.append(paths[i:i+4])
+        print tmp
         return tmp
         
     def make_python_file(self):
@@ -85,17 +86,17 @@ class OrpheusFormatter(object):
 
     def make_stdout_file(self):
         file_index = 1
-        for eight in self.bps:
+        for four in self.bps:
             with open(self.path_to_file(file_index),'w+') as fp:
                 self.stdout_write_out_header(fp)
                 offset=0
-                for bp in eight:
+                for bp in four:
                     self.stdout_write_out_path_info(fp, offset)
                     mergedlist = map(lambda x,y,z :(x,y,z), 
                                      bp,
                                      self.obs[bp.i], 
                                      range(len(bp)))
-                    for b, o, idx in mergedlist:
+                    for b, o, _ in mergedlist:
                         self.stdout_write_out_beat(b, o, fp, ticks_offset=offset)
                     offset += 1
             file_index += 1
