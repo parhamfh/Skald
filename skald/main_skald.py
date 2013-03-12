@@ -130,7 +130,8 @@ class Skald(object):
         pon.make_ly_file()
     
     def generate_orpheus_output(self, paths, observations):
-        orp = OrpheusFormatter(paths, observations)
+        orp = OrpheusFormatter(paths, observations, 
+                               output_format=OrpheusFormatter.STDOUT)
         orp.make_rhythm_file()
         
     def send_to_pd(self, xpath, num_beats):
