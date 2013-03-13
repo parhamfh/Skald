@@ -53,7 +53,7 @@ class LilypondFormatter(object):
         self.t_s = "%s/%s"%(time_signature[0],time_signature[1])
         self.clef = clef
 
-        self.subfolder = "score"
+        self.subfolder = "lilypond"
         self.select_score_name(score_name)
 
         print self.pathname
