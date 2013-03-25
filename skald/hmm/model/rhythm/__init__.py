@@ -6,7 +6,7 @@ import random
 
 from skald.hmm.model import HmmModel
 from skald.hmm.model.rhythm.elements import BeatPair, Syllable
-
+from skald.hmm.model.rhythm.exception import BeatTypeException
 '''
     Det är konstigt att __init__ tar emot obs, för en HMM ska inte göra det
     implementera ny eller döp om HMMModel till InputOutputModel. 
@@ -16,9 +16,17 @@ from skald.hmm.model.rhythm.elements import BeatPair, Syllable
 '''
 class RhythmModel(HmmModel):
     
+    # Prime numbers
+    SHORT_BEAT = 7
+    GOOD_BEAT = 11
+    LONG_BEAT = 2
+    BAD_BEAT = 5
+    
     def __init__(self, num_beats=32, start_p = None, debug = False, obs = None):        
         
+        # Print debug messages?
         self.set_debug(False)
+        
         # Number of beats / hidden states
         self.num_beats = num_beats
 
@@ -39,8 +47,9 @@ class RhythmModel(HmmModel):
             self.start_p = [1.0/len(self.B) for _ in self.B]
 
         # The transition probabilities between each hidden state
-        self.T = self.trans_p_static(self.B, len(obs))
+#        self.T = self.trans_p_input(self.B, len(obs))
 #        self.T = self.trans_p_randnorm(self.B, 1)
+        self.T = self.trans_p_static(self.B)
 
         # Generate emission probabilities
         self.emission_p = range(len(self.B))
@@ -48,7 +57,111 @@ class RhythmModel(HmmModel):
 #        self.generate_e_p_random(self.emission_p, self.B)
         self.dprint("Finished setup of Rhythm model.")
     
-    def trans_p_static(self, B, num_obs):
+    def trans_p_static(self, B):
+        '''
+        Transition probabilities are deterministically decided for any 
+        given number of observations. This equals a true Hidden Markov Model.
+        
+        Does not model rest and the notes are connected.
+        '''
+        T = numpy.zeros(shape=(len(B),len(B)))
+        for b in B:
+            for k in B:
+                # STEP 0: Only notes that connect
+                if b.to == k.origin-1:
+                    print "connect between {0} and {1}".format(b,k)
+                    #STEP 1: Categorize beat pair
+                    score = self.beat_score(k)
+                    T[b.i][k.i] = score
+            su = sum(T[b.i])
+            # Normalize to 1
+            if su != 0:
+                T[b.i] = [round(x/su,7) for x in T[b.i]]
+#        numpy.set_printoptions(threshold=numpy.nan)
+#        print T
+        return T
+
+    def beat_score(self, b):
+        '''
+        om den börjar på jämn och slutar på jämn (d.v.s nästa blir udda) 
+        så är det en jämn synkoperande not. osv
+        
+        regel:
+        
+        jämn/udda beskriver på vilket slag den börjar (d.v.s vilken 
+        not den börjar på, i.e b.origin).
+        och synkoperande/icke-synkoperande beskriver om nästa börjar på
+        jämn eller udda (d.v.s beroende av längden).
+        '''
+        
+        is_syncopating = self.is_syncopating_beat(b)
+        length = self.length_of_beat(b)
+        
+        score = length * (0.7 if is_syncopating else 1)
+         
+#        if self.is_on_beat(b):
+#            return self.ON_BEAT
+#        
+#        elif self.is_even_beat(b):
+#            return self.EVEN_BEAT
+#        
+#        elif self.is_odd_beat(b):
+#            return self.ODD_BEAT
+#        
+#        elif self.syncopating_beat(b):
+#            return self.SYNCOPATED_BEAT
+#        else:
+#            raise BeatTypeException("Cannot determine type of beat. {0}".format
+#                                    (b))
+        return score
+    
+#    def is_on_beat(self, b):
+#                
+#        # 0, 4, 8 and 12 respectively refer to beat 1, 2, 3 and 4 in 4/4
+#        on_beat_range = [i+(16*x) for x in [0, 1] for i in [0,4,8,12]]
+#        if b.origin in on_beat_range:
+#            if 
+#    def is_even_beat(self, b):
+#        
+#    def is_odd_beat(self, b):
+    
+    def length_of_beat(self, b):
+        '''
+        We prefer quarters (crotchets) and eights (quavers), then short beats,
+        then long beats, then last comes the bad, quirky and strange beats.
+        '''
+        # Sixteenths or eighths
+        if b.duration <=2:
+            return self.SHORT_BEAT
+        # Quarter or Half
+        elif b.duration in [4,8]:
+            return self.GOOD_BEAT
+        elif b.duration > 8:
+            return self.LONG_BEAT
+        else:
+            return self.BAD_BEAT
+
+    def is_syncopating_beat(self, b):
+        '''
+        If the beat ends before a downbeat (a quarter note, crotchet) it means
+        that the next beat will be on beat, meaning this beat does not 
+        syncopate the rhythm.
+        '''
+        before_on_beat_range = [i+(16*x)-1 for x in [0, 1] for i in [0,4,8,12]]
+        if b.to in before_on_beat_range:
+            return False
+        else:
+            return True
+
+    def trans_p_input(self, B, num_obs):
+        '''
+        Transition probabilities will vary depending on the number of observations
+        meaning this makes the model not a true Hidden Markov Model, instead
+        referred to as an Input Output Model in this case.
+        
+        Also models rest, the notes are not necessarily connected (no spaces 
+        in between.)
+        '''
         T = numpy.zeros(shape=(len(B),len(B)))
         ratio = round(32.0 / num_obs) # global probability peak
 #        print '\nratio: ',ratio, num_obs
