@@ -56,7 +56,7 @@ class LilypondFormatter(object):
         self.subfolder = "lilypond"
         self.select_score_name(score_name)
 
-        print self.pathname
+#        print self.pathname
 
     @property
     def pathname(self):
