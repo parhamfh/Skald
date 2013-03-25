@@ -69,7 +69,7 @@ class RhythmModel(HmmModel):
             for k in B:
                 # STEP 0: Only notes that connect
                 if b.to == k.origin-1:
-                    print "connect between {0} and {1}".format(b,k)
+                    self.dprint("connect between {0} and {1}".format(b,k))
                     #STEP 1: Categorize beat pair
                     score = self.beat_score(k)
                     T[b.i][k.i] = score
@@ -83,6 +83,17 @@ class RhythmModel(HmmModel):
 
     def beat_score(self, b):
         '''
+        This calculates the score for a beat pair for the static probability
+        model. It assumes this note is connected to the previous note (i.e it
+        starts right after the previous note, meaning no rests in between).
+        
+        It gives a score based on the length of the note, premiering notes of
+        medium length. If the note is also considered to be "syncopating" it
+        will reduce that score.
+        
+        ===
+        
+        OLD:
         om den börjar på jämn och slutar på jämn (d.v.s nästa blir udda) 
         så är det en jämn synkoperande not. osv
         
