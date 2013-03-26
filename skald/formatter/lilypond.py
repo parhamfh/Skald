@@ -12,6 +12,8 @@ class LilypondFormatter(object):
     FILENAME_EXTENSION = ".ly"
     STD_G = "g"
     STD_R = "r"
+    BARLINE = "|"
+    BARLINE_WITH_REST = "~ |"
     lyrics = None
 
     class LilypondStaff(object):
@@ -111,17 +113,37 @@ class LilypondFormatter(object):
             # Assume it is bigger than one note and contains bar sign
             note_str = note[0]
             skip_next_tilde = False
+            
+            self.reformat_middle_bars(note)
             for n in note[1:]:
-                if n == "|":
+                if n == "|" or n == "~ |":
                     note_str+=" {0}\n".format(n)
                     skip_next_tilde = True
                 elif skip_next_tilde:
+                    # This clause is true when the barline is the first
+                    # element and the preceeding note must not tie to
+                    # preceeding note list
                     note_str+="  {0}".format(n)
                     skip_next_tilde = False
                 else:
                     note_str+="~{0}".format(n)
             return note_str
-
+    
+    def reformat_middle_bars(self, note):
+        '''
+        We want to tie notes across the barline that occurs
+        in the middle of a note list. We don't want to
+        do this for barlines that occur as the first or last
+        element in the note list since that would wrongfully tie
+        the notes together with notes from other note lists (i.e from 
+        other syllables' note list)
+        '''
+        i = 0
+        while i<len(note):
+            if not i == 0 and not i == len(note)-1:
+                if note[i] == '|':
+                    note[i] = '~ |'
+            i += 1
     def format_rest_string(self, note):
         '''
         formats around bar sign (|)
@@ -182,9 +204,9 @@ class LilypondFormatter(object):
         return output
     
     def write_to_ly_file(self, output):
-        output_file = open(self.pathname,"w")
-        output_file.write(output)
-        output_file.close()
+        with open(self.pathname,"w") as output_file: 
+            output_file.write(output)
+
 
     def execute_binary(self):
         # for checking if lilypond is in path
@@ -250,19 +272,23 @@ class LilypondFormatter(object):
     def calculate_actual_notes(self, note_duration, note_start, barlines):
         nd = note_duration
         note_list = []
-        
+        print_notelist=False
         # CHECK IF REST GOES OVER BAR LINES
         is_across, next_bar_indexes = self.note_across_bar(note_start, note_start+note_duration+1, barlines)
         
         if is_across:
-            #print note_start, note_start+note_duration
-            #print is_across, next_bar_indexes
+#            print note_start, note_start+note_duration
+#            print is_across, next_bar_indexes
             # if we cross bar boundaries...
             s = note_start
             for i in next_bar_indexes:
                 if i == note_start:
                     # if the note starts on the same note as the bar "ends"
                     # assume that preceeding rest adds bar.
+                    # Addendum 26 march: Don't I mean "if it starts on
+                    # the first note of the next bar"? Since if next_bar_indexes
+                    # contains [16], which it usually does, 16 represents
+                    # the first note of the second bar...
                     continue
                 #for each bar fill out with rests
                 note_list.extend(self.fill_duration_with_notes(i-s))
@@ -270,6 +296,7 @@ class LilypondFormatter(object):
                 s = i+1
                 note_list.append("|")
                 barlines.remove((i-1,i))
+            print_notelist= True
         
         # Big notes -> Smaller notes. Whole -> 16th
         for i in [16, 8, 4, 2, 1]:
@@ -278,6 +305,8 @@ class LilypondFormatter(object):
                 note_list.extend(output)
                 nd = left
 
+        if print_notelist:
+            print note_list, "LOLLA PA MIG"
         return note_list
     
 
@@ -285,7 +314,7 @@ class LilypondFormatter(object):
         return_list = []
         # Whole, half, quarters, eigths, sixteens
         for i in [16, 8 , 4, 2, 1]:
-            #print "\nTrying to fit note of %s length"%i
+#            print "\nTrying to fit note of %s length"%i
             output, left = self.fit_notes(duration, i)
             if output is not None:
                 return_list.extend(output)
@@ -298,10 +327,10 @@ class LilypondFormatter(object):
         left = rest_length-duration
         
         if num_notes > 0:
-            #print "nr of notes that fit: %s"%num_notes
-            #print "duration of fitted notes in 16ths: %s"%duration
-            #print "notes left that did not fit: %s"%left
-            #print note_length, ':', num_notes, duration, left
+#            print "nr of notes that fit: %s"%num_notes
+#            print "duration of fitted notes in 16ths: %s"%duration
+#            print "notes left that did not fit: %s"%left
+#            print note_length, ':', num_notes, duration, left
 
             # Is it dotted?
             if self.is_dotted(left, note_length):
@@ -558,9 +587,8 @@ if __name__ == '__main__':
                 
                 Syllable('hjäss','SHORT','UNSTRESSED'),
                 Syllable('a','SHORT','UNSTRESSED')])
-    
+
     bps = BeatPathSet(4)
-    
     bps[0] = [BeatPair(4,10,128),
                 BeatPair(11,15,301),
                 BeatPair(16,17,393),
@@ -619,5 +647,23 @@ if __name__ == '__main__':
                 BeatPair(30,30,525),
                 BeatPair(31,31,527)]
     
+#    obs = SyllableSet()
+#    bps = BeatPathSet(1)
+#    obs.append([Syllable('än','SHORT','UNSTRESSED'),
+#                
+#                Syllable('storm','SHORT','UNSTRESSED'),
+#                Syllable('ar','SHORT','UNSTRESSED'),
+#                Syllable('nas','SHORT','UNSTRESSED'),
+#                
+#                Syllable('brus','SHORT','UNSTRESSED'),
+#                
+#                Syllable('går','SHORT','UNSTRESSED'), Syllable('SUN', 'SHORT', 'UNSTRESSED')])
+#    bps[0] = [BeatPair(0,3,3),          # 4 long
+#                BeatPair(4,11,129),     # 8 long
+#                BeatPair(12,19,325),    # 8 long
+#                BeatPair(20,23,452),    # 4 long
+#                BeatPair(24,27,495),    # 4 long 
+#                BeatPair(28,31,521)]    # 4 long
+
     p = LilypondFormatter(bps, obs)
     p.make_ly_file()

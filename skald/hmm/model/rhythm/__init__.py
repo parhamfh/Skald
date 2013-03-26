@@ -44,7 +44,9 @@ class RhythmModel(HmmModel):
         if start_p is not None:
             self.start_p = start_p
         else:
-            self.start_p = [1.0/len(self.B) for _ in self.B]
+            # self.start_p = [1.0/len(self.B) for _ in self.B]
+            a = [1.0/x for x in range(1,33)]
+            self.start_p = [aa/sum(a) for aa in a]
 
         # The transition probabilities between each hidden state
 #        self.T = self.trans_p_input(self.B, len(obs))
