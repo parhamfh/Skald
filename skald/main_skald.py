@@ -192,7 +192,6 @@ class Skald(object):
             
             for i in [0, 1, 2,5,6]:
                 syllables[3][i].e="STRESSED"
-            
             for i in [0,1,2,5,6]:
                 syllables[4][i].e="STRESSED"
             

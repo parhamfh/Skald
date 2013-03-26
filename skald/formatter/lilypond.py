@@ -272,7 +272,6 @@ class LilypondFormatter(object):
     def calculate_actual_notes(self, note_duration, note_start, barlines):
         nd = note_duration
         note_list = []
-        print_notelist=False
         # CHECK IF REST GOES OVER BAR LINES
         is_across, next_bar_indexes = self.note_across_bar(note_start, note_start+note_duration+1, barlines)
         
@@ -296,7 +295,6 @@ class LilypondFormatter(object):
                 s = i+1
                 note_list.append("|")
                 barlines.remove((i-1,i))
-            print_notelist= True
         
         # Big notes -> Smaller notes. Whole -> 16th
         for i in [16, 8, 4, 2, 1]:
@@ -305,8 +303,6 @@ class LilypondFormatter(object):
                 note_list.extend(output)
                 nd = left
 
-        if print_notelist:
-            print note_list, "LOLLA PA MIG"
         return note_list
     
 
