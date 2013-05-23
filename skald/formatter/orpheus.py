@@ -8,6 +8,7 @@ class OrpheusFormatter(object):
     PYTHON = 0
     STDOUT = 1
     
+    DEFAULT_SUBFOLDER_STEM = 'output'
     SUBFOLDER_NAME = 'orpheus'
     FILENAME_STEM = 'verse'
     FILENAME_EXTENSION = 'orp'
@@ -46,9 +47,11 @@ class OrpheusFormatter(object):
     @property
     def subfolder(self):
         if self.output_format == OrpheusFormatter.PYTHON:
-            return os.path.join(self.SUBFOLDER_NAME, 'python')
+            return os.path.join(self.DEFAULT_SUBFOLDER_STEM,
+                                self.SUBFOLDER_NAME, 'python')
         elif self.output_format == OrpheusFormatter.STDOUT:
-            return os.path.join(self.SUBFOLDER_NAME, 'stdout')
+            return os.path.join(self.DEFAULT_SUBFOLDER_STEM,
+                                self.SUBFOLDER_NAME, 'stdout')
 
     @property
     def file_extension(self):

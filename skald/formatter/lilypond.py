@@ -55,6 +55,7 @@ class LilypondFormatter(object):
         self.t_s = "%s/%s"%(time_signature[0],time_signature[1])
         self.clef = clef
 
+        self.default_subfolder_stem = ""
         self.subfolder = "lilypond"
         self.select_score_name(score_name)
 
@@ -62,7 +63,8 @@ class LilypondFormatter(object):
 
     @property
     def pathname(self):
-        return path.join(self.subfolder,self.filename)
+        return path.join(self.default_subfolder_stem,
+                         self.subfolder,self.filename)
 
     @property
     def filename(self):
