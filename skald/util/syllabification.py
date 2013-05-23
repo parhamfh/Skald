@@ -8,6 +8,12 @@ Created on Feb 6, 2013
 from skald.hmm.model.rhythm.elements import Syllable
 
 class SyllableTokenizer(object):
+    '''
+    See the following Github issue for a discussion regarding the current and 
+    desired solution for mocking:
+    
+    https://github.com/parhamfh/Skald/issues/17
+    '''
     def __new__(cls, *args, **kwargs):
         if kwargs.pop('mock', None):
             return MockSyllableTokenizer()

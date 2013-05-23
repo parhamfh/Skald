@@ -7,6 +7,17 @@ Created on Jan 3, 2013
 from os.path import expanduser
 
 class MetaMock(type):
+    '''
+    I actually wanted this functionality, together with
+    the __new__() function in the InputParser class to be broken out
+    into a separate module (skald.misc.mock) but I have not currently been
+    successful in getting this to work.
+    
+    See the following Github issue for a discussion regarding the current and 
+    desired solution for mocking:
+    
+    https://github.com/parhamfh/Skald/issues/17
+    '''
     def __call__(self, *args, **kwargs):
         obj = self.__new__(self, *args, **kwargs)
         if "mock" in kwargs:
