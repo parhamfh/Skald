@@ -43,7 +43,8 @@ class Skald(object):
             else:
                 self.mock_hmm = False
             self.mock = True
-
+        
+        self.health_model = health_model
         if health_model:
             print 'Running Wikipedia example: Health model.'
             from skald.hmm.model.health import HealthModel
@@ -91,14 +92,15 @@ class Skald(object):
                 raise RuntimeError('Invalid input.'\
                             'Please check input constraints.')
 
-            ## SEE GITHUB issues! Mock stuff here anyway
             self.phonemes = self.transcribe_input(mock = mock)
             
             self.mark_syllables_for_stress(self.syllables, self.phonemes)
 
     
     def run(self, no_score = False, no_orpheus = False):
-        
+        if self.health_model:
+            sys.exit("You cannot use run() when using the Health model. Exiting...")
+
         if self.mock_hmm:
             self.mock_model()
         else:            

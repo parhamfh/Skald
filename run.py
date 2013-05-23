@@ -37,7 +37,8 @@ if args.model_choice == 'R':
     
 elif args.model_choice == 'H':
     s = Skald(health_model=True, mock = args.mock)
-
+    #s.run()
+    
 else:
     raise RuntimeError("Unknown choice of model. (should not be possible to get this message)")
 
