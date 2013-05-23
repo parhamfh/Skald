@@ -14,7 +14,7 @@ parser.add_argument('-l','--no-lilypond', dest='no_lilypond', action='store_true
 parser.add_argument('-o','--orpheus', dest='no_orpheus',action='store_true',
                     help="Do not produce output for Orpheus.")
 parser.add_argument('-M','--mock', dest='mock', action='count',
-                    help="Mock input. If '-M' flag is given twice also mocks"+ 
+                    help="Mock input. If '-M' flag is given twice also mocks "+ 
                     "calculations")
 #parser.add_argument('-t',choices=['input','transcribing']
                     # help='Test only specified functionality/module.')
