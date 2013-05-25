@@ -1,4 +1,4 @@
-from skald.transcribe.remote import RemotePhoneticTranscriber
+from remote import RemotePhoneticTranscriber
 
 
 class PhoneticTranscriber(object):

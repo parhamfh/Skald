@@ -7,7 +7,7 @@ Created on Feb 6, 2013
 '''
 from skald.hmm.model.rhythm.elements import Syllable
 
-class SyllableTokenizer(object):
+class Syllabifyer(object):
     '''
     See the following Github issue for a discussion regarding the current and 
     desired solution for mocking:
@@ -16,11 +16,11 @@ class SyllableTokenizer(object):
     '''
     def __new__(cls, *args, **kwargs):
         if kwargs.pop('mock', None):
-            return MockSyllableTokenizer()
+            return MockSyllabifyer()
         
-        return RealSyllableTokenizer(*args, **kwargs)
+        return RealSyllabifyer(*args, **kwargs)
        
-class RealSyllableTokenizer(object):
+class RealSyllabifyer(object):
     
     def __init__(self, list_per_newline = True):
         pass
@@ -28,7 +28,7 @@ class RealSyllableTokenizer(object):
     def get_syllable_set(self):
         pass
     
-class MockSyllableTokenizer(object):
+class MockSyllabifyer(object):
     
     def get_syllable_set(self):
 #            self.observed = [Syllable("Tom","SHORT","UNSTRESSED"),

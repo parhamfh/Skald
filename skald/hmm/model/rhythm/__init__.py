@@ -127,7 +127,7 @@ class RhythmModel(HmmModel):
 #            raise BeatTypeException("Cannot determine type of beat. {0}".format
 #                                    (b))
         return score
-    
+
 #    def is_on_beat(self, b):
 #                
 #        # 0, 4, 8 and 12 respectively refer to beat 1, 2, 3 and 4 in 4/4
@@ -137,7 +137,7 @@ class RhythmModel(HmmModel):
 #    def is_even_beat(self, b):
 #        
 #    def is_odd_beat(self, b):
-    
+
     def length_of_beat(self, b):
         '''
         We prefer quarters (crotchets) and eights (quavers), then short beats,

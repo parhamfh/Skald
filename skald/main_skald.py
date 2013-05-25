@@ -14,10 +14,9 @@ from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
 from skald.formatter.lilypond import LilypondFormatter
 from skald.formatter.orpheus import OrpheusFormatter
 
-from skald.parser import InputParser
-from skald.util.syllabification import SyllableTokenizer
-from skald.transcribe import PhoneticTranscriber
 from skald.pd.sounder import Sounder
+
+from skald.handler.user_input import UserInputHandler
 
 class Skald(object):
     '''
@@ -59,48 +58,52 @@ class Skald(object):
 
         else:
             print 'Running Rhythm model calculations.'
-
-            self.raw_input = self.query_for_input(mock)
-
-
-            '''
-                THIS IS A REALLY STRANGE PROCESS
-                
-                should be that you take in input
-                - transcribe it phonetically
-                - then somehow syllabalize the phonetic (which we want only for
-                    stress currently) and the normal representations
-                - link them, and make sure the right syllables retain the 
-                    correct stress markers/values
-                    
-                Also look over how data is passed
-                some of it is passed to functions, like the mock
-                and sometimes it is stored in global attributes
-                (raw_input, phonemes, etc). Is this consistent behaviour?
-                I think that they should be passed, but saved in attributes.
-                Fetched when they are supplimental, and given as parameters
-                when they are the object of transformation, data source etc to
-                a function.
-                
-            '''
-            s_tokenizer = SyllableTokenizer(self.raw_input, mock = mock)
-
-            #returns a SyllableSet
-            self.syllables = s_tokenizer.get_syllable_set()
-
-            if not self.validate_input(self.syllables):
-                raise RuntimeError('Invalid input.'\
-                            'Please check input constraints.')
-
-            self.phonemes = self.transcribe_input(mock = mock)
             
-            self.mark_syllables_for_stress(self.syllables, self.phonemes)
+            self.uinput_handler = UserInputHandler(self.mock)
 
+            '''
+            THIS IS A REALLY STRANGE PROCESS
+            
+            should be that you take in input
+            - transcribe it phonetically
+            - then somehow syllabalize the phonetic (which we want only for
+                stress currently) and the normal representations
+            - link them, and make sure the right syllables retain the 
+                correct stress markers/values
+                
+            Also look over how data is passed
+            some of it is passed to functions, like the mock
+            and sometimes it is stored in global attributes
+            (raw_input, phonemes, etc). Is this consistent behaviour?
+            I think that they should be passed, but saved in attributes.
+            Fetched when they are supplimental, and given as parameters
+            when they are the object of transformation, data source etc to
+            a function.
+                
+            '''
+#            self.raw_input = self.query_for_input(mock)
+#            s_tokenizer = SyllableTokenizer(self.raw_input, mock = mock)
+#
+#            #returns a SyllableSet
+#            self.syllables = s_tokenizer.get_syllable_set()
+#
+#            if not self.validate_input(self.syllables):
+#                raise RuntimeError('Invalid input.'\
+#                            'Please check input constraints.')
+#
+#            self.phonemes = self.transcribe_input(mock = mock)
+#            
+#            self.mark_syllables_for_stress(self.syllables, self.phonemes)
+            
     
     def run(self, no_score = False, no_orpheus = False):
         if self.health_model:
             sys.exit("You cannot use run() when using the Health model. Exiting...")
-
+        
+        # List of Observations, one for each row. So a set of syllables for each
+        # row. SyllableSet?
+        self.observations=self.uinput_handler.input_to_observations()
+        
         if self.mock_hmm:
             self.mock_model()
         else:            
@@ -113,8 +116,6 @@ class Skald(object):
             self.generate_orpheus_output(self.beat_paths, self.observations)
 
     def mock_model(self):
-        self.observations = self.syllables
-
         from skald.hmm.model.rhythm.elements import BeatPath
         
         self.beat_paths = BeatPathSet(8, paths = [
@@ -129,9 +130,6 @@ class Skald(object):
                                          )
 
     def run_model(self):
-        self.observations = self.syllables
-        # Sets of Syllables
-#        if isinstance(self.observations, SyllableSet):
         o_len = len(self.observations)
         self.hmm = [None] * o_len
         self.beat_paths = BeatPathSet(o_len)
@@ -168,20 +166,7 @@ class Skald(object):
         sounder = Sounder(num_beats)
         sounder.set_notes(sendlist)
         sounder.send_notes()
-    
-    def query_for_input(self, mock = None):
-        p = InputParser(mock = mock)
-        return p.prompt_for_input()
-    
-    def validate_input(self, syllables):
-        
-        sys.stdout.write('\nWARNING! Validation not implemented in Skald \n\n')
-        # Check that there is only Swedish letters
 
-        # Check length of each line (number of syllables)
-#        self.check_dispersion(syllables)
-        return True
-    
     def check_dispersion(self, syllabel_set):
         '''
         Each staff is a maximum of 32 syllables, each syllable representing at 
@@ -194,45 +179,4 @@ class Skald(object):
         '''
         return True
 
-    def transcribe_input(self, text_input = None, mock = None):
-        if not text_input:
-            text_input = self.raw_input
-
-        ph = PhoneticTranscriber(text_input, mock = mock)
-        
-        transcribed_input = ph.transcribe()
-        return transcribed_input
-    
-    def mark_syllables_for_stress(self, syllables, phonemes):
-        if self.mock:
-            for i in [0,2,3,5,7]:
-                syllables[0][i].e="STRESSED"
-            
-            for i in [0,3,4]:
-                syllables[1][i].e="STRESSED"
-            
-            for i in [0,2,4,5]:
-                syllables[2][i].e="STRESSED"
-            
-            for i in [0, 1, 2,5,6]:
-                syllables[3][i].e="STRESSED"
-            for i in [0,1,2,5,6]:
-                syllables[4][i].e="STRESSED"
-            
-            for i in [0,1,4,5]:
-                syllables[5][i].e="STRESSED"
-            
-            for i in [0,3,5,8]:
-                syllables[6][i].e="STRESSED"
-            
-            for i in [1,2,3]:
-                syllables[7][i].e="STRESSED"
-
-#            for s in self.syllables:
-#                print '---'
-#                print s
-            return syllables
-        
-        else:
-            print 'Stress marking Not implemented yet...'
         
