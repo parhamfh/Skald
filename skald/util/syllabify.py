@@ -115,11 +115,8 @@ class RealSyllabifyer(object):
         ## 2.2
         self._merge_consonant_clusters(word)
         ## 2.3
-        print 'word before isolation:', word.word
         self._ljoin_isolated_consonants(word)
-        
-        print '\n\n'
-        
+         
         
     def _split_long_consonants(self, word):
         '''
@@ -192,7 +189,12 @@ class RealSyllabifyer(object):
         programmerar det?
         
         
-        BEHOVER LISTA PA FONOTAKTISKT TILL{TNA KOMBINATIONER 
+        BEHOVER LISTA PA FONOTAKTISKT TILLÅTNA KOMBINATIONER
+        
+        dessutom... jag använder ju grafem, medan fonotaktiska regler
+        beskriver hur det funkar för _fonem_ så ... vi blundar för det bara?
+        vad kan jag skriva i rapporten? :)
+         
         '''
         pass
     
@@ -206,7 +208,6 @@ class RealSyllabifyer(object):
         last_index = len(new)
         i = 0
         while i < last_index:
-            print new[i]
             if not pattern.search(new[i]):
                 # isolated consonants
                 # join with left syllable group
@@ -217,7 +218,7 @@ class RealSyllabifyer(object):
                 last_index -= 1
             i += 1
         
-        print new
+        word.replace_word('.'.join(new))
         
     @property
     def syllables(self):
