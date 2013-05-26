@@ -50,7 +50,9 @@ class InputParser(object):
         
         # Prompt sysin for the text. should be able to pipe in text file
         # via terminal
-        inp = self.read_from_stdin('Please enter text to be cadenced.\n')
+        inp = self.read_from_stdin('Please enter text to be cadenced.\n'+\
+                                   'You can jump to the next line by pressing'+\
+                                   ' Enter.\nPress Enter twice to finish.\n')
         return inp
     
     def _read_from_file(self):
@@ -70,8 +72,7 @@ class InputParser(object):
                 string_buffer += "\n{0}".format(inpu)
             else:
                 second_newline = True
-        print "string buffer contains: '{0}'".format(
-                                        unicode(string_buffer).encode('utf8'))
+        #print "string buffer contains: '{0}'".format(unicode(string_buffer).encode('utf8'))
         return string_buffer
 
 class MockInputParser(object):
