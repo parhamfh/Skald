@@ -5,6 +5,8 @@ Created on Feb 6, 2013
 
 @author: parhamfh
 '''
+import re
+
 from skald.hmm.model.rhythm.elements import Syllable
 
 class Syllabifyer(object):
@@ -22,11 +24,207 @@ class Syllabifyer(object):
        
 class RealSyllabifyer(object):
     
-    def __init__(self, list_per_newline = True):
+    class Word(object):
+        '''
+        Help class for manipulating words when syllabifying them
+        '''
+        def __init__(self,word):
+            self._word = word
+
+        def repl(self, a,b):
+            '''
+            Replace character <a> with <b> in self.word
+            '''
+            self._word = self._word.replace(a,b)
+            
+        @property
+        def word(self):
+            return self._word
+        
+        @property
+        def length(self):
+            return len(self.word)
+            
+        def replace_word(self, new_word):
+            self._word = new_word
+
+    def __init__(self, ortographic_text, list_per_newline = True):
+        '''
+        If list_per_newline is true all syllables will be put in one list,
+        meaning that the entire purpose of dividing up the syllables by sentence
+        which is needed for using them as input to the model is disregarded.
+        Why this functionality exists is not clear. Debugging?
+        
+        @param ortographic_text: The ortographic text to be syllabifyed.
+        @type ortographic_text: String
+        @param list_per_newline: Put all syllables in one list or per sentence.
+        @type list_per_newline: bool
+        '''
+        self.ortographic_text = ortographic_text
+        self.list_per_newline = list_per_newline
+        
+    def syllabify(self):
+        '''
+        Returns a list of syllables per sentence. The syllables are grouped in
+        lists per word. 
+        
+        Example:
+        
+        Input:
+            'Min fader är här."
+        
+        Output:
+            [['Min'],['Fa','der'],['är'],['här']]
+        '''
+        self._syllables = []
+        for sentence in self.ortographic_text.split('\n'):
+            words = []
+            for word in sentence.split():
+                w = self.Word(word)
+                self.syllabify_word(w)
+                words.append(w.word)
+            self._syllables.append(words)
+        print self.syllables
+
+    def syllabify_word(self, word):
+        '''
+        Syllabify word according to Bannerts 2 rules.
+        
+        Rule 1. Insert a syllable boundary (.):
+                    (a) after each vowel (between V and C)
+                    (b) between vowels
+
+        Rule 2. Adjust to the following structural conditions: 
+            2.1 Long consonants: split the long C: into two C, 
+                the first one becomes coda
+            2.2 Consonant cluster: move syllable boundary to the right as 
+                phonotactic constraints permit. 
+            2.3 Isolated consonants or clusters (left overs): adjoin to the 
+                left (delete syllable boundary according to Rule 1)
+        '''
+        # RULE 1 (Basically a dot after each vowel)
+        map(lambda x: word.repl(x,"{0}.".format(x)), 'aiueoyåäö')  
+        
+        # If last letter is a vowel, last character will be a dot. Remove it.
+        if word.word[-1] == '.':
+            word.replace_word(word.word[:-1])
+        
+        # RULE 2
+        ## 2.1
+        self._split_long_consonants(word)
+        ## 2.2
+        self._merge_consonant_clusters(word)
+        ## 2.3
+        print 'word before isolation:', word.word
+        self._ljoin_isolated_consonants(word)
+        
+        print '\n\n'
+        
+        
+    def _split_long_consonants(self, word):
+        '''
+        Exercises Rule 2.1 on word
+        '''
+        skip_next = False
+        last_index = word.length-1
+        i = 0
+        
+        while i < last_index:
+            if not skip_next:
+                # Long consonant, so split consonants (rule 2.1)
+                if word.word[i] == word.word[i+1]:
+                    skip_next = True
+                    word.replace_word(word.word[:i+1] + "." + word.word[i+1:])
+                    # Skip the syllable boundary marker
+                    i += 1
+                    # since we added an extra character the string is longer
+                    last_index += 1
+            elif skip_next:
+                skip_next = False
+            i += 1
+
+    def _merge_consonant_clusters(self, word):
+        '''
+        Exercises Rule 2.2 on word
+        
+        
+        
+        http://www.liu.se/ikk/ssa/ssa1/powerpoint/1.362742/Powerpoint3fonetikSSA.pdf
+        Så fonotaxiska regler gäller även för stavelser? så klart?
+        
+        t.ex word before isolation: o.m.ma.na.pa.rsi.g
+        ??
+        
+        <rs> är inte tillåten enligt fonotaxiska regler i svenskan så vi flyttar
+        in en gräns? behöver lista av tillåtna 
+        
+        så vad ska jag göra?
+        
+        move syllable boundary to the right as 
+                phonotactic constraints permit.
+                
+        är lite luddigt.
+        
+        ett kluster av konsonanter ser väl ut så här .kskw. och då ska jag
+        _lägga_ ut nya gränser? finns ju inga gränser att flytta på eller hur?
+        kommer ju aldrig titta på en grupp som t.ex .l.ls.
+        
+        eller ska jag flytta?
+        
+        ['nor', 'rla', 'ndska']
+
+        i det har fallet ska r:et i 'rla' till vänster eller hur? och
+        nd ska till vänster i 'ndska'
+        
+        DETTA FUNKAR för det som står i vägen är dubbel konsonanter, och de
+        har vi tagit hand om då vi bestämt att den vänstra konsonanten i ett
+        sådant par blir en koda. Vi ska med andra ord inte flytta in den igen
+        genom att flytta gränsen över det högra paret igen.
+        
+        t.ex det ovan
+        
+        nor rla 
+        
+        ska vi inte titta på 'rrla' utan 'rla' för vänstra äret är redan bundet
+        till 'no'
+        
+        men 2.1 och 2.2 kanske kan slås ihop för det sker samtidigt när vi
+        programmerar det?
+        
+        
+        BEHOVER LISTA PA FONOTAKTISKT TILL{TNA KOMBINATIONER 
+        '''
         pass
     
+    def _ljoin_isolated_consonants(self, word):
+        '''
+        Exercises Rule 2.3 on word
+        '''
+        new = word.word.split('.')
+        pattern = re.compile('[aiueoyåäö]')
+        
+        last_index = len(new)
+        i = 0
+        while i < last_index:
+            print new[i]
+            if not pattern.search(new[i]):
+                # isolated consonants
+                # join with left syllable group
+                new[i-1] = new[i-1]+new[i]
+                new.pop(i)
+                # Moving pointer left, since we removed item (list is smaller)
+                i -= 1 
+                last_index -= 1
+            i += 1
+        
+        print new
+        
+    @property
+    def syllables(self):
+        return self._syllables
+
     def get_syllable_set(self):
-        pass
+        return self.syllables
     
 class MockSyllabifyer(object):
     

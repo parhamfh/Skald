@@ -31,8 +31,9 @@ class UserInputHandler(object):
         self.get_input()
         
         # STEP 1: Syllabify ortographic text
-        s_tokenizer = Syllabifyer(self.ortographic_text, mock = self.mock)
-        self.syllables = s_tokenizer.get_syllable_set()
+        syllabifyer = Syllabifyer(self.ortographic_text, mock = self.mock)
+        syllabifyer.syllabify()
+        self.syllables = syllabifyer.get_syllable_set()
         
         # STEP 2: Validate input
         if not self.validate_input(self.syllables):
