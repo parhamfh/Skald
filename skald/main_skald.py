@@ -42,6 +42,8 @@ class Skald(object):
             else:
                 self.mock_hmm = False
             self.mock = True
+        else:
+            self.mock = False
         
         self.health_model = health_model
         if health_model:
@@ -102,10 +104,11 @@ class Skald(object):
         
         # List of Observations, one for each row. So a set of syllables for each
         # row. SyllableSet?
-        self.observations=self.uinput_handler.input_to_observations()
+        self.observations = self.uinput_handler.input_to_observations()
         
-        if self.mock_hmm:
-            self.mock_model()
+        if self.mock:
+            if self.mock_hmm:
+                self.mock_model()
         else:            
             self.run_model()
             
