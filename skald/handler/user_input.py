@@ -29,18 +29,20 @@ class UserInputHandler(object):
         
         # STEP 0: Get input from user
         self.get_input()
-        
         # STEP 1: Syllabify ortographic text
+
         syllabifyer = Syllabifyer(self.ortographic_text, mock = self.mock)
         syllabifyer.syllabify()
         self.syllables = syllabifyer.get_syllable_set()
+        
+        print '\n-----\n'.join(' ||| '.join(y for y in x ) for x in self.syllables)
         
         # STEP 2: Validate input
         if not self.validate_input(self.syllables):
             raise RuntimeError('Invalid input.'\
                         'Please check input constraints.')
         
-        # STEP 3: Translate user input to phonetic version
+        # STEP 3: Translate user input to phonetic version (maybe remotely)
         self.phonetic_text = self.transcribe_input(self.ortographic_text,
                                                mock = self.mock)
         
@@ -65,11 +67,11 @@ class UserInputHandler(object):
 #        self.check_dispersion(syllables)
         return True
     
-    def transcribe_input(self, text_input = None, mock = None):
+    def transcribe_input(self, text_input = None, mode = None, mock = None):
         if not text_input:
             text_input = self.raw_input
 
-        ph = PhoneticTranscriber(text_input, mock = mock)
+        ph = PhoneticTranscriber(text_input, mode = mode, mock = mock)
         
         transcribed_input = ph.transcribe()
         return transcribed_input
