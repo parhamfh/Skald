@@ -28,15 +28,18 @@ class RealSyllabifyer(object):
         '''
         Help class for manipulating words when syllabifying them
         '''
-        def __init__(self,word):
+        def __init__(self,word, debug = False):
             self._word = word
-
+            self._debug = debug 
         def repl(self, a,b):
             '''
-            Replace character <a> with <b> in self.word
-            '''
-            self._word = self._word.replace(a,b)
+            Replace character <a> with <b> in self.word.
             
+            Ignores case.
+            '''
+            if self._debug:
+                print "{0}: repl(a='{1}' b='{2}')".format(self._word, a , b)
+            self._word = self._word.replace(a,b)
         @property
         def word(self):
             return self._word
