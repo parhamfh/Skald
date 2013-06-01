@@ -1,5 +1,4 @@
 # coding: utf8
-
 '''
 Created on Feb 6, 2013
 
@@ -87,7 +86,6 @@ class RealSyllabifyer(object):
                 self.syllabify_word(w)
                 words.append(w.word)
             self._syllables.append(words)
-        print self.syllables
 
     def syllabify_word(self, word):
         '''
@@ -128,7 +126,6 @@ class RealSyllabifyer(object):
         self._merge_consonant_clusters(word)
         ## 2.3
         self._ljoin_isolated_consonants(word)
-         
         
     def _split_long_consonants(self, word):
         '''
@@ -219,9 +216,10 @@ class RealSyllabifyer(object):
         
         last_index = len(new)
         i = 0
+
         while i < last_index:
             if not pattern.search(new[i]):
-                # isolated consonants
+                # isolated consonant/s
                 # join with left syllable group
                 new[i-1] = new[i-1]+new[i]
                 new.pop(i)
