@@ -106,7 +106,16 @@ class RealSyllabifyer(object):
                 left (delete syllable boundary according to Rule 1)
         '''
         # RULE 1 (Basically a dot after each vowel)
-        map(lambda x: word.repl(x,"{0}.".format(x)), 'aiueoyåäö')  
+        
+        # approach 1 (preferred)
+        sub_str = 'a i u e o y å ä ö'.split() 
+        map(lambda x: word.repl(x,"{0}.".format(x)), sub_str)
+        
+        # approach 2 - breaks step 2.3 and requires that Word class stores
+        # self._word as a unicode string (unicode) and not byte string (str).
+        
+        # unicode_substr = u'aiueoyåäö'
+        # map(lambda x: word.repl(x,u"{0}.".format(x)), unicode_substr)
         
         # If last letter is a vowel, last character will be a dot. Remove it.
         if word.word[-1] == '.':
