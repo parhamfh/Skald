@@ -28,8 +28,10 @@ class RealSyllabifyer(object):
         Help class for manipulating words when syllabifying them
         '''
         def __init__(self,word, debug = False):
-            self._word = word
+            self._syllabified_word = word.lower()
+            self._original_word = word
             self._debug = debug 
+            
         def repl(self, a,b):
             '''
             Replace character <a> with <b> in self.word.
@@ -37,18 +39,32 @@ class RealSyllabifyer(object):
             Ignores case.
             '''
             if self._debug:
-                print "{0}: repl(a='{1}' b='{2}')".format(self._word, a , b)
-            self._word = self._word.replace(a,b)
-        @property
-        def word(self):
-            return self._word
+                print "{0}: repl(a='{1}' b='{2}')".format(self.s_word, a , b)
+            self.s_word = self.s_word.replace(a,b)
         
         @property
-        def length(self):
-            return len(self.word)
+        def word(self):
+            assert False
+            return self._word
+
+        @property
+        def original_word(self):
+            return self._original_word
+        
+        @property
+        def s_word(self):
+            return self._syllabified_word
+        
+        @s_word.setter
+        def s_word(self, x):
+            self._syllabified_word = x
+        
+        @property
+        def s_length(self):
+            return len(self.s_word)
             
-        def replace_word(self, new_word):
-            self._word = new_word
+        def replace_s_word(self, new_word):
+            self.s_word = new_word
 
     def __init__(self, ortographic_text, list_per_newline = True):
         '''
@@ -84,7 +100,7 @@ class RealSyllabifyer(object):
             for word in sentence.split():
                 w = self.Word(word)
                 self.syllabify_word(w)
-                words.append(w.word)
+                words.append(w.s_word)
             self._syllables.append(words)
 
     def syllabify_word(self, word):
@@ -116,8 +132,8 @@ class RealSyllabifyer(object):
         # map(lambda x: word.repl(x,u"{0}.".format(x)), unicode_substr)
         
         # If last letter is a vowel, last character will be a dot. Remove it.
-        if word.word[-1] == '.':
-            word.replace_word(word.word[:-1])
+        if word.s_word[-1] == '.':
+            word.replace_s_word(word.s_word[:-1])
         
         # RULE 2
         ## 2.1
@@ -132,18 +148,18 @@ class RealSyllabifyer(object):
         Exercises Rule 2.1 on word
         '''
         skip_next = False
-        last_index = word.length-1
+        last_index = word.s_length-1
         i = 0
         
         while i < last_index:
             if not skip_next:
                 # Long consonant, so split consonants (rule 2.1)
-                if word.word[i] == word.word[i+1]:
+                if word.s_word[i] == word.s_word[i+1]:
                     skip_next = True
-                    word.replace_word(word.word[:i+1] + "." + word.word[i+1:])
+                    word.replace_s_word(word.s_word[:i+1] + "." + word.s_word[i+1:])
                     # Skip the syllable boundary marker
                     i += 1
-                    # since we added an extra character the string is longer
+                    # Since we added an extra character the string is longer
                     last_index += 1
             elif skip_next:
                 skip_next = False
@@ -211,8 +227,8 @@ class RealSyllabifyer(object):
         '''
         Exercises Rule 2.3 on word
         '''
-        new = word.word.split('.')
-        pattern = re.compile('[aiueoyåäö]')
+        new = word.s_word.split('.')
+        pattern = re.compile('[aiueoyåäö]', re.IGNORECASE)
         
         last_index = len(new)
         i = 0
@@ -228,7 +244,7 @@ class RealSyllabifyer(object):
                 last_index -= 1
             i += 1
         
-        word.replace_word('.'.join(new))
+        word.replace_s_word('.'.join(new))
         
     @property
     def syllables(self):
@@ -240,9 +256,6 @@ class RealSyllabifyer(object):
 class MockSyllabifyer(object):
     
     def get_syllable_set(self):
-#            self.observed = [Syllable("Tom","SHORT","UNSTRESSED"),
-#                             Syllable("ten","LONG","STRESSED"),
-#                             Syllable("par","SHORT","UNSTRESSED")]
         ss = SyllableSet()
         ss.append([Syllable('Vo','SHORT','UNSTRESSED'),
                     Syllable('re','SHORT','UNSTRESSED'),
@@ -331,7 +344,7 @@ class MockSyllabifyer(object):
                     Syllable('a','SHORT','UNSTRESSED')])
         return ss
 
-# SHOULD BE DICT INSTEAD
+# SHOULD BE DICT INSTEAD - why?
 class SyllableSet(list):
         pass
 #    def __init__(self, length):
