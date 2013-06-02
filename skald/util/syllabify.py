@@ -38,15 +38,13 @@ class RealSyllabifyer(object):
             
             Ignores case.
             '''
-            if self._debug:
+            if self.debug:
                 print "{0}: repl(a='{1}' b='{2}')".format(self.s_word, a , b)
             self.s_word = self.s_word.replace(a,b)
         
         @property
-        def word(self):
-            assert False
-            return self._word
 
+                
         @property
         def original_word(self):
             return self._original_word
@@ -60,11 +58,22 @@ class RealSyllabifyer(object):
             self._syllabified_word = x
         
         @property
+        def syllabified_word(self):
+            import sys
+            sys.stderr.write('WARNING! Do not use this property!'+\
+                             ' Use s_word property instead.')
+            return self.s_word
+
+        @property
         def s_length(self):
-            return len(self.s_word)
+            return len(unicode(self.s_word,encoding='utf8'))
             
         def replace_s_word(self, new_word):
             self.s_word = new_word
+    
+        @property
+        def debug(self):
+            return self._debug
 
     def __init__(self, ortographic_text, list_per_newline = True):
         '''
@@ -100,7 +109,7 @@ class RealSyllabifyer(object):
             for word in sentence.split():
                 w = self.Word(word)
                 self.syllabify_word(w)
-                words.append(w.s_word)
+                words.append(w.final_word)
             self._syllables.append(words)
 
     def syllabify_word(self, word):
@@ -168,7 +177,7 @@ class RealSyllabifyer(object):
     def _merge_consonant_clusters(self, word):
         '''
         Exercises Rule 2.2 on word
-        
+        Apply fonotactic rules.
         
         
         http://www.liu.se/ikk/ssa/ssa1/powerpoint/1.362742/Powerpoint3fonetikSSA.pdf
