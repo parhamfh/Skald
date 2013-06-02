@@ -43,6 +43,27 @@ class RealSyllabifyer(object):
             self.s_word = self.s_word.replace(a,b)
         
         @property
+        def final_word(self):
+            try:
+                return self._final._word
+            except:
+                self.finalize_syllabification()
+                return self._final_word
+        
+        def finalize_syllabification(self):
+            self._final_word = unicode(self.original_word, encoding='utf8')
+            s = unicode(self.s_word,encoding='utf8')
+            
+            if self.debug:
+                print 'Finalize Word: {0} with {1}'.format(self.original_word,
+                                                             self.syllabified_word)
+                print self._final_word
+                print s, "length: ", self.s_length
+                print range(self.s_length)
+            
+            for i in range(self.s_length):
+                if s[i] == '.':
+                    self._final_word = self._final_word[:i]+'.'+self._final_word[i:]
 
                 
         @property
