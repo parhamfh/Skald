@@ -73,24 +73,12 @@ class InputParser(object):
                 string_buffer += "\n{0}".format(inpu)
             else:
                 second_newline = True
+
         #print "string buffer contains: '{0}'".format(unicode(string_buffer).encode('utf8'))
 
         print "System stdin encoding is",sys.stdin.encoding
-#        return unicode(string_buffer, encoding=sys.stdin.encoding)
+        return unicode(string_buffer, encoding=sys.stdin.encoding)
 
-        '''
-        I think this makes sure that the string is encoded in utf8. First
-        we use the systems encoding scheme to decode the string into a unicode
-        string (because it might be in an encoding different from UTF-8) and 
-        then encode it into utf-8
-        
-        The pro of having it in UTF-8 is that you can decode (= convert into
-        unicode string type) those strings with latin-1 encoding as well,
-        whereas a latin-1 can only be decoded with the latin1 encoding.
-        decoded
-        '''
-        return string_buffer.decode(encoding=sys.stdin.encoding).encode('utf8')
-    
 class MockInputParser(object):
 
     def prompt_for_input(self, custom_text = None, read_from_file=None):

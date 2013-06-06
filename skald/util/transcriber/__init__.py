@@ -23,18 +23,20 @@ class RealPhoneticTranscriber(object):
     
     REMOTE = 0
     LOCAL = 1
-    MOCK = 2
+
 #    TRANSCRIBE_MODE = True
     
-    def __init__(self, text_input_or_list, mode=None):
+    def __init__(self, text_input_or_list, mode=None, mock=None):
         '''
         Constructor
+        
+        @param mode: Decide 
         '''
         self.text_input = text_input_or_list
         self.text_input_in_list = isinstance(text_input_or_list, list)
         
         if not self.text_input_in_list:
-            assert isinstance(self.text_input, str)
+            assert isinstance(self.text_input, unicode)
         
         if mode is None:
             self.TRANSCRIBE_MODE = RealPhoneticTranscriber.LOCAL
@@ -84,7 +86,7 @@ class MockPhoneticTranscriber(object):
         self.text_input_in_list = isinstance(text_input_or_list, list)
         
         if not self.text_input_in_list:
-            assert isinstance(text_input_or_list, str)
+            assert isinstance(text_input_or_list, unicode)
         
     def transcribe(self):
         '''

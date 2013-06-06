@@ -1,4 +1,4 @@
-# coding: utf8
+    # coding: utf8
 '''
 Created on Feb 6, 2013
 
@@ -39,7 +39,8 @@ class RealSyllabifyer(object):
             Ignores case.
             '''
             if self.debug:
-                print "{0}: repl(a='{1}' b='{2}')".format(self.s_word, a , b)
+                print u"{0}: repl(a='{1}' b='{2}')".format(self.s_word, a , b)
+
             self.s_word = self.s_word.replace(a,b)
         
         @property
@@ -51,12 +52,12 @@ class RealSyllabifyer(object):
                 return self._final_word
         
         def finalize_syllabification(self):
-            self._final_word = unicode(self.original_word, encoding='utf8')
-            s = unicode(self.s_word,encoding='utf8')
+            self._final_word = self.original_word
+            s = self.s_word
             
             if self.debug:
-                print 'Finalize Word: {0} with {1}'.format(self.original_word,
-                                                             self.syllabified_word)
+                print u'Finalize Word: {0} with {1}'.format(self.original_word,
+                                                             self.s_word)
                 print self._final_word
                 print s, "length: ", self.s_length
                 print range(self.s_length)
@@ -87,7 +88,7 @@ class RealSyllabifyer(object):
 
         @property
         def s_length(self):
-            return len(unicode(self.s_word,encoding='utf8'))
+            return len(self.s_word)
             
         def replace_s_word(self, new_word):
             self.s_word = new_word
@@ -128,7 +129,7 @@ class RealSyllabifyer(object):
         for sentence in self.ortographic_text.split('\n'):
             words = []
             for word in sentence.split():
-                w = self.Word(word)
+                w = self.Word(word, debug=True)
                 self.syllabify_word(w)
                 words.append(w.final_word)
             self._syllables.append(words)
@@ -152,8 +153,8 @@ class RealSyllabifyer(object):
         # RULE 1 (Basically a dot after each vowel)
         
         # approach 1 (preferred)
-        sub_str = 'a i u e o y å ä ö'.split() 
-        map(lambda x: word.repl(x,"{0}.".format(x)), sub_str)
+        sub_str = u'a i u e o y å ä ö'.split() 
+        map(lambda x: word.repl(x,u"{0}.".format(x)), sub_str)
         
         # approach 2 - breaks step 2.3 and requires that Word class stores
         # self._word as a unicode string (unicode) and not byte string (str).
@@ -171,7 +172,9 @@ class RealSyllabifyer(object):
         ## 2.2
         self._merge_consonant_clusters(word)
         ## 2.3
+        print word.s_word
         self._ljoin_isolated_consonants(word)
+        print word.s_word
         
     def _split_long_consonants(self, word):
         '''
@@ -258,7 +261,7 @@ class RealSyllabifyer(object):
         Exercises Rule 2.3 on word
         '''
         new = word.s_word.split('.')
-        pattern = re.compile('[aiueoyåäö]', re.IGNORECASE)
+        pattern = re.compile(u'[aiueoyåäö]', re.IGNORECASE)
         
         last_index = len(new)
         i = 0
