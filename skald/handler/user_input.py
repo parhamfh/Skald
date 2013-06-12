@@ -5,8 +5,6 @@ Created on 25 May, 2013
 @author: parhamfh
 '''
 
-import sys
-
 from skald.util import InputParser, Syllabifyer, PhoneticTranscriber
 
 class UserInputHandler(object):
@@ -35,6 +33,7 @@ class UserInputHandler(object):
         syllabifyer.syllabify()
         self.syllables = syllabifyer.get_syllable_set()
         
+        print
         print '\n-----\n'.join(' ||| '.join(y for y in x ) for x in self.syllables)
         
         # STEP 2: Validate input
@@ -60,12 +59,12 @@ class UserInputHandler(object):
 
     def validate_input(self, syllables):
         
-        sys.stdout.write('\nWARNING! Validation not implemented in Skald \n\n')
+        raise NotImplementedError('\nWARNING! Validation not implemented in Skald \n\n')
         # Check that there is only Swedish letters
 
         # Check length of each line (number of syllables)
 #        self.check_dispersion(syllables)
-        return True
+        
     
     def transcribe_input(self, text_input = None, mode = None, mock = None):
         if not text_input:
@@ -105,4 +104,4 @@ class UserInputHandler(object):
             return syllables
         
         else:
-            print 'Stress marking Not implemented yet...'
+            raise NotImplementedError('Stress marking Not implemented yet...')
