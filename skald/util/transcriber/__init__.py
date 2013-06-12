@@ -1,6 +1,5 @@
 from remote import RemotePhoneticTranscriber
 
-
 class PhoneticTranscriber(object):
     '''
     See the following Github issue for a discussion regarding the current and 
@@ -77,7 +76,7 @@ class RealPhoneticTranscriber(object):
         Cannot be done yet
         '''
         # TODO: Handle if list
-        print 'Local transcribing is not implemented yet...'
+        raise NotImplementedError('Local transcribing is not implemented yet..')
         
 class MockPhoneticTranscriber(object):
 
