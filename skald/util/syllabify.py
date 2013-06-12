@@ -129,7 +129,7 @@ class RealSyllabifyer(object):
         for sentence in self.ortographic_text.split('\n'):
             words = []
             for word in sentence.split():
-                w = self.Word(word, debug=True)
+                w = self.Word(word, debug=False)
                 self.syllabify_word(w)
                 words.append(w.final_word)
             self._syllables.append(words)
@@ -172,9 +172,7 @@ class RealSyllabifyer(object):
         ## 2.2
         self._merge_consonant_clusters(word)
         ## 2.3
-        print word.s_word
         self._ljoin_isolated_consonants(word)
-        print word.s_word
         
     def _split_long_consonants(self, word):
         '''
