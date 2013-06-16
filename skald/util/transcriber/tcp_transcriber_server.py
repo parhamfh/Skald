@@ -4,6 +4,9 @@
 import socket, threading, time, sys
 from threading import Lock
 
+HOST_DOMAIN = 'u-shell.csc.kth.se'
+HOST = socket.gethostbyname(HOST_DOMAIN)
+
 class TCPTranscriberServer(object):
     '''
     Remote phonetic transcriber customized to be run on windows machine
@@ -15,7 +18,7 @@ class TCPTranscriberServer(object):
     using a local script then sent back. Following this the communication is
     terminated and the connection shut down. 
     
-    
+    If Server is local, please specify remote_is_local flag
     #TODO: CAPTURE KEYBOARD INTERUPPTS AND KILL THREADS AND CLOSE SOCKETS
     '''
     
@@ -61,7 +64,7 @@ class TCPTranscriberServer(object):
             print "{0} binding on socket.gethostname()".format(self)
             self.server_sock.bind((socket.gethostname(), self.port))
             return
-        self.server_sock.bind(('127.0.0.1', self.port))
+        self.server_sock.bind((HOST, self.port))
 
     def __str__(self):
         return 'TCPTranscriberServer'

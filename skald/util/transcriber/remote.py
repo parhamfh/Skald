@@ -4,7 +4,6 @@ Created on Jan 4, 2013
 
 WHEN RUN ON WINDOWS:
 
-
 WHEN RUN ON OS X:
 
 @author: parhamfh
