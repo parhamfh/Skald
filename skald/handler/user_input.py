@@ -36,22 +36,28 @@ class UserInputHandler(object):
         print
         print '\n-----\n'.join(' ||| '.join(y for y in x ) for x in self.syllables)
         
-        # STEP 2: Validate input
-        if not self.validate_input(self.syllables):
-            raise RuntimeError('Invalid input.'\
-                        'Please check input constraints.')
+
         
-        # STEP 3: Translate user input to phonetic version (maybe remotely)
+        """ SAME STEP"""
+        # STEP 2: Translate user input to phonetic version (maybe remotely)
         self.phonetic_text = self.transcribe_input(self.ortographic_text,
-                                               mock = self.mock)
+                                                mode = PhoneticTranscriber.REMOTE,
+                                                protocol = None,
+                                                mock = self.mock)
+        assert False
+        # STEP 3: Syllabify phonetic text (using external binary)
         
-        # STEP 4: Syllabify phonetic text (using external binary)
+        """ /SAME STEP"""
         
-        
-        # STEP 5: Fuse together syllables and phoneme syllable in one
+        # STEP 4: Fuse together syllables and phoneme syllable in one
         # Observation object
         return self.mark_syllables_for_stress(self.syllables, self.phonetic_text)
         
+    
+        # STEP 5: Validate input
+        if not self.validate_input(self.syllables):
+            raise RuntimeError('Invalid input.'\
+                        'Please check input constraints.')
 
     def query_for_input(self, mock = None):
         p = InputParser(mock = mock)
@@ -66,11 +72,11 @@ class UserInputHandler(object):
 #        self.check_dispersion(syllables)
         
     
-    def transcribe_input(self, text_input = None, mode = None, mock = None):
+    def transcribe_input(self, text_input = None, mode = None, protocol = None, mock = None):
         if not text_input:
             text_input = self.raw_input
 
-        ph = PhoneticTranscriber(text_input, mode = mode, mock = mock)
+        ph = PhoneticTranscriber(text_input, mode = mode, protocol = protocol, mock = mock)
         
         transcribed_input = ph.transcribe()
         return transcribed_input
