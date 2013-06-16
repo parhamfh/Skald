@@ -22,51 +22,61 @@ class RemotePhoneticTranscriber(object):
     Uses Sockets
     '''
 
-    def __init__(self, sock = None):
+    def __init__(self, sock = None, host=None, port=None, protocol=None):
         '''
         Constructor
         '''
-        if sock == None:
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        else:
-            self.sock = sock
-        
-    def connect(self, host=None, port=None):
+        self.host = host
+        self.port = port
+        print 'MY PROTOCOL! {0}'.format(protocol)
+        self.protocol = protocol
+        self.sock = None
+
+    def tcp_connect(self, host=None, port=None):
         if host is None:
-            host = 'localhost'
+            if self.host is None:
+                host = 'localhost'
+            else:
+                host = self.host
         if port is None:
-            port = 7777
-            
+            if self.port is None:
+                port = 7777
+            else:
+                port = self.port
+        
+        print "{2} connecting to host {0} on port {1}!".format(host, port, self)
         self.sock.connect((host, port))
 
-    def send_message(self, message="Halloj"):
-        self.sock.sendall(message)
+    def tcp_send_message(self, message="Halloj"):
+        print "\nTYPE OF MESSAGE IS {0}\n".format(type(message))
+        print u"{0}: Sending message: '{1}'".format(self, message)
+        self.sock.sendall(message.encode('utf8'))
     
-    def receive_transcribed_message(self):
-        message = self.sock.recv(8192)
-        return message
-    
-    def close_connection(self):
+    def tcp_disconnect(self):
         self.sock.shutdown(socket.SHUT_RDWR)
         self.sock.close()
         
-    def transcribe_message(self, message, host=None, port=None):
-        self.connect(host, port)
-        self.send_message(message)
-        transcribed_message = self.receive_transcribed_message()
-        self.close_connection()
-        print "RemotePhoneticTranscriber got this message: %s"%(
-                                                        transcribed_message)
-        return transcribed_message
-    
+    def setup_socket(self, sock, host, port):
         
-        self.port = port
-        self.remote_is_local = remote_is_local
-        
-        if server_sock == None:
-            self.server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        if self.protocol == 'TCP':
+            if sock == None:
+                    self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            else:
+                self.sock = sock
+            self.tcp_connect(host, port)
+        elif self.protocol == 'UDP':
+            if sock == None:
+                    self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            else:
+                self.sock = sock
         else:
+            raise RuntimeError('Unknown protocol for remote connection! protocol = {0}'.format(self.protocol))
 
+    def send_message(self, message):
+        if self.protocol == 'TCP':
+            self.tcp_send_message(message)
+        elif self.protocol == 'UDP':
+            self.udp_sendmessage(message)
 
     def disconnect(self):
         if self.protocol == 'TCP':
@@ -93,3 +103,5 @@ class RemotePhoneticTranscriber(object):
         print "{0}: Message received.".format(self)
         return message
 
+    def __str__(self):
+        return "RemotePhoneticTranscriber"
