@@ -65,10 +65,10 @@ class InputParser(object):
 
     def read_from_stdin(self, prompt):
         second_newline = False        
-        string_buffer = raw_input(prompt)
+        string_buffer = raw_input(prompt).strip()
         
         while not second_newline:
-            inpu = raw_input()
+            inpu = raw_input().strip()
             if inpu != '':
                 string_buffer += "\n{0}".format(inpu)
             else:
