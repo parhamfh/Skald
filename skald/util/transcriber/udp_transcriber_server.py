@@ -9,7 +9,13 @@ HOST_DOMAIN = 'u-shell.csc.kth.se'
 HOST = socket.gethostbyname(HOST_DOMAIN)
 
 class UDPTranscriberServer(object):
-    
+    '''
+
+    INSPIRATION: 
+
+    http://wiki.python.org/moin/UdpCommunication
+
+    '''    
     def __init__(self, server_sock=None, port=7777, remote_is_local=False):
         
         self.port = port
@@ -60,7 +66,7 @@ class UDPTranscriberServer(object):
         while self.IS_TRANSCODING:
             data, address = self.server_sock.recvfrom(8192)
             print '{0} | Received the following data from address {2}:\n|{1}|'.format(self, data, address)
-            self.server_sock.sendto('Received your message:\n{0}\nThank you!\n'.format(data),address)
+            self.server_sock.sendto('Received your message:\n{0}\nThank you!\n'.format(data), address)
 
     def __str__(self):
         return 'RemoteTCPPhoneticTranscriber'
