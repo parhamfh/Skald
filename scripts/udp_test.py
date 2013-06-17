@@ -19,7 +19,7 @@ class Receiver(object):
         self.s.bind(('127.0.0.1',7777))
 
     def receive_message(self):
-        d = self.s.recv(8124)
+        d, a = self.s.recvfrom(8124)
         return d
 
 if __name__ == '__main__':
