@@ -13,6 +13,7 @@ import socket, threading, time, sys
 from threading import Lock
 
 HOST_DOMAIN = 'u-shell.csc.kth.se'
+print 'for debugging remote host is set to localhost!\n'
 HOST_DOMAIN = 'localhost'
 HOST = socket.gethostbyname(HOST_DOMAIN)
 
@@ -27,7 +28,6 @@ class RemotePhoneticTranscriber(object):
         '''
         self.host = host
         self.port = port
-        print 'MY PROTOCOL! {0}'.format(protocol)
         self.protocol = protocol
         self.sock = None
 
@@ -47,7 +47,7 @@ class RemotePhoneticTranscriber(object):
         self.sock.connect((host, port))
 
     def tcp_send_message(self, message="Halloj"):
-        print "\nTYPE OF MESSAGE IS {0}\n".format(type(message))
+        # print "\nTYPE OF MESSAGE IS {0}\n".format(type(message))
         print u"{0}: Sending message: '{1}'".format(self, message)
         self.sock.sendall(message.encode('utf8'))
     

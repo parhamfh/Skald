@@ -74,7 +74,6 @@ class RealPhoneticTranscriber(object):
         else:
             rpt = RemotePhoneticTranscriber(host=host, port=port, protocol=protocol)
         response = rpt.transcribe_message(self.text_input, then_disconnect=True)
-        print response
         return response
     
     def _transcribe_locally(self):
