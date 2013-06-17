@@ -20,6 +20,11 @@ class TCPTranscriberServer(object):
     
     If Server is local, please specify remote_is_local flag
     #TODO: CAPTURE KEYBOARD INTERUPPTS AND KILL THREADS AND CLOSE SOCKETS
+
+    INSPIRATION
+
+    http://wiki.python.org/moin/TcpCommunication
+    
     '''
     
     def __init__(self, server_sock=None, port=7777, remote_is_local=False):
@@ -61,10 +66,11 @@ class TCPTranscriberServer(object):
         
     def bind_port(self):
         if not self.remote_is_local:
-            print "{0} binding on socket.gethostname()".format(self)
-            self.server_sock.bind((socket.gethostname(), self.port))
+            print "{0} binding on {1}".format(self, HOST)
+            self.server_sock.bind((HOST, self.port))
             return
-        self.server_sock.bind((HOST, self.port))
+        print "{0} binding on localhost".format(self)
+        self.server_sock.bind(('127.0.0.1', self.port))
 
     def __str__(self):
         return 'TCPTranscriberServer'
@@ -137,7 +143,7 @@ class TranscriberThread(threading.Thread):
                                                         self.thread_id, 
                                                         self.client_sock.getsockname(),
                                                         message)
-        self.client_sock.sendall('Sending back message: '+message+' | END OF TRANSMISSION |\n')
+        self.client_sock.sendall('| START OF TRANSMISSION | Sending back message: '+message+' | END OF TRANSMISSION |\n')
     
     # def receive_message(self):
     #     message = ''
