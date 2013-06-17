@@ -25,7 +25,7 @@ class RealPhoneticTranscriber(object):
 
     #TRANSCRIBE_MODE = True
 
-    def __init__(self, text_input_or_list, mode=None, protocol=None, mock=None):
+    def __init__(self, text_input_or_list, mode=None, host=None, port=None, protocol=None, mock=None):
         '''
         Constructor
         
@@ -42,10 +42,10 @@ class RealPhoneticTranscriber(object):
         else:
             self.TRANSCRIBE_MODE = mode
 
-        if protocol is None:
-            self.protocol = 'TCP'
-        else:
-            self.protocol = protocol
+        # Remote class holds the default values
+        self.host = host
+        self.port = port
+        self.protocol = protocol
 
     def transcribe(self):
         '''
@@ -55,7 +55,7 @@ class RealPhoneticTranscriber(object):
         '''
         if self.TRANSCRIBE_MODE == PhoneticTranscriber.REMOTE:
             # TODO: handle if list
-            return self._transcribe_remotely(protocol = self.protocol)
+            return self._transcribe_remotely()
         
         elif self.TRANSCRIBE_MODE == PhoneticTranscriber.LOCAL:
             return self._transcribe_locally()
@@ -64,15 +64,13 @@ class RealPhoneticTranscriber(object):
             raise RuntimeError("Something is wrong with REMOTE_TRANSCRIBE "\
                                "value.\n value: %s"%self.REMOTE_TRANSCRIBE)
             
-    def _transcribe_remotely(self, host=None, port=None, protocol=None):
+    def _transcribe_remotely(self):
         '''
         Uses a network connection to a remote server that can run the
         appropriate scrip to transcribe the input
         '''
-        if protocol is None:
-            rpt = RemotePhoneticTranscriber(host=host, port=port, protocol=self.protocol)
-        else:
-            rpt = RemotePhoneticTranscriber(host=host, port=port, protocol=protocol)
+        
+        rpt = RemotePhoneticTranscriber(host=self.host, port=self.port, protocol=self.protocol)
         response = rpt.transcribe_message(self.text_input, then_disconnect=True)
         return response
     

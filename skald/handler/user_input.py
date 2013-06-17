@@ -42,7 +42,7 @@ class UserInputHandler(object):
         # STEP 2: Translate user input to phonetic version (maybe remotely)
         self.phonetic_text = self.transcribe_input(self.ortographic_text,
                                                 mode = PhoneticTranscriber.REMOTE,
-                                                protocol = None,
+                                                protocol = 'UDP',
                                                 mock = self.mock)
         assert False
         # STEP 3: Syllabify phonetic text (using external binary)

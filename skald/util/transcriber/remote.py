@@ -14,8 +14,8 @@ from threading import Lock
 
 HOST_DOMAIN = 'u-shell.csc.kth.se'
 print 'for debugging remote host is set to localhost!\n'
-HOST_DOMAIN = 'localhost'
 HOST = socket.gethostbyname(HOST_DOMAIN)
+PORT = 7777
 
 class RemotePhoneticTranscriber(object):
     '''
@@ -26,35 +26,44 @@ class RemotePhoneticTranscriber(object):
         '''
         Constructor
         '''
-        self.host = host
-        self.port = port
-        self.protocol = protocol
+        if host is None:
+            self.host = HOST
+        else:
+            self.host = host
+        if port is None:
+            self.port = PORT
+        else:
+            self.port = port
+
+        if protocol is None:
+            self.protocol = 'TCP'
+        else:
+            self.protocol = protocol
         self.sock = None
 
     def tcp_connect(self, host=None, port=None):
         if host is None:
-            if self.host is None:
-                host = 'localhost'
-            else:
-                host = self.host
+            host = self.host
         if port is None:
-            if self.port is None:
-                port = 7777
-            else:
-                port = self.port
+            port = self.port
         
         print "{2} connecting to host {0} on port {1}!".format(host, port, self)
         self.sock.connect((host, port))
+        print "{0}: Connected to host!".format(self)
 
+    def tcp_disconnect(self):
+        self.sock.shutdown(socket.SHUT_RDWR)
+        self.sock.close()
+    
     def tcp_send_message(self, message="Halloj"):
         # print "\nTYPE OF MESSAGE IS {0}\n".format(type(message))
         print u"{0}: Sending message: '{1}'".format(self, message)
         self.sock.sendall(message.encode('utf8'))
     
-    def tcp_disconnect(self):
-        self.sock.shutdown(socket.SHUT_RDWR)
-        self.sock.close()
-        
+    def udp_send_message(self, message="Halloj"):
+        print u"{0}: Sending message: '{1}' to host {2} through port {3}".format(self, message, self.host, self.port)
+        self.sock.sendto(message.encode('utf8'),(self.host, self.port))
+
     def setup_socket(self, sock, host, port):
         
         if self.protocol == 'TCP':
@@ -75,7 +84,7 @@ class RemotePhoneticTranscriber(object):
         if self.protocol == 'TCP':
             self.tcp_send_message(message)
         elif self.protocol == 'UDP':
-            self.udp_sendmessage(message)
+            self.udp_send_message(message)
 
     def disconnect(self):
         if self.protocol == 'TCP':
@@ -87,7 +96,6 @@ class RemotePhoneticTranscriber(object):
 
     def transcribe_message(self, message, host=None, port=None, then_disconnect=False): 
         self.setup_socket(self.sock, host, port)
-        print "{0}: Connected to host!".format(self)
         self.send_message(message)
         transcribed_message = self.receive_transcribed_message()
         if then_disconnect:
