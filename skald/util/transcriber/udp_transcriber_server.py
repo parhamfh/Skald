@@ -8,7 +8,7 @@ from threading import Lock
 HOST_DOMAIN = 'u-shell.csc.kth.se'
 HOST = socket.gethostbyname(HOST_DOMAIN)
 
-class UDPTranscriberServer(object):
+class UDPTranscriberServer(TranscriberServer):
     '''
 
     INSPIRATION: 

@@ -7,7 +7,7 @@ from threading import Lock
 HOST_DOMAIN = 'u-shell.csc.kth.se'
 HOST = socket.gethostbyname(HOST_DOMAIN)
 
-class TCPTranscriberServer(object):
+class TCPTranscriberServer(TranscriberServer):
     '''
     Remote phonetic transcriber customized to be run on windows machine
     since currently we can only run the TCL script for the CTT toolbox from
