@@ -106,6 +106,8 @@ class Skald(object):
         # row. SyllableSet?
         self.observations = self.uinput_handler.input_to_observations()
         
+        raise RuntimeError('Innan här!')
+    
         if self.mock:
             if self.mock_hmm:
                 self.mock_model()
