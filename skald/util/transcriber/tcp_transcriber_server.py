@@ -4,6 +4,8 @@
 import socket, threading, time, sys
 from threading import Lock
 
+from transcriber_server import TranscriberServer
+
 HOST_DOMAIN = 'u-shell.csc.kth.se'
 HOST = socket.gethostbyname(HOST_DOMAIN)
 
@@ -172,4 +174,3 @@ if __name__ == '__main__':
         print "KeyboardInterrupt received. ke: %s"%ke
         rwpt.listen_thread.close_listener()
         sys.exit(0)
-        

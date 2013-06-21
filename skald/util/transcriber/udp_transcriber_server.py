@@ -5,6 +5,8 @@
 import socket, threading, time, sys
 from threading import Lock
 
+from transcriber_server import TranscriberServer
+
 HOST_DOMAIN = 'u-shell.csc.kth.se'
 HOST = socket.gethostbyname(HOST_DOMAIN)
 
@@ -40,7 +42,7 @@ class UDPTranscriberServer(TranscriberServer):
 
         print "{0}: Start transcoding.".format(self)
         self.IS_TRANSCODING = True
-        self.transcode()
+        self.process_requests()
         
     def stop_transcoding(self):
         if self.has_setup:
@@ -62,18 +64,18 @@ class UDPTranscriberServer(TranscriberServer):
         print "{0} binding on localhost".format(self)
         self.server_sock.bind(('127.0.0.1', self.port))
 
-    def transcode(self):
+    def process_requests(self):
         while self.IS_TRANSCODING:
             data, address = self.server_sock.recvfrom(8192)
             print '{0} | Received the following data from address {2}:\n|{1}|'.format(self, data, address)
-            self.server_sock.sendto('Received your message:\n{0}\nThank you!\n'.format(data), address)
+            self.server_sock.sendto('Received your message:\n{0}\nThank you!\n'.format(self.transcribe(data)), address)
 
     def __str__(self):
         return 'RemoteTCPPhoneticTranscriber'
 
 if __name__ == '__main__':
 
-    rwpt = UDPTranscriberServer(remote_is_local=True)
+    rwpt = UDPTranscriberServer(remote_is_local=False)
     rwpt.start_transcoding()
     
     try:
