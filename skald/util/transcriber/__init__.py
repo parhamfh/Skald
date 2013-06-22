@@ -13,19 +13,19 @@ class PhoneticTranscriber(object):
         
         return RealPhoneticTranscriber(*args, **kwargs)
 
+    REMOTE = 0
+    LOCAL = 1
+
 class RealPhoneticTranscriber(object):
     '''
     Transcribes the words in a Swedish text to their phonetic representation.
     
     Accepts a list of inputs as an input.
     '''
-    
-    REMOTE = 0
-    LOCAL = 1
 
-#    TRANSCRIBE_MODE = True
-    
-    def __init__(self, text_input_or_list, mode=None, mock=None):
+    #TRANSCRIBE_MODE = True
+
+    def __init__(self, text_input_or_list, mode=None, host=None, port=None, protocol=None, mock=None):
         '''
         Constructor
         
@@ -38,9 +38,14 @@ class RealPhoneticTranscriber(object):
             assert isinstance(self.text_input, unicode)
         
         if mode is None:
-            self.TRANSCRIBE_MODE = RealPhoneticTranscriber.LOCAL
+            self.TRANSCRIBE_MODE = PhoneticTranscriber.LOCAL
         else:
             self.TRANSCRIBE_MODE = mode
+
+        # Remote class holds the default values
+        self.host = host
+        self.port = port
+        self.protocol = protocol
 
     def transcribe(self):
         '''
@@ -48,11 +53,11 @@ class RealPhoneticTranscriber(object):
         is run and fetch the phonetic representation so here we call for
         transcribing it remotely instead of locally.
         '''
-        if self.TRANSCRIBE_MODE == RealPhoneticTranscriber.REMOTE:
+        if self.TRANSCRIBE_MODE == PhoneticTranscriber.REMOTE:
             # TODO: handle if list
             return self._transcribe_remotely()
         
-        elif self.TRANSCRIBE_MODE == RealPhoneticTranscriber.LOCAL:
+        elif self.TRANSCRIBE_MODE == PhoneticTranscriber.LOCAL:
             return self._transcribe_locally()
         
         else:
@@ -64,11 +69,9 @@ class RealPhoneticTranscriber(object):
         Uses a network connection to a remote server that can run the
         appropriate scrip to transcribe the input
         '''
-        rpt = RemotePhoneticTranscriber()
-        rpt.connect()
-        response = rpt.transcribe_message(self.text)
-        print response
         
+        rpt = RemotePhoneticTranscriber(host=self.host, port=self.port, protocol=self.protocol)
+        response = rpt.transcribe_message(self.text_input, then_disconnect=True)
         return response
     
     def _transcribe_locally(self):
