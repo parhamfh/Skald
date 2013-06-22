@@ -46,7 +46,7 @@ class UserInputHandler(object):
                                                 mock = self.mock)
 
         # IF DEBUG
-        print len(self.phonetic_text)
+        print "Printing data to validate."
         for line in self.phonetic_text:
             for w in line:
                 print u"{0} == became ==> {1}".format(w[0],w[1])
