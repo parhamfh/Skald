@@ -11,25 +11,25 @@ class TranscriberServer(object):
 
     def transcribe(self, message):
         transcribed = []
-	if type(message) == str:
-		message = unicode(message, encoding='utf8')
+        if type(message) == str:
+            message = unicode(message, encoding='utf8')
         for line in message.split('\n'):
-	    print u"Processing line: \"{0}\"\n...".format(line)
-	    lst = re.findall("[\w']+", line, re.UNICODE)
+            print u"Processing line: \"{0}\"\n...".format(line)
+            lst = re.findall("[\w']+", line, re.UNICODE)
             for i in range(0,len(lst)):
                 p = self.phonetize(lst[i])
                 # IF DEBUG
-		print p
-		s = self.syllabify(p)
+                print p
+                s = self.syllabify(p)
                 lst[i] = (lst[i],p,s)
             transcribed.append(lst)
-	print
+        print
         return transcribed
 
     def phonetize(self, word):
-    	os.environ['PATH'] += os.pathsep + ("/afs/nada.kth.se/home/2/u1weowl2/kurser/exjobb/Skald/scripts/")
-	phonetize_proc = subprocess.Popen(['test_tts.tcl'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-	phonem, err = phonetize_proc.communicate(word.encode(encoding='utf8'))
+        os.environ['PATH'] += os.pathsep + ("/afs/nada.kth.se/home/2/u1weowl2/kurser/exjobb/Skald/scripts/")
+        phonetize_proc = subprocess.Popen(['test_tts.tcl'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        phonem, err = phonetize_proc.communicate(word.encode(encoding='utf8'))
         return u"{0}".format(phonem.decode(encoding='utf8').rstrip('\n'))
         # run local files
 
@@ -43,15 +43,15 @@ if __name__ == '__main__':
     t = TranscriberServer()
     # print t.transcribe(sys.argv[1].decode(encoding='utf8'))
     s = 'En liten gåva till D.\n'\
-    	+'de "ljuva" orden i mitt liv\n'\
+        +'de "ljuva" orden i mitt liv\n'\
         +'behöver inte säga att det är över\n'\
         +'inte heller att det tar slut\n'\
         +'utan ljud, utanför bild\n'\
-	+'det kommer ta tid, men sen är jag din\n'\
+        +'det kommer ta tid, men sen är jag din\n'\
         +'på din brits'
     s = unicode(s, encoding='utf8')
     response = t.transcribe(s)
     for line in response:
-    	print '\n',"|".join(map(lambda (x,y,z):x, line))
-	for (a,b,c) in line:
-		print u'    {0} : {1}'.format(a,b)
+        print '\n',"|".join(map(lambda (x,y,z):x, line))
+    for (a,b,c) in line:
+        print u'    {0} : {1}'.format(a,b)
