@@ -18,9 +18,12 @@ class TranscriberServer(object):
 	    lst = re.findall("[\w']+", line, re.UNICODE)
             for i in range(0,len(lst)):
                 p = self.phonetize(lst[i])
-                s = self.syllabify(p)
+                # IF DEBUG
+		print p
+		s = self.syllabify(p)
                 lst[i] = (lst[i],p,s)
             transcribed.append(lst)
+	print
         return transcribed
 
     def phonetize(self, word):

@@ -1,8 +1,7 @@
 #!/usr/local/bin/python
 # coding: utf8
 
-
-import socket, threading, time, sys
+import socket, threading, time, sys, pickle
 from threading import Lock
 
 from transcriber_server import TranscriberServer
@@ -67,11 +66,14 @@ class UDPTranscriberServer(TranscriberServer):
     def process_requests(self):
         while self.IS_TRANSCODING:
             data, address = self.server_sock.recvfrom(8192)
-            print '{0} | Received the following data from address {2}:\n|{1}|'.format(self, data, address)
-            self.server_sock.sendto('Received your message:\n{0}\nThank you!\n'.format(self.transcribe(data)), address)
+            print '{0} | Received the following data from address {2}:\n\n|{1}|\n'.format(self, data, address)
+	    pickled_reply = pickle.dumps(self.transcribe(data),-1)
+	    print '{0} | Sending pickled reply:\n|===|\n{1}\n|===|\n'.format(self, repr(pickled_reply))
+            # self.server_sock.sendto('Received your message. Pickled reply between separator lines.\n|===|\n{0}\n|===|\nThank you!\n'.format(pickled_reply), address)
+	    self.server_sock.sendto(pickled_reply, address)
 
     def __str__(self):
-        return 'RemoteTCPPhoneticTranscriber'
+        return 'RemoteUDPPhoneticTranscriber'
 
 if __name__ == '__main__':
 
