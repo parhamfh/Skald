@@ -61,7 +61,7 @@ class RemotePhoneticTranscriber(object):
         self.sock.sendall(message.encode('utf8'))
     
     def udp_send_message(self, message="Halloj"):
-        print u"{0}: Sending message: '{1}' to host {2} through port {3}".format(self, message, self.host, self.port)
+        print u"{0} | 0. Sending message:\n{1}\nto host {2} through port {3}".format(self, message, self.host, self.port)
         self.sock.sendto(message.encode('utf8'),(self.host, self.port))
 
     def setup_socket(self, sock, host, port):
