@@ -68,7 +68,8 @@ class UDPTranscriberServer(TranscriberServer):
             data, address = self.server_sock.recvfrom(8192)
             print '{0} | Received the following data from address {2}:\n\n|{1}|\n'.format(self, data, address)
             pickled_reply = pickle.dumps(self.transcribe(data),-1)
-            print '{0} | Sending pickled reply:\n|===|\n{1}\n|===|\n'.format(self, repr(pickled_reply))
+            print '{0} | Printing repr of pickled data. You can use this to check that the correct data has been received.'
+            print '{0} | Sending pickled reply:\n|===|\n{1}\n|===|\n'.format(self, repr(pickled_reply)), type(pickled_reply)
             # self.server_sock.sendto('Received your message. Pickled reply between separator lines.\n|===|\n{0}\n|===|\nThank you!\n'.format(pickled_reply), address)
             self.server_sock.sendto(pickled_reply, address)
 
