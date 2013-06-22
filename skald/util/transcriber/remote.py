@@ -97,30 +97,32 @@ class RemotePhoneticTranscriber(object):
     def transcribe_message(self, message, host=None, port=None, then_disconnect=False): 
         self.setup_socket(self.sock, host, port)
         self.send_message(message)
-        transcribed_message = self.receive_transcribed_message()
+        transcribed_data = self.receive_transcribed_message()
         if then_disconnect:
-            print "... then disconnecting"
+            print "... now disconnecting"
             self.disconnect()
-        print "{0} | Received this message: {1}".format(self, transcribed_message)
-        return transcribed_message
+        # print "{0} | 5. Received the following data: {1}".format(self, transcribed_data)
+        return transcribed_data
 
     def receive_transcribed_message(self):
-        print "{0} | Receiving response message".format(self)
+        print "{0} | 1. Receiving response from transcriber server".format(self)
         response = self.sock.recv(8192)
-        print "{0} | Received reply:\n{1}\n".format(self,
+        print "{0} | 2. Received response with payload:\n{1}".format(self,
                                             response)
-        # message = self._unpickle_response(response)
-        message = pickle.loads(response)
-        print "{0}: Message unpickled.".format(self)
+        message = self._unpickle_response(response)
+        # message = pickle.loads(response)
+        print "{0} | 4. Message unpickled. Data contained:\n{1}".format(self, message)
         return message
 
     def _unpickle_response(self, response):
-        pickled_data = self._extract_pickled_data(response)    
+        pickled_data = self._extract_pickled_data(response)
+        print "{0} | 3. Pickled data extracted, presented in repr form for consistency check:\n{1}".format(self, repr(pickled_data))
         return pickle.loads(pickled_data)
     
     def _extract_pickled_data(self, response):
-        pattern = re.compile("|===|(.*?)|===|")
-        return pattern.search(response)
+        match = re.findall("\|===\|\\n(.*)\\n\|===\|", response, re.DOTALL)
+        # print match
+        return match[0]
     
     def __str__(self):
         return "RemotePhoneticTranscriber"
