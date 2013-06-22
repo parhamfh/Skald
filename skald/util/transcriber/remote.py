@@ -9,7 +9,7 @@ WHEN RUN ON OS X:
 @author: parhamfh
 '''
 
-import socket, threading, time, sys
+import socket, threading, time, sys, pickle, re
 from threading import Lock
 
 HOST_DOMAIN = 'u-shell.csc.kth.se'
@@ -101,14 +101,26 @@ class RemotePhoneticTranscriber(object):
         if then_disconnect:
             print "... then disconnecting"
             self.disconnect()
-        print "{0} received this message: {1}".format(self, transcribed_message)
+        print "{0} | Received this message: {1}".format(self, transcribed_message)
         return transcribed_message
 
     def receive_transcribed_message(self):
-        print "{0}: Receiving response message".format(self)
-        message = self.sock.recv(8192)
-        print "{0}: Message received.".format(self)
+        print "{0} | Receiving response message".format(self)
+        response = self.sock.recv(8192)
+        print "{0} | Received reply:\n{1}\n".format(self,
+                                            response)
+        # message = self._unpickle_response(response)
+        message = pickle.loads(response)
+        print "{0}: Message unpickled.".format(self)
         return message
 
+    def _unpickle_response(self, response):
+        pickled_data = self._extract_pickled_data(response)    
+        return pickle.loads(pickled_data)
+    
+    def _extract_pickled_data(self, response):
+        pattern = re.compile("|===|(.*?)|===|")
+        return pattern.search(response)
+    
     def __str__(self):
         return "RemotePhoneticTranscriber"
