@@ -44,6 +44,12 @@ class UserInputHandler(object):
                                                 mode = PhoneticTranscriber.REMOTE,
                                                 protocol = 'UDP',
                                                 mock = self.mock)
+
+        # IF DEBUG
+        print len(self.phonetic_text)
+        for line in self.phonetic_text:
+            for w in line:
+                print u"{0} == became ==> {1}".format(w[0],w[1])
         assert False
         # STEP 3: Syllabify phonetic text (using external binary)
         
