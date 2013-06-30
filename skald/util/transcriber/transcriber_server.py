@@ -20,8 +20,8 @@ class TranscriberServer(object):
             for i in range(0,len(lst)):
                 p = self.phonetize(lst[i])
                 # IF DEBUG
-                s = None # self.syllabify(p)
-                lst[i] = (lst[i],p,s)
+                #s = None # self.syllabify(p)
+                lst[i] = (lst[i],p)
             transcribed.append(lst)
         print
         return transcribed
