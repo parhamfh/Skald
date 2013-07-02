@@ -102,11 +102,14 @@ class Skald(object):
         if self.health_model:
             sys.exit("You cannot use run() when using the Health model. Exiting...")
         
-        # List of Observations, one for each row. So a set of syllables for each
-        # row. SyllableSet?
+        # List of observations (SyllableSet). One list for each row. 
+        # Each row list contains lists of Syllable objects
+        # representing the words.
         self.observations = self.uinput_handler.input_to_observations()
         
-        raise RuntimeError('Innan här!')
+
+        # print self.observations
+        # raise RuntimeError('Innan här!')
     
         if self.mock:
             if self.mock_hmm:
