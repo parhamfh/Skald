@@ -55,7 +55,7 @@ class LilypondFormatter(object):
         self.t_s = "%s/%s"%(time_signature[0],time_signature[1])
         self.clef = clef
 
-        self.default_subfolder_stem = ""
+        self.default_subfolder_stem = "output"
         self.subfolder = "lilypond"
         self.select_score_name(score_name)
 
@@ -66,6 +66,10 @@ class LilypondFormatter(object):
         return path.join(self.default_subfolder_stem,
                          self.subfolder,self.filename)
 
+    @property
+    def folder_path(self):
+        return path.join(self.default_subfolder_stem,
+                         self.subfolder)
     @property
     def filename(self):
         return self.name+self.FILENAME_EXTENSION
@@ -82,7 +86,7 @@ class LilypondFormatter(object):
         #     with open(path.join(self.subfolder,fn)) as f: return False
         # except IOError as e:
         #     return True
-        if path.isfile(path.join(self.subfolder,fn+self.FILENAME_EXTENSION)):
+        if path.isfile(path.join(self.folder_path,fn+self.FILENAME_EXTENSION)):
             return False
         else:
             return True
@@ -214,7 +218,8 @@ class LilypondFormatter(object):
         # for checking if lilypond is in path
         #import os
         #print os.environ['PATH']
-        call(["lilypond","-o",self.subfolder,self.pathname])
+        print ["lilypond","-o",self.folder_path,self.pathname]
+        call(["lilypond","-o",self.folder_path,self.pathname])
     
     def generate_pdf(self, output_note_list):
         output = self.format_string(output_note_list)
