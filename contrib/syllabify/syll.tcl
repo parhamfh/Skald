@@ -1,6 +1,7 @@
 #!/usr/bin/tclsh
 
-variable folder "~/kurser/exjobb/Skald/contrib/syllabify/"
+# variable folder "~/kurser/exjobb/Skald/contrib/syllabify/"
+variable folder "~/skald/contrib/syllabify/"
 
 source $folder/syllabify.tcl
 
