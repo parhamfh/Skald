@@ -204,7 +204,7 @@ class LilypondFormatter(object):
             if self.lyrics is not None:
                 output += "\\addlyrics {\n  "
                 for l in self.lyrics[lyrics_i]:
-                    output += "{0} ".format(l.syllable)
+                    output += "{0} ".format(l.syllable.encode(encoding='utf8'))
                 output += "\n}\n\n"
                 lyrics_i+=1
         return output

@@ -168,7 +168,7 @@ class OrpheusFormatter(object):
         fp.write("{0} {1} {2} '{3}'\n".format(self.calculate_onset(beat, ticks_offset),
         self.calculate_offset(beat, ticks_offset),
         self.calculate_pitch(beat),
-        observation.syllable))
+        observation.syllable.encode(encoding='utf8')))
     
     def calculate_onset(self, beat, ticks_offset):
         return beat.origin*self.TICKS_PER_16TH+self.TICKS_OFFSET*ticks_offset

@@ -187,5 +187,13 @@ class Syllable(HmmModelObservation):
         raise RuntimeError("It is called ACCENT../")
 
     def __repr__(self):
-        return "(\"{0}\",{1},{2})".format(self.s, self.d, self.e)
+        '''
+        Python is bullshit. __repr__ cannot return contain unicode letters, see:
+
+        http://bugs.python.org/issue5876
+        '''
+        rep = (u"Syllable({3}|{0},{1},{2})".format(self.original_word, self.d, self.e, self.s))
+
+        # Read method doc !!
+        return rep.encode(encoding='utf8')
 

@@ -306,7 +306,7 @@ class RhythmModel(HmmModel):
 #        return self.d_p[b.i][emission.duration]
 
     def print_beats(self, x, obs):
-        st = ''
+        st = u''
         bl = [0 for _ in range(self.num_beats)]
     
         for i in range(len(x)):
@@ -316,8 +316,9 @@ class RhythmModel(HmmModel):
     
         for bar in range(bars):
             part=bl[16*bar:16*( bar+1)]
-            part.insert(0,"||")
-            st += ' '+' '.join([str(lol) for lol in part])
+            part.insert(0,u"||")
+            [lol for lol in part]
+            st += u' '+(u' '.join([unicode(lol) for lol in part]))
     
         # Print it pretty, sir
         st += " ||"
