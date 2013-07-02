@@ -165,10 +165,11 @@ class Syllable(HmmModelObservation):
     Output/emission.
     '''
 
-    def __init__(self, syllable, duration, accent):
+    def __init__(self, syllable, duration, accent, orig_word=None):
         self.s = syllable
         self.d = duration
         self.e = accent
+        self.original_word = orig_word
 
     @property
     def syllable(self):

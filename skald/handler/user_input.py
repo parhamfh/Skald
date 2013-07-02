@@ -5,7 +5,7 @@ Created on 25 May, 2013
 @author: parhamfh
 '''
 
-from skald.util import InputParser, Syllabifyer, PhoneticTranscriber
+from skald.util import InputParser, Syllabifyer, PhoneticTranscriber, SyllableSet
 
 class UserInputHandler(object):
     
@@ -46,16 +46,15 @@ class UserInputHandler(object):
                                                 mock = self.mock)
 
         # IF DEBUG
-        print "Printing data to validate."
+        print "\nPrinting data to validate."
         for line in self.phonetic_text:
             for w in line:
                 print u"{0} == became ==> {1}".format(w[0],w[1])
-        assert False
         # STEP 3: Syllabify phonetic text (using external binary)
         
         """ /SAME STEP"""
         
-        # STEP 4: Fuse together syllables and phoneme syllable in one
+        # STEP 4: Fuse together syllables and phoneme syllable (not syllables...) in one
         # Observation object
         return self.mark_syllables_for_stress(self.syllables, self.phonetic_text)
         
@@ -116,4 +115,48 @@ class UserInputHandler(object):
             return syllables
         
         else:
-            raise NotImplementedError('Stress marking Not implemented yet...')
+            from skald.hmm.model.rhythm.elements import Syllable
+            WORD_INDENT = "    "
+            # For each line of text of input
+            line = 0
+            line_list = SyllableSet()
+            while line < len(syllables):
+                print "\nThe {0} line.".format(line+1)
+                line_words = syllables[line]
+                line_phonemes = phonemes[line]
+
+                word_list = []
+                # For each word in the line
+                word = 0
+                while word < len(syllables[line]):
+                    print WORD_INDENT+"Word {0}".format(word+1)
+                    syllable_list = []
+                    # 1. Determine which syllable has the stress
+                    stressed_syllable_index = self.find_phoneme_stress(line_phonemes[1])
+
+                    # 2. Create Syllables from the ortographic stress word and mark for stress
+                    orto_syllables = line_words[word].split('.')
+                    orto_index = 0
+                    while orto_index < len(orto_syllables):
+                        # print type(orto_syllables[orto_index]), type(line_words[word])
+                        if orto_index == stressed_syllable_index:
+                            syllable_list.append(Syllable(orto_syllables[orto_index],u"SHORT",u"STRESSED", orig_word = line_words[word]))
+                        else:
+                            syllable_list.append(Syllable(orto_syllables[orto_index],u"SHORT",u"UNSTRESSED", orig_word = line_words[word]))
+                        orto_index += 1
+
+                    word_list.extend(syllable_list)
+                    word += 1
+
+                line_list.append(word_list)
+                line += 1
+
+            # IF DEBUG
+            # for l in line_list:
+            #     for s in l:
+            #         print s
+
+            return line_list
+            
+    def find_phoneme_stress(self, phoneme):
+        return 0
