@@ -87,6 +87,13 @@ class UserInputHandler(object):
         return transcribed_input
     
     def mark_syllables_for_stress(self, syllables, phonemes):
+        '''
+
+
+        @param syllables: A list of lists of syllables; each list of syllables represents a line in the input. 
+        @type syllables: u{SyllableSet}
+        @param phonemes: 
+        '''
         if self.mock:
             for i in [0,2,3,5,7]:
                 syllables[0][i].e="STRESSED"
@@ -120,25 +127,36 @@ class UserInputHandler(object):
             # For each line of text of input
             line = 0
             line_list = SyllableSet()
+            print '====== +++ MARKING FOR STRESS +++ ======'
+            print 'Number of lines:' , len(syllables)
+            print 'phonemes: ', phonemes
+            print 'syllables: ', syllables
+            print '========================================'
             while line < len(syllables):
                 print "\nThe {0} line.".format(line+1)
                 line_words = syllables[line]
                 line_phonemes = phonemes[line]
 
                 word_list = []
-                # For each word in the line
+                # 0. For EACH word in the line
                 word = 0
                 while word < len(syllables[line]):
                     print WORD_INDENT+"Word {0}".format(word+1)
                     syllable_list = []
-                    # 1. Determine which syllable has the stress
-                    stressed_syllable_index = self.find_phoneme_stress(line_phonemes[1])
 
-                    # 2. Create Syllables from the ortographic stress word and mark for stress
+                    # 1. Determine which syllable has the stress for that word
+                    stressed_syllable_index = self.find_phoneme_stress(line_phonemes[word])
+                    
+                    # 2. Create Syllables objects from the ortographic syllables and mark for stress
+                    # Iterate over the syllables in the word
                     orto_syllables = line_words[word].split('.')
                     orto_index = 0
                     while orto_index < len(orto_syllables):
                         # print type(orto_syllables[orto_index]), type(line_words[word])
+                        # print orto_index
+                        # print "Vad gör du inte härt."
+
+                        # 3. Create a Syllable object and add information about the original word
                         if orto_index == stressed_syllable_index:
                             syllable_list.append(Syllable(orto_syllables[orto_index],u"SHORT",u"STRESSED", orig_word = line_words[word]))
                         else:
@@ -159,4 +177,7 @@ class UserInputHandler(object):
             return line_list
             
     def find_phoneme_stress(self, phoneme):
+        # This algorithm should use the same way of counting syllables as the
+        # Syllabifier but should also remember which one has the stress
+        print 'phonemique ',phoneme
         return 0
