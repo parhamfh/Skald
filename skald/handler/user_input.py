@@ -38,7 +38,7 @@ class UserInputHandler(object):
         
 
         
-        """ SAME STEP"""
+        """ SAME STEP """
         # STEP 2: Translate user input to phonetic version (maybe remotely)
         self.phonetic_text = self.transcribe_input(self.ortographic_text,
                                                 mode = PhoneticTranscriber.REMOTE,
@@ -134,33 +134,36 @@ class UserInputHandler(object):
             print '========================================'
             while line < len(syllables):
                 print "\nThe {0} line.".format(line+1)
-                line_words = syllables[line]
-                line_phonemes = phonemes[line]
+                line_orto_words = syllables[line]
+                print 'line_words: ', line_orto_words
+                line_phonetic_words = phonemes[line]
+                # print 'line_phonemes: ', line_phonetic_words
 
                 word_list = []
                 # 0. For EACH word in the line
                 word = 0
                 while word < len(syllables[line]):
-                    print WORD_INDENT+"Word {0}".format(word+1)
+                    # print WORD_INDENT+"Word {0}".format(word+1)
                     syllable_list = []
 
                     # 1. Determine which syllable has the stress for that word
-                    stressed_syllable_index = self.find_phoneme_stress(line_phonemes[word])
+                    print u"\nDEBUG: Printing syllabified ortographic word for reference: {0}".format(line_orto_words[word])
+                    stressed_syllable_index = self.find_phoneme_stress(line_phonetic_words[word])
                     
                     # 2. Create Syllables objects from the ortographic syllables and mark for stress
                     # Iterate over the syllables in the word
-                    orto_syllables = line_words[word].split('.')
+                    orto_syllables = line_orto_words[word].split('.')
                     orto_index = 0
                     while orto_index < len(orto_syllables):
-                        # print type(orto_syllables[orto_index]), type(line_words[word])
+                        # print type(orto_syllables[orto_index]), type(line_orto_words[word])
                         # print orto_index
                         # print "Vad gör du inte härt."
 
                         # 3. Create a Syllable object and add information about the original word
                         if orto_index == stressed_syllable_index:
-                            syllable_list.append(Syllable(orto_syllables[orto_index],u"SHORT",u"STRESSED", orig_word = line_words[word]))
+                            syllable_list.append(Syllable(orto_syllables[orto_index],u"SHORT",u"STRESSED", orig_word = line_orto_words[word]))
                         else:
-                            syllable_list.append(Syllable(orto_syllables[orto_index],u"SHORT",u"UNSTRESSED", orig_word = line_words[word]))
+                            syllable_list.append(Syllable(orto_syllables[orto_index],u"SHORT",u"UNSTRESSED", orig_word = line_orto_words[word]))
                         orto_index += 1
 
                     word_list.extend(syllable_list)
@@ -179,15 +182,22 @@ class UserInputHandler(object):
     def find_phoneme_stress(self, phonemes):
         # This algorithm should use the same way of counting syllables as the
         # Syllabifier but should also remember which one has the stress
-        print '\nDEBUG: Unmassaged phonemes ',phonemes
+        # print u'DEBUG: Unmassaged phonemes ',phonemes
         phoneme= self._massage_phonetic_word(phonemes[1])
-        print 'DEBUG: massaged phonemes: ', phoneme
+        # print u'DEBUG: massaged phonemes: ', phoneme
         syllabifyer = Syllabifyer(phoneme, mock = self.mock)
         syllabifyer.syllabify()
 
         # WILL ALWAYS ONLY BE ONE WORD
         syllables = syllabifyer.get_syllable_set()[0][0]
-        print "DEBUG: find_phoneme_stress | Final output: {0}".format(syllables)
+        print u"DEBUG: find_phoneme_stress | Final output: {0}".format(syllables)
+
+        i = 0 
+        ss = syllables.split(".")
+        while i < len(ss):
+            if "'" in ss[i]:
+                return i
+            i += 1
         return 0
 
     def _massage_phonetic_word(self, phonemes):
