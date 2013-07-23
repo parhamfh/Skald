@@ -176,8 +176,22 @@ class UserInputHandler(object):
 
             return line_list
             
-    def find_phoneme_stress(self, phoneme):
+    def find_phoneme_stress(self, phonemes):
         # This algorithm should use the same way of counting syllables as the
         # Syllabifier but should also remember which one has the stress
-        print 'phonemique ',phoneme
+        print '\nDEBUG: Unmassaged phonemes ',phonemes
+        phoneme= self._massage_phonetic_word(phonemes[1])
+        print 'DEBUG: massaged phonemes: ', phoneme
+        syllabifyer = Syllabifyer(phoneme, mock = self.mock)
+        syllabifyer.syllabify()
+
+        # WILL ALWAYS ONLY BE ONE WORD
+        syllables = syllabifyer.get_syllable_set()[0][0]
+        print "DEBUG: find_phoneme_stress | Final output: {0}".format(syllables)
         return 0
+
+    def _massage_phonetic_word(self, phonemes):
+        phoneme = phonemes.replace('{\\"}','"')
+        phoneme = phoneme.replace("{\\'}","'")
+        phoneme = ''.join(phoneme.split())
+        return phoneme
