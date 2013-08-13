@@ -57,7 +57,7 @@ class InputParser(object):
         return inp
     
     def _read_from_file(self):
-        fp = open(expanduser('~/skald/unicode_text'))
+        fp = open(expanduser('~/skald/resources/misc/unicode_text'))
         print fp
         with fp as f:
             for l in f.readlines():
