@@ -26,7 +26,14 @@ class UserInputHandler(object):
     def input_to_observations(self):
         
         # STEP 0: Get input from user
+        # stored in self.user_input
         self.get_input()
+
+        # STEP 0.5: VALIDATE INPUT
+        if not self.validate_input(self.user_input):
+            raise RuntimeError('Invalid input.'\
+                        'Please check input constraints.')
+
         # STEP 1: Syllabify ortographic text
 
         syllabifyer = Syllabifyer(self.ortographic_text, mock = self.mock)
@@ -35,8 +42,6 @@ class UserInputHandler(object):
         
         print
         print '\n-----\n'.join(' ||| '.join(y for y in x ) for x in self.syllables)
-        
-
         
         """ SAME STEP """
         # STEP 2: Translate user input to phonetic version (maybe remotely)
@@ -57,20 +62,17 @@ class UserInputHandler(object):
         # STEP 4: Fuse together syllables and phoneme syllable (not syllables...) in one
         # Observation object
         return self.mark_syllables_for_stress(self.syllables, self.phonetic_text)
-        
-    
-        # STEP 5: Validate input
-        if not self.validate_input(self.syllables):
-            raise RuntimeError('Invalid input.'\
-                        'Please check input constraints.')
 
     def query_for_input(self, mock = None):
         p = InputParser(mock = mock)
         return p.prompt_for_input()
 
     def validate_input(self, syllables):
-        
-        raise NotImplementedError('\nWARNING! Validation not implemented in Skald \n\n')
+        try:
+            raise NotImplementedError('WARNING! Validation not implemented in Skald')
+        except NotImplementedError, e:
+            print e
+            return False
         # Check that there is only Swedish letters
 
         # Check length of each line (number of syllables)
@@ -176,7 +178,6 @@ class UserInputHandler(object):
             # for l in line_list:
             #     for s in l:
             #         print s
-
             return line_list
             
     def find_phoneme_stress(self, phonemes):
