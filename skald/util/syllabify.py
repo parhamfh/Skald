@@ -97,20 +97,12 @@ class RealSyllabifyer(object):
         def debug(self):
             return self._debug
 
-    def __init__(self, ortographic_text, list_per_newline = True):
+    def __init__(self, ortographic_text):
         '''
-        If list_per_newline is true all syllables will be put in one list,
-        meaning that the entire purpose of dividing up the syllables by sentence
-        which is needed for using them as input to the model is disregarded.
-        Why this functionality exists is not clear. Debugging?
-        
         @param ortographic_text: The ortographic text to be syllabifyed.
         @type ortographic_text: String
-        @param list_per_newline: Put all syllables in one list or per sentence.
-        @type list_per_newline: bool
         '''
         self.ortographic_text = ortographic_text
-        self.list_per_newline = list_per_newline
         
     def syllabify(self):
         '''
