@@ -76,7 +76,7 @@ class InputParser(object):
 
         #print "string buffer contains: '{0}'".format(unicode(string_buffer).encode('utf8'))
 
-        print "System stdin encoding is",sys.stdin.encoding
+        print "System stdin encoding is",sys.stdin.encoding # Keep this?
         return unicode(string_buffer, encoding=sys.stdin.encoding)
 
 class MockInputParser(object):
