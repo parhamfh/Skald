@@ -174,17 +174,3 @@ class Skald(object):
         sounder = Sounder(num_beats)
         sounder.set_notes(sendlist)
         sounder.send_notes()
-
-    def check_dispersion(self, syllabel_set):
-        '''
-        Each staff is a maximum of 32 syllables, each syllable representing at 
-        the least a 16th note, this means that 32 syllables at most can make up
-        2 bars. There is a maximum of 4 staffs. 
-        
-        This means that the user can specify up to 4 lines of text with a
-        maximum of 32 syllables in each line. Empty staffs will be filled out
-        with rest notes. 
-        '''
-        return True
-
-        

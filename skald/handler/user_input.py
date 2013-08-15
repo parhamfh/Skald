@@ -5,7 +5,7 @@ Created on 25 May, 2013
 @author: parhamfh
 '''
 
-from skald.util import InputParser, Syllabifyer, PhoneticTranscriber, SyllableSet
+from skald.util import InputParser, Syllabifyer, PhoneticTranscriber, SyllableSet, InputValidator
 
 class UserInputHandler(object):
     
@@ -29,17 +29,16 @@ class UserInputHandler(object):
         # stored in self.user_input
         self.get_input()
 
-        # STEP 0.5: VALIDATE INPUT
-        if not self.validate_input(self.user_input):
-            raise RuntimeError('Invalid input.'\
-                        'Please check input constraints.')
-
         # STEP 1: Syllabify ortographic text
 
         syllabifyer = Syllabifyer(self.ortographic_text, mock = self.mock)
         syllabifyer.syllabify()
         self.syllables = syllabifyer.get_syllable_set()
         
+        # STEP 1.5: VALIDATE INPUT
+        self.validate_input(self.user_input, self.syllables)
+            
+
         print
         print '\n-----\n'.join(' ||| '.join(y for y in x ) for x in self.syllables)
         
@@ -67,17 +66,12 @@ class UserInputHandler(object):
         p = InputParser(mock = mock)
         return p.prompt_for_input()
 
-    def validate_input(self, syllables):
-        try:
-            raise NotImplementedError('WARNING! Validation not implemented in Skald')
-        except NotImplementedError, e:
-            print e
-            return False
-        # Check that there is only Swedish letters
-
-        # Check length of each line (number of syllables)
-#        self.check_dispersion(syllables)
+    def validate_input(self, input_text, syllables):
         
+        validator = InputValidator(input_text, syllables)
+        if not validator.validate():
+            raise RuntimeError('Invalid input. '\
+                    'Please check input constraints.')
     
     def transcribe_input(self, text_input = None, mode = None, protocol = None, mock = None):
         if not text_input:
