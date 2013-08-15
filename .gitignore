@@ -5,6 +5,7 @@
 .pydevproject
 .project
 .settings
+.classpath
 ignore/
 output/
 contrib/orpheus/
