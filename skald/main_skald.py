@@ -63,41 +63,6 @@ class Skald(object):
             
             self.uinput_handler = UserInputHandler(self.mock)
 
-            '''
-            THIS IS A REALLY STRANGE PROCESS
-            
-            should be that you take in input
-            - transcribe it phonetically
-            - then somehow syllabalize the phonetic (which we want only for
-                stress currently) and the normal representations
-            - link them, and make sure the right syllables retain the 
-                correct stress markers/values
-                
-            Also look over how data is passed
-            some of it is passed to functions, like the mock
-            and sometimes it is stored in global attributes
-            (raw_input, phonemes, etc). Is this consistent behaviour?
-            I think that they should be passed, but saved in attributes.
-            Fetched when they are supplimental, and given as parameters
-            when they are the object of transformation, data source etc to
-            a function.
-                
-            '''
-#            self.raw_input = self.query_for_input(mock)
-#            s_tokenizer = SyllableTokenizer(self.raw_input, mock = mock)
-#
-#            #returns a SyllableSet
-#            self.syllables = s_tokenizer.get_syllable_set()
-#
-#            if not self.validate_input(self.syllables):
-#                raise RuntimeError('Invalid input.'\
-#                            'Please check input constraints.')
-#
-#            self.phonemes = self.transcribe_input(mock = mock)
-#            
-#            self.mark_syllables_for_stress(self.syllables, self.phonemes)
-            
-    
     def run(self, no_score = False, no_orpheus = False):
         if self.health_model:
             sys.exit("You cannot use run() when using the Health model. Exiting...")
