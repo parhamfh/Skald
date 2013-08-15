@@ -6,5 +6,5 @@
 .project
 .settings
 ignore/
-    output/
+output/
 contrib/orpheus/
