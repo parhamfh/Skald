@@ -1,6 +1,6 @@
 # coding: utf8
 
-import os.path
+import os, os.path
 
 class OrpheusFormatter(object):
 
@@ -30,7 +30,12 @@ class OrpheusFormatter(object):
 #            for i in p:
 #                print i
     
+    def ensure_path_exists(self, directory):
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
     def make_rhythm_file(self):
+        self.ensure_path_exists(self.subfolder)
         if self.output_format == OrpheusFormatter.PYTHON:
             self.make_python_file()
         elif self.output_format == OrpheusFormatter.STDOUT:

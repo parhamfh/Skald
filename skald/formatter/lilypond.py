@@ -1,7 +1,8 @@
 #!/usr/local/bin/python
 # coding: utf8
 
-from os import path
+from os import path, makedirs
+
 from subprocess import call
 
 from skald.hmm.model.rhythm.elements import BeatPair, Syllable, BeatPathSet, BeatPath
@@ -73,6 +74,10 @@ class LilypondFormatter(object):
     @property
     def filename(self):
         return self.name+self.FILENAME_EXTENSION
+
+    def ensure_path_exists(self, directory):
+        if not path.exists(directory):
+            makedirs(directory)
 
     def select_score_name(self, score_name):
         if self.unused_filename(score_name):
@@ -223,6 +228,7 @@ class LilypondFormatter(object):
     
     def generate_pdf(self, output_note_list):
         output = self.format_string(output_note_list)
+        self.ensure_path_exists(self.folder_path)
         self.write_to_ly_file(output)
         self.execute_binary()
     
