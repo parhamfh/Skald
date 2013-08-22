@@ -13,7 +13,6 @@ import socket, threading, time, sys, pickle, re
 from threading import Lock
 
 HOST_DOMAIN = 'u-shell.csc.kth.se'
-print 'for debugging remote host is set to localhost!\n'
 HOST = socket.gethostbyname(HOST_DOMAIN)
 PORT = 7777
 

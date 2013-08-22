@@ -2,6 +2,7 @@
 
 import argparse
 import time
+import sys
 
 from skald import Skald
 
@@ -11,11 +12,13 @@ parser.add_argument('-m','--model', nargs='?', dest='model_choice', default='R',
                     help="the HMM model you wish to run. R for rhythm model, H for health model. (default: Skald's (R)hythm model)")
 parser.add_argument('-l','--no-lilypond', dest='no_lilypond', action='store_true',
                     help="Do not generate a lilypond score.")
-parser.add_argument('-o','--orpheus', dest='no_orpheus',action='store_true',
+parser.add_argument('-o','--no-orpheus', dest='no_orpheus',action='store_true',
                     help="Do not produce output for Orpheus.")
 parser.add_argument('-M','--mock', dest='mock', action='count',
                     help="Mock input. If '-M' flag is given twice also mocks "+ 
                     "calculations")
+parser.add_argument('-v','--version', dest='version', action='store_true',
+                    help="Print Skald version number and exit.")
 #parser.add_argument('-t',choices=['input','transcribing']
                     # help='Test only specified functionality/module.')
 
@@ -27,13 +30,18 @@ print "------------------------------------------------"
 
 start_time = time.time()
 
+if args.version:
+    print Skald.__version__
+    sys.exit(0)
+
 if args.model_choice == 'R':
     print "Generate musical score: {0}".format("Yes" if not args.no_lilypond else "No")
     print "Generate output for Orpheus: {0}".format("Yes" if not args.no_orpheus else "No")
+    print "Current version only supports "
     print ''
 #    print args.mock
     s = Skald(mock = args.mock)
-    s.run(no_score=args.no_lilypond, no_orpheus=args.no_orpheus)
+    s.run(no_lilypond=args.no_lilypond, no_orpheus=args.no_orpheus)
     
 elif args.model_choice == 'H':
     s = Skald(health_model=True, mock = args.mock)

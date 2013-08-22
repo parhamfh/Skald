@@ -4,6 +4,7 @@ Created on Feb 6, 2013
 
 @author: parhamfh
 '''
+
 import re
 
 from skald.hmm.model.rhythm.elements import Syllable

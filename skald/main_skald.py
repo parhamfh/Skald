@@ -10,10 +10,8 @@ import sys
 from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
 from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
-
 from skald.formatter.lilypond import LilypondFormatter
 from skald.formatter.orpheus import OrpheusFormatter
-
 from skald.pd.sounder import Sounder
 
 from skald.handler.user_input import UserInputHandler
@@ -31,6 +29,8 @@ class Skald(object):
     Unless you set health_example as True which will try the model math
     against the trivial example on Wikipedia. 
     '''
+
+    __version__ = '0.7'
 
     def __init__(self, health_model=False, mock = None):
         '''
@@ -63,7 +63,7 @@ class Skald(object):
             
             self.uinput_handler = UserInputHandler(self.mock)
 
-    def run(self, no_score = False, no_orpheus = False):
+    def run(self, no_lilypond = False, no_orpheus = False):
         if self.health_model:
             sys.exit("You cannot use run() when using the Health model. Exiting...")
         
@@ -82,7 +82,7 @@ class Skald(object):
         else:            
             self.run_model()
             
-        if not no_score:
+        if not no_lilypond:
             self.generate_lilypond_score(self.beat_paths, self.observations)
             
         if not no_orpheus:
