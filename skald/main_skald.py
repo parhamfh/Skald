@@ -10,10 +10,8 @@ import sys
 from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
 from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
-
 from skald.formatter.lilypond import LilypondFormatter
 from skald.formatter.orpheus import OrpheusFormatter
-
 from skald.pd.sounder import Sounder
 
 from skald.handler.user_input import UserInputHandler
@@ -31,6 +29,8 @@ class Skald(object):
     Unless you set health_example as True which will try the model math
     against the trivial example on Wikipedia. 
     '''
+
+    __version__ = '0.7'
 
     def __init__(self, health_model=False, mock = None):
         '''
