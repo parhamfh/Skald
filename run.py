@@ -33,7 +33,7 @@ if args.model_choice == 'R':
     print ''
 #    print args.mock
     s = Skald(mock = args.mock)
-    s.run(no_score=args.no_lilypond, no_orpheus=args.no_orpheus)
+    s.run(no_lilypond=args.no_lilypond, no_orpheus=args.no_orpheus)
     
 elif args.model_choice == 'H':
     s = Skald(health_model=True, mock = args.mock)
