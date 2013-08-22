@@ -30,7 +30,7 @@ class Skald(object):
     against the trivial example on Wikipedia. 
     '''
 
-    __version__ = '0.7'
+    __version__ = '0.71'
 
     def __init__(self, health_model=False, mock = None):
         '''
