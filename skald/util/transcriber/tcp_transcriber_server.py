@@ -1,60 +1,15 @@
-'''
-Created on Jan 4, 2013
-
-WHEN RUN ON WINDOWS:
-
-
-WHEN RUN ON OS X:
-
-@author: parhamfh
-'''
+#!/usr/local/bin/python
+# coding: utf8
 
 import socket, threading, time, sys
 from threading import Lock
 
-class RemoteTranscriber(object):
-    '''
-    Uses Sockets
-    '''
+from transcriber_server import TranscriberServer
 
-    def __init__(self, sock = None):
-        '''
-        Constructor
-        '''
-        if sock == None:
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        else:
-            self.sock = sock
-        
-    def connect(self, host=None, port=None):
-        if host is None:
-            host = 'localhost'
-        if port is None:
-            port = 7777
-            
-        self.sock.connect((host, port))
+HOST_DOMAIN = 'u-shell.csc.kth.se'
+HOST = socket.gethostbyname(HOST_DOMAIN)
 
-    def send_message(self, message="Halloj"):
-        self.sock.sendall(message)
-    
-    def receive_transcribed_message(self):
-        message = self.sock.recv(8192)
-        return message
-    
-    def close_connection(self):
-        self.sock.shutdown(socket.SHUT_RDWR)
-        self.sock.close()
-        
-    def transcribe_message(self, message, host=None, port=None):
-        self.connect(host, port)
-        self.send_message(message)
-        transcribed_message = self.receive_transcribed_message()
-        self.close_connection()
-        print "RemotePhoneticTranscriber got this message: %s"%(
-                                                        transcribed_message)
-        return transcribed_message
-    
-class RemoteWindowsPhoneticTranscriber(object):
+class TCPTranscriberServer(TranscriberServer):
     '''
     Remote phonetic transcriber customized to be run on windows machine
     since currently we can only run the TCL script for the CTT toolbox from
@@ -65,8 +20,13 @@ class RemoteWindowsPhoneticTranscriber(object):
     using a local script then sent back. Following this the communication is
     terminated and the connection shut down. 
     
-    
+    If Server is local, please specify remote_is_local flag
     #TODO: CAPTURE KEYBOARD INTERUPPTS AND KILL THREADS AND CLOSE SOCKETS
+
+    INSPIRATION
+
+    http://wiki.python.org/moin/TcpCommunication
+    
     '''
     
     def __init__(self, server_sock=None, port=7777, remote_is_local=False):
@@ -91,26 +51,31 @@ class RemoteWindowsPhoneticTranscriber(object):
             self.bind_port()
             self.server_sock.listen(5)
             self.has_setup = True
-            print "RemoteWindowsPhoneticTranscriber: Setting up transcoding."
+            print "{0}: Setting up transcoding.".format(self)
         
         self.listen_thread.transcode(True) # Race condition
         self.listen_thread.start()
-        print "RemoteWindowsPhoneticTranscriber: Start transcoding."
+        print "{0}: Start transcoding.".format(self)
         
     def stop_transcoding(self):
         if self.has_setup:
-            print "RemoteWindowsPhoneticTranscriber: Stopping transcoding."
+            print "{0}: Stopping transcoding.".format(self)
             self.listen_thread.transcode(False)
             self.listen_thread.join(7)
             return
         
-        print "RemoteWindowsPhoneticTranscriber: Not running transcoder."
+        print "{0}: Not running transcoder.".format(self)
         
     def bind_port(self):
         if not self.remote_is_local:
-            self.server_sock.bind((socket.gethostname(), self.port))
+            print "{0} binding on {1}".format(self, HOST)
+            self.server_sock.bind((HOST, self.port))
             return
+        print "{0} binding on localhost".format(self)
         self.server_sock.bind(('127.0.0.1', self.port))
+
+    def __str__(self):
+        return 'TCPTranscriberServer'
 
 class ListenerThread(threading.Thread):
     '''
@@ -125,12 +90,13 @@ class ListenerThread(threading.Thread):
     def __init__(self, server_sock):
         threading.Thread.__init__(self)
         self.server_sock = server_sock
-        self.lock = Lock()
+        self.status_lock = Lock()
         
     def run(self):
-        self.lock.acquire()
+
+        self.status_lock.acquire()
         while self.TRANSCODING:
-            self.lock.release()
+            self.status_lock.release()
             (clientsocket, address) = self.server_sock.accept()
             print "ListenerThread: Client connection received on socket on"\
             " address: {0}".format(address)
@@ -140,7 +106,7 @@ class ListenerThread(threading.Thread):
             self.thread_id += 1
             tt.start()
             
-            self.lock.acquire()
+            self.status_lock.acquire()
             
     def close_listener(self):
         try:
@@ -151,7 +117,9 @@ class ListenerThread(threading.Thread):
         
     def transcode(self, is_transcoding):
         # TODO use Lock or Queue???
-        with self.lock:
+
+        # Acquire lock before changing Transcoding variable
+        with self.status_lock:
             self.TRANSCODING = is_transcoding
         
 class TranscriberThread(threading.Thread):
@@ -177,38 +145,29 @@ class TranscriberThread(threading.Thread):
                                                         self.thread_id, 
                                                         self.client_sock.getsockname(),
                                                         message)
-        self.client_sock.sendall('BABYLONIANS TAKE HEED '+message+' ENDOFT')
+        self.client_sock.sendall('| START OF TRANSMISSION | Sending back message: '+message+' | END OF TRANSMISSION |\n')
     
-    def receive_message(self):
-        message = ''
-        latest = self.client_sock.recv(8192)
-        while latest != '':
-            message += latest
-            latest = self.client_sock.recv(8192)
-            print 'latest now is %s\n==='%latest[0:10]
+    # def receive_message(self):
+    #     message = ''
+    #     latest = self.client_sock.recv(8192)
+    #     while latest != '':
+    #         message += latest
+    #         latest = self.client_sock.recv(8192)
+    #         print 'latest now is %s\n==='%latest[0:10]
             
-        print 'DONE'
-        return message
-        
-if __name__ == '__main__':
-#    import platform
-#    
-#    if platform.system() == 'Darwin':
-##        rpt = RemotePhoneticTranscriber()
-#        print 'MAC ATTAC'
-#    
-#    elif platform.system() == 'Windows':
-#        rwpt = RemoteWindowsPhoneticTranscriber()
-#        rwpt.start_transcoding()
-#    else:
-#        print("Doing nothing, unspecified platform")
+    #     print 'DONE'
+    #     return message
 
-    rwpt = RemoteWindowsPhoneticTranscriber(remote_is_local=True)
+
+if __name__ == '__main__':
+
+    rwpt = TCPTranscriberServer(remote_is_local=True)
     rwpt.start_transcoding()
+    
     try:
-        print "MAIN IS BACK"
-        #rwpt.listen_thread.join()
+        print "Main process going idle until threads terminate."
         #http://stackoverflow.com/questions/3788208/python-threading-ignores-keyboardinterrupt-exception
+        #rwpt.listen_thread.join()
         while True:
             time.sleep(10)
     except KeyboardInterrupt, ke:

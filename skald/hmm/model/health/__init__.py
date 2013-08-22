@@ -10,9 +10,9 @@ class HealthModel(HmmModel):
     Model 
     Copy of the wikipedia example on the Viterbi algorithm.
     '''
-    def __init__(self, debug = False):
+    def __init__(self, debug = False, obs = None):
         # Init
-        self._set_debug(debug)
+        self.set_debug(debug)
         
         # Set model probabilities
         self._hidden_states = [HealthCondition(0,'Healthy'), 

@@ -1,8 +1,12 @@
 *.pyc
 *.pdf
 *.ly
+*.orp
 .pydevproject
 .project
 .settings
 ignore/
+.classpath
+ignore/
+output/
 contrib/orpheus/
