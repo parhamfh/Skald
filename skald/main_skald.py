@@ -63,7 +63,7 @@ class Skald(object):
             
             self.uinput_handler = UserInputHandler(self.mock)
 
-    def run(self, no_score = False, no_orpheus = False):
+    def run(self, no_lilypond = False, no_orpheus = False):
         if self.health_model:
             sys.exit("You cannot use run() when using the Health model. Exiting...")
         
@@ -82,7 +82,7 @@ class Skald(object):
         else:            
             self.run_model()
             
-        if not no_score:
+        if not no_lilypond:
             self.generate_lilypond_score(self.beat_paths, self.observations)
             
         if not no_orpheus:

@@ -11,7 +11,7 @@ parser.add_argument('-m','--model', nargs='?', dest='model_choice', default='R',
                     help="the HMM model you wish to run. R for rhythm model, H for health model. (default: Skald's (R)hythm model)")
 parser.add_argument('-l','--no-lilypond', dest='no_lilypond', action='store_true',
                     help="Do not generate a lilypond score.")
-parser.add_argument('-o','--orpheus', dest='no_orpheus',action='store_true',
+parser.add_argument('-o','--no-orpheus', dest='no_orpheus',action='store_true',
                     help="Do not produce output for Orpheus.")
 parser.add_argument('-M','--mock', dest='mock', action='count',
                     help="Mock input. If '-M' flag is given twice also mocks "+ 
