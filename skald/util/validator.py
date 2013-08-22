@@ -2,13 +2,11 @@
 
 class InputValidator(object):
 
-    ALPHABET = u'abcdefghijklmnopqrstuvwxyzåäö '
+    ALPHABET = u'abcdefghijklmnopqrstuvwxyzåäö\n '
 
     def __init__(self, input_text, input_syllables):
         self.text = input_text
         self.syllables = input_syllables
-        print
-        print u'あなたの市場価値、わかりますか\n'
         
     def validate(self):
         '''
