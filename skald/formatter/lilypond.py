@@ -30,7 +30,7 @@ class LilypondFormatter(object):
 #        number_of_bars,
         observations, 
         time_signature=(4,4),
-        clef='"treble"',        #The quotes are IN the string
+        clef='"treble"',        # The quotes are IN the string
         score_name="skald",
         syllables=[]):
         
