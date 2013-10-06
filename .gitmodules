@@ -1,0 +1,3 @@
+[submodule "contrib/orpheus-skald"]
+	path = contrib/orpheus-skald
+	url = git@github.com:parhamfh/orpheus-skald.git
