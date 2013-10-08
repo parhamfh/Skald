@@ -69,7 +69,6 @@ class OrpheusFormatter(object):
         tmp = []
         for i in xrange(0,len(paths),4):
             tmp.append(paths[i:i+4])
-        print tmp
         return tmp
         
     def make_python_file(self):
@@ -125,18 +124,14 @@ class OrpheusFormatter(object):
                 self.FILENAME_STEM,
                 self.file_extension)
 
-        print os.path.join(self.folderpath,filename)
         filepath = os.path.join(self.folderpath,filename)
-        print os.path.isfile(filepath)
         return os.path.isfile(filepath)
 
     def _find_filename_stem(self,verse_index, file_index=0):
         # Actual filename
         if self._check_file_index(verse_index, file_index):
-            print 'here'
             return self._find_filename_stem(verse_index, file_index=file_index+1)
         else:
-            print 'i like it'
             return "{0}_{1}".format(file_index,self.FILENAME_STEM)
 
     def filename_stem(self, verse_index=None):
