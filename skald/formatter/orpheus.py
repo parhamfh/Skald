@@ -37,11 +37,15 @@ class OrpheusFormatter(object):
             os.makedirs(directory)
 
     def make_rhythm_file(self):
+        print "orpheus.py: Generating output for Orpheus"
         self.ensure_path_exists(self.folderpath)
         if self.output_format == OrpheusFormatter.PYTHON:
+            print "orpheus.py: Output format: PYTHON"
             self.make_python_file()
         elif self.output_format == OrpheusFormatter.STDOUT:
+            print "orpheus.py: Output format: STDOUT"
             self.make_stdout_file()
+        print "orpheus.py: Completed generation of Orpheus output"
 
     @property
     def bps(self):

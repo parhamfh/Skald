@@ -35,8 +35,8 @@ class LilypondFormatter(object):
         syllables=[]):
         
         if isinstance(beat_path_set, BeatPathSet) and isinstance(observations,SyllableSet):
-            print "=== BeatPairSet & SyllableSet received"\
-                    " by Lilypond Score generator ==="
+            print "lilypond.py: BeatPairSet & SyllableSet received"\
+                    " by Lilypond Score generator"
             for b in beat_path_set:
                 assert isinstance(b, BeatPath)
 #            print beats
@@ -233,11 +233,11 @@ class LilypondFormatter(object):
         self.execute_binary()
     
     def make_ly_file(self):
-        print "\n====== LilypondFormatter: Calculating note values ======\n"
+        print "lilypond.py: LilypondFormatter: Calculating note values"
         note_lists = self.calculate_notes()
-        print "====== LilypondFormatter: Generating .ly/.pdf ======"
+        print "lilypond.py: LilypondFormatter: Generating .ly/.pdf"
         self.generate_pdf(note_lists)
-        print "\n====== LilypondFormatter: Process completed ======\n"
+        print "lilypond.py: LilypondFormatter: Process completed"
 
     def note_across_bar(self,start_index,end_index, bar_tuples):
         '''
