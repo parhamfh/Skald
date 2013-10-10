@@ -13,8 +13,8 @@ from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
 from skald.formatter.lilypond import LilypondFormatter
 from skald.formatter.orpheus import OrpheusFormatter
 from skald.pd.sounder import Sounder
-
 from skald.handler.user_input import UserInputHandler
+from skald.invoker.invoker import OrpheusInvoker
 
 class Skald(object):
     '''
@@ -139,3 +139,7 @@ class Skald(object):
         sounder = Sounder(num_beats)
         sounder.set_notes(sendlist)
         sounder.send_notes()
+
+    def invoke_orpheus(self):
+        oi = OrpheusInvoker()
+        oi.invoke()

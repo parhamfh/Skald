@@ -34,22 +34,27 @@ if args.version:
     print Skald.__version__
     sys.exit(0)
 
+### SKALD
+
 if args.model_choice == 'R':
     print "Generate musical score: {0}".format("Yes" if not args.no_lilypond else "No")
     print "Generate output for Orpheus: {0}".format("Yes" if not args.no_orpheus else "No")
     print "Current version only supports "
     print ''
-#    print args.mock
     s = Skald(mock = args.mock)
     s.run(no_lilypond=args.no_lilypond, no_orpheus=args.no_orpheus)
     
 elif args.model_choice == 'H':
     s = Skald(health_model=True, mock = args.mock)
     #s.run()
-    
 else:
     raise RuntimeError("Unknown choice of model. (should not be possible to get this message)")
 
+### ORPHEUS
+if s:
+    s.invoke_orpheus()
+
+### FIN
 end_time = time.time()
 print "Execution time: {1} ({0})".format(end_time - start_time,round(end_time - start_time, 6))
 # s=Skald()

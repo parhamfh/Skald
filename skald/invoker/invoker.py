@@ -1,0 +1,28 @@
+# coding: utf8
+import os
+
+import skald.orpheus as orpheus
+
+ORPHEUS_SUB_DIR = ['skald','orpheus'] 
+
+
+class OrpheusInvoker(object):
+    
+    def __init__(self):
+        pass
+
+    def invoke(self):
+        # Save current directory
+        cur_dir = os.getcwd()
+
+        # Path for Orpheus submodule
+        orpheus_dir = os.path.join(cur_dir, *ORPHEUS_SUB_DIR)
+        
+        # Change dir to Orpheus's directory
+        os.chdir(orpheus_dir)
+        
+        # Invoke Orpheus 
+        orpheus._main()
+        
+        # Jump back to original directory
+        os.chdir(cur_dir)
