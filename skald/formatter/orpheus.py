@@ -50,7 +50,7 @@ class OrpheusFormatter(object):
     @property
     def bps(self):
         return self.beat_path_set
-    
+
     @property
     def obs(self):
         return self.observations_list

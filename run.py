@@ -52,8 +52,11 @@ else:
 
 ### ORPHEUS
 if s:
+    s.prepare_orpheus()
     s.invoke_orpheus()
-
+else:
+    raise RuntimeError("Skald not initialized, why?")
+    
 ### FIN
 end_time = time.time()
 print "Execution time: {1} ({0})".format(end_time - start_time,round(end_time - start_time, 6))

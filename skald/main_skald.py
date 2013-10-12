@@ -128,6 +128,7 @@ class Skald(object):
         orp = OrpheusFormatter(paths, observations, 
                                output_format=OrpheusFormatter.STDOUT)
         orp.make_rhythm_file()
+        self.output_filename_stem=orp.filename_stem()
         
     def send_to_pd(self, xpath, num_beats):
         # print "\nAnd they said, in great unison, that The Path shalt be:"
@@ -140,6 +141,13 @@ class Skald(object):
         sounder.set_notes(sendlist)
         sounder.send_notes()
 
+    ### Orpheus specific functions
+
+    def prepare_orpheus(self):
+        self.oi = OrpheusInvoker()
+        self.oi.prepare_input(skald_filename_stem=self.output_filename_stem)
+
     def invoke_orpheus(self):
-        oi = OrpheusInvoker()
-        oi.invoke()
+        if not self.oi:
+            raise RuntimeError('You must have run prepare_for_orpheus() before invoking!')
+        self.oi.invoke()
