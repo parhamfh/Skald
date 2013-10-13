@@ -78,7 +78,8 @@ class OrpheusInvoker(object):
         for f in skald_files:
             src = os.path.join(self.skald_output_directory, f)
             # TODO: remove index prefix for dst
-            dst = os.path.join(self.input_directory, f)
+            print f[f.find('_')+1:]
+            dst = os.path.join(self.input_directory, f[f.find('_')+1:])
             shutil.copyfile(src, dst)
 
         print skald_filename_stem
