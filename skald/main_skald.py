@@ -16,6 +16,8 @@ from skald.pd.sounder import Sounder
 from skald.handler.user_input import UserInputHandler
 from skald.invoker.invoker import OrpheusInvoker
 
+OUTPUT_FORMAT = OrpheusFormatter.STDOUT
+
 class Skald(object):
     '''
     Connects the dots. 
@@ -126,7 +128,7 @@ class Skald(object):
     
     def generate_orpheus_output(self, paths, observations):
         orp = OrpheusFormatter(paths, observations, 
-                               output_format=OrpheusFormatter.STDOUT)
+                               output_format=OUTPUT_FORMAT)
         orp.make_rhythm_file()
         self.output_filename_stem=orp.filename_stem()
         
@@ -144,8 +146,8 @@ class Skald(object):
     ### Orpheus specific functions
 
     def prepare_orpheus(self):
-        self.oi = OrpheusInvoker()
-        self.oi.prepare_input(skald_filename_stem=self.output_filename_stem)
+        self.oi = OrpheusInvoker(skald_filename_stem=self.output_filename_stem, skald_output_type=OUTPUT_FORMAT)
+        self.oi.prepare_input()
 
     def invoke_orpheus(self):
         if not self.oi:

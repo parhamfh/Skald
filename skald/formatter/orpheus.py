@@ -16,6 +16,14 @@ class OrpheusFormatter(object):
     TICKS_OFFSET = 32 * TICKS_PER_16TH
     BEAT_INFO_INDENT = "    "
     
+    @classmethod
+    def type_to_string(cls,orpheus_type):
+        if orpheus_type == cls.PYTHON:
+            return "python"
+        elif orpheus_type == cls.STDOUT:
+            return "stdout"
+        else:
+            raise ValueError("Type [%s] is unknown."%(orpheus_type))
 
     def __init__(self, beat_path_set, observations_list, output_format=None):
         self.beat_path_set = self.group_paths_in_fours(beat_path_set)
