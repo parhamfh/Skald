@@ -106,8 +106,9 @@ class OrpheusFormatter(object):
             verse_index += 1
 
     def make_stdout_file(self):
-        file_index = 1
+        file_index = 0
         for four in self.bps:
+            file_index += 1
             with open(self.path_to_file(file_index),'w+') as fp:
                 self.stdout_write_out_header(fp)
                 offset=0
@@ -120,8 +121,8 @@ class OrpheusFormatter(object):
                     for b, o, _ in mergedlist:
                         self.stdout_write_out_beat(b, o, fp, ticks_offset=offset)
                     offset += 1
-            file_index += 1
-    
+        self.number_of_files = file_index
+
     def _check_file_index(self, verse_index, file_index):
         if verse_index:
             filename="{0}_{1}_{2}{3}".format(

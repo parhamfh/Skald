@@ -130,7 +130,8 @@ class Skald(object):
         orp = OrpheusFormatter(paths, observations, 
                                output_format=OUTPUT_FORMAT)
         orp.make_rhythm_file()
-        self.output_filename_stem=orp.filename_stem()
+        self.output_filename_stem = orp.filename_stem()
+        self.number_of_verses = orp.number_of_files
         
     def send_to_pd(self, xpath, num_beats):
         # print "\nAnd they said, in great unison, that The Path shalt be:"
@@ -146,7 +147,7 @@ class Skald(object):
     ### Orpheus specific functions
 
     def prepare_orpheus(self):
-        self.oi = OrpheusInvoker(skald_filename_stem=self.output_filename_stem, skald_output_type=OUTPUT_FORMAT)
+        self.oi = OrpheusInvoker(self.number_of_verses, skald_filename_stem=self.output_filename_stem, skald_output_type=OUTPUT_FORMAT)
         self.oi.prepare_input()
 
     def invoke_orpheus(self):

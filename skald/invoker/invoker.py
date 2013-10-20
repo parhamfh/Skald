@@ -4,7 +4,7 @@ import shutil
 
 import skald.orpheus as orpheus
 from skald.formatter.orpheus import OrpheusFormatter
-
+from skald.invoker import SamplePKFormatter
 
 type_to_string = OrpheusFormatter.type_to_string
 
@@ -14,7 +14,7 @@ OUTPUT_SUB_DIR =  ['output','orpheus']
 
 class OrpheusInvoker(object):
 
-    def __init__(self, skald_filename_stem=None, skald_output_type=None):
+    def __init__(self, number_of_verses, skald_filename_stem=None, skald_output_type=None, user_settings=None):
         if not skald_filename_stem:
             raise RuntimeError("Filename stem needs to be specified. skald_filename_stem was None.")
         self.skald_filename_stem = skald_filename_stem
@@ -44,6 +44,8 @@ class OrpheusInvoker(object):
         # print self.orpheus_running_directory
         # print self.input_directory
         # print self.skald_output_directory
+        self.number_of_verses = number_of_verses
+        self.settings = user_settings
 
     def invoke(self):
         
@@ -63,7 +65,7 @@ class OrpheusInvoker(object):
         '''
 
         self._copy_skald_output(self.skald_filename_stem)
-        self._setup_samplespk()
+        self._setup_samplespk(self.number_of_verses)
 
     def _copy_skald_output(self, skald_filename_stem):
         files = os.listdir(self.skald_output_directory)
@@ -77,13 +79,13 @@ class OrpheusInvoker(object):
         # Copy files over
         for f in skald_files:
             src = os.path.join(self.skald_output_directory, f)
-            # TODO: remove index prefix for dst
-            print f[f.find('_')+1:]
+            
+            # f[f.find('_')+1:]: remove index prefix for dst
             dst = os.path.join(self.input_directory, f[f.find('_')+1:])
             shutil.copyfile(src, dst)
 
-        print skald_filename_stem
         return num_skald_files
 
-    def _setup_samplespk(self):
-        assert True
+    def _setup_samplespk(self, number_of_verses):
+        sample_formatter = SamplePKFormatter(self.settings, number_of_verses)
+        sample_formatter.generate_sample_pk()
