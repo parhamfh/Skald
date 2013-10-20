@@ -2,6 +2,19 @@
 
 # coding: utf8
 
+'''
+    This module takes in the sample.pk and generates a template which we
+    can use to create our own sample.pk and pass to orpheus.
+
+    The orpheus_template.json will be used by the actual module 
+    outputting the sample.pk to be used.
+
+    So, to clarify: this module is not to be used with Skald
+    but ONLY to generate the orpheus_template.json
+
+    Most of this code will/is lifted to the actual module that does the
+    sample.pk generation.
+'''
 import json
 import collections
 
@@ -22,25 +35,30 @@ def has_second_part(candidate):
         return False
 
 with open('sample.pk') as csv_f:
+
+    # Read in the sample.pk origina file Fukayama gave you
     red = unicodecsv.UnicodeReader(csv_f, delimiter=',')
     dic = {}
 
     for row in red:
-
         if len(row) < 1:
             continue
 
-        if row[0] not in dic:
-            dic[row[0]] = []
+        if row[0] in dic:
+            print 'what', row[0],'already in dict! ABORT'
+            assert False 
 
-        # print row[0]
-        dic[row[0]].append(row[1])
+        dic[row[0]] = row[1]
 
     if 'div' not in dic:
         raise RuntimeError('Why no div bro?')
-
+    
+    # Break out the 'div' keys and prepare a new dict where
+    # the div key contains a dict with proper key-values
     num_div = int(dic['div'][0])
     fin_dic = {}
+
+    # SPLIT the DIV KEYS and add to new fin_dic
     for key in dic:
         
         # MAJOR ASSUMPTION THAT IF
@@ -58,43 +76,53 @@ with open('sample.pk') as csv_f:
                 k = int(split_key[0])
                 if k not in fin_dic:
                     fin_dic[k] = {}
+                
                 fin_dic[k][split_key[1]] = dic[key]
                 continue
 
         # NOT a division so proceed without fancyness
 
         # Only one value associated to key
-        if len(dic[key]) == 1:
-            fin_dic[key] = dic[key][0]
-        # List of values associated with key
-        else:
-            fin_dic[key] = dic[key]
+        fin_dic[key] = dic[key]
 
-    # for key in sorted(fin_dic.keys()):
-    #     print key
-    #     print fin_dic[key]
-    #     print '\n==================='
+    # Dump our new dictionary to JSON as orpheus_template.json
+    with open('orpheus_template.json','w') as orp_dump:
+        json.dump(fin_dic, orp_dump, sort_keys=True, indent=4)
 
-    # Dump our crap to make the orpheus_template.json
-    json_dump = json.dumps(fin_dic, sort_keys=True, indent=4)
-    print json_dump
-
+    ############
+    ### EVERYTHIN BELOW HERE IS JUST FOR CHECKING THAT
+    ### THE FILES AND PROCESS ARE CORRECT
+    ############
+    
     # Check that we can read in the json and put it into csv format
-    orp_json = json.loads(json_dump)
-    for shit in orp_json:
+    
+    with open('orpheus_template.json', 'r') as json_dump:
+        orp_json = json.load(json_dump)
+
+    # Sorted() on a dict returns the key set sorted
+    for shit in sorted(orp_json):
         print shit, type(orp_json[shit]), len(orp_json[shit])
 
     # Write back the loaded JSON template in CSV with changes 
     # we want orpheus to respect included
+    div_int = int(orp_json['div'])
 
-    with open('csvsampleexample.pk','wb') as csvsamplepk:
+    with open('csvsampleexample.pk','w+') as csvsamplepk:
         shitwriter = unicodecsv.UnicodeWriter(csvsamplepk, delimiter=',')
         # For all the divs, merge the keys in the dict with the div number
         # To create the crappy <div number>:<key>,<value> format
-        for crap in orp_json:
-            assert False
-            shitwriter.writerow([crap,orp_json[crap]])
+        for crap in sorted(orp_json):
+            if is_int(crap) and int(crap) in range(1,div_int+1):
+                di = int(crap)
+                # This is one of the divs (divisions)
+                # These contain dicts
+                div_dict = orp_json[crap]
+                for key in div_dict:
+                    # print div_dict[key]
+                    shitwriter.writerow(["{0}:{1}".format(di,key),div_dict[key]])
+            else:
+                # Not divs, just write it, bruh
+                shitwriter.writerow([crap,orp_json[crap]])
 
-    # Read in the csv again and jsonify check the keys against the json orp_json
-    # Here below
-    assert False
+    # Trust that it is done properly
+    # But you could always compare sample.pk and csvsampleexample.pk
