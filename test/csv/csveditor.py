@@ -107,7 +107,7 @@ with open('sample.pk') as csv_f:
     # we want orpheus to respect included
     div_int = int(orp_json['div'])
 
-    with open('csvsampleexample.pk','w+') as csvsamplepk:
+    with open('comparison_sample.pk','w+') as csvsamplepk:
         shitwriter = unicodecsv.UnicodeWriter(csvsamplepk, delimiter=',')
         # For all the divs, merge the keys in the dict with the div number
         # To create the crappy <div number>:<key>,<value> format
