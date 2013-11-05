@@ -12,7 +12,7 @@
     So, to clarify: this module is not to be used with Skald
     but ONLY to generate the orpheus_template.json
 
-    Most of this code will/is lifted to the actual module that does the
+    Most of this code will be/is lifted to the actual module that does the
     sample.pk generation.
 '''
 import json
