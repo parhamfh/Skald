@@ -3,8 +3,16 @@
 import argparse
 import time
 import sys
+import os
 
+# INITIALIZE env variables
+# TODO: read from a .skald.conf/rc file instead
+SKALD_DIRECTORY = '/Users/pfh/skald'
+os.environ['SKALD_DIRECTORY'] = SKALD_DIRECTORY
+
+# Import Skald module
 from skald import Skald
+
 
 parser = argparse.ArgumentParser(description='Run and calculate the rhythm model for Skald.')
 parser.add_argument('-m','--model', nargs='?', dest='model_choice', default='R',
