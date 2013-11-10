@@ -68,9 +68,22 @@ class OrpheusInvoker(object):
         Takes Skalds output and prepares it for Orpheus, as valid input.
         Also sets up Orpheus' samples.pk with the users choices.
         '''
-
+        self._clean_input_directory()
         self._copy_skald_output(self.skald_filename_stem)
         self._setup_sample_pk(self.number_of_verses)
+
+    def _clean_input_directory(self):
+        dst = os.path.join(self.input_directory)
+        
+        # The content of the directory absolute paths
+        input_dir_content = map(lambda x: os.path.join(dst,x), os.listdir(dst))
+        
+        # Filter out any directories, just keep the files
+        input_dir_files = filter(os.path.isfile, input_dir_content)
+
+        # remove them
+        for old_file in input_dir_files:
+            os.remove(old_file) 
 
     def _copy_skald_output(self, skald_filename_stem):
         files = os.listdir(self.skald_output_directory)
