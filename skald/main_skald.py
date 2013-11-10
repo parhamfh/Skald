@@ -147,7 +147,9 @@ class Skald(object):
     ### Orpheus specific functions
 
     def prepare_orpheus(self):
-        self.oi = OrpheusInvoker(self.number_of_verses, skald_filename_stem=self.output_filename_stem, skald_output_type=OUTPUT_FORMAT)
+        self.oi = OrpheusInvoker(self.number_of_verses,
+            skald_filename_stem=self.output_filename_stem,
+            skald_output_type=OUTPUT_FORMAT)
         self.oi.prepare_input()
 
     def invoke_orpheus(self):
