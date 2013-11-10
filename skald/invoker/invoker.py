@@ -11,6 +11,7 @@ type_to_string = OrpheusFormatter.type_to_string
 ORPHEUS_SUB_DIR = ['skald','orpheus']
 ORPHEUS_INPUT_DIR = ['sweedish', 'orpheus']
 OUTPUT_SUB_DIR =  ['output','orpheus']
+ORPHEUS_SAMPLE_PK_DIR = ['samples']
 
 class OrpheusInvoker(object):
 
@@ -47,6 +48,10 @@ class OrpheusInvoker(object):
         self.number_of_verses = number_of_verses
         self.settings = user_settings
 
+    @property
+    def sample_pk_directory(self):
+        return os.path.join(self.orpheus_running_directory,*ORPHEUS_SAMPLE_PK_DIR)
+
     def invoke(self):
         
         # Change dir to Orpheus's directory
@@ -65,7 +70,7 @@ class OrpheusInvoker(object):
         '''
 
         self._copy_skald_output(self.skald_filename_stem)
-        self._setup_samplespk(self.number_of_verses)
+        self._setup_sample_pk(self.number_of_verses)
 
     def _copy_skald_output(self, skald_filename_stem):
         files = os.listdir(self.skald_output_directory)
@@ -86,6 +91,13 @@ class OrpheusInvoker(object):
 
         return num_skald_files
 
-    def _setup_samplespk(self, number_of_verses):
+    def _setup_sample_pk(self, number_of_verses):
         sample_formatter = SamplePKFormatter(self.settings, number_of_verses)
-        sample_formatter.generate_sample_pk()
+        sp_file = sample_formatter.generate_sample_pk()
+        self._copy_to_orpheus(sp_file)
+
+    def _copy_to_orpheus(self, sample_pk):
+        orpheus_sample_pk = os.path.join(self.sample_pk_directory,'sample.pk')
+        print '\ninvoker.py: Copying generated sample_pk from {0} to Orpheus'\
+            'input directory {1}.\n'.format(sample_pk,orpheus_sample_pk)
+        shutil.copyfile(sample_pk,orpheus_sample_pk)
