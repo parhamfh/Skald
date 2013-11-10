@@ -22,6 +22,7 @@ def get_my_file(filename, mode=None):
     # join paths
     # Set env for assets folder and use that
     
+    print 'module name is : ', module_name
     p = os.path.join(ASSETS_FOLDER, module_name, filename)
 
     # Mode
