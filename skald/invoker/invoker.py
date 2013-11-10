@@ -83,7 +83,10 @@ class OrpheusInvoker(object):
 
         # remove them
         for old_file in input_dir_files:
-            os.remove(old_file) 
+            # TODO: Remove this once sample.pk correctly
+            # reflects the input of the user
+            # os.remove(old_file) 
+            pass
 
     def _copy_skald_output(self, skald_filename_stem):
         files = os.listdir(self.skald_output_directory)
