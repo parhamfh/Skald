@@ -43,7 +43,7 @@ class SamplePKFormatter(object):
     def _user_choices_to_dict(self, choices):
         # TODO: Add attribute for telling Orpheus which sections are verses and which are not
         # for pregenrhythm.py in Orpheus, so we can skip the if's in prepare(params, n)
-        return {'name':'Sam the Ham'}
+        return {'name':'"Sam the Ham"'}
 
     def _template_to_dict(self,template_json_file):
         with template_json_file as template_json:
