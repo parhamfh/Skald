@@ -18,7 +18,8 @@ class SamplePKFormatter(object):
 
     '''
 
-    ORPHEUS_JSON_TEMPLATE = 'orpheus_template.json'
+    # ORPHEUS_JSON_TEMPLATE = 'orpheus_template.json'
+    ORPHEUS_JSON_TEMPLATE = 'test_orp_temp.json'
     
     def __init__(self, settings, number_of_verses, user_choices=None):
         self.settings = settings
