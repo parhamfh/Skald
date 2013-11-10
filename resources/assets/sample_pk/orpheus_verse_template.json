@@ -1,0 +1,22 @@
+{
+    "bars": "", //"5 6 7 8", 
+    "harmony": "", //"pat/harmony/../user_harmony/user_hm_pat_h1bw7t.har", 
+    "highest": "", //"76", 
+    "inst": "", //"42", 
+    "instpat": "", //"pat/instpat/arpeggio-updown16.sh", 
+    "key": "", //"+2", 
+    "lowest": "", //"57", 
+    "measure": "", //"4/4", 
+    "melody": "", //"smooth 4", 
+    "mode": "", //"inst", 
+    "perc": "", //"pat/perc/perc-hirata-fusion1.perc", 
+    "prosody": "", //"", 
+    "rhythm": "", //"pat/rhythm/manatunokajitu-himeno-auf1-2", 
+    "subacc": "", //"19",
+    "subpat": "", //"pat/instpat/style_99.sh", 
+    "tempo": "", //"96", 
+    "text": "", //"??", 
+    "transpose": "", //"0", 
+    "vocvol": "", //"0", 
+    "voice": "" //"fss 0.23"
+}
