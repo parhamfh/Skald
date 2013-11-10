@@ -97,6 +97,7 @@ with open('sample.pk') as csv_f:
     
     # Check that we can read in the json and put it into csv format
     
+    # ORP_JSON IS A DICT
     with open('orpheus_template.json', 'r') as json_dump:
         orp_json = json.load(json_dump)
 
