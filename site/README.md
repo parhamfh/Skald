@@ -1,1 +1,1 @@
-The code for the Skald website, built on Flask
+The code for the Skald website, running on Flask
