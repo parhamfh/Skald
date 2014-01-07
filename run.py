@@ -1,4 +1,5 @@
 #!/usr/local/bin/python
+# coding: utf8
 
 import argparse
 import time
@@ -7,11 +8,11 @@ import os
 
 # INITIALIZE env variables
 # TODO: read from a .skald.conf/rc file instead
-SKALD_DIRECTORY = '/Users/pfh/skald'
-os.environ['SKALD_DIRECTORY'] = SKALD_DIRECTORY
 
-# Import Skald module
-from skald import Skald
+"""
+lägg till så att man väljer om skald servern man startar (run.py) ska transcribe remotely elelr locally, om remotely så måste man ange protokoll samt adress för remote transcriber
+"""
+
 
 
 parser = argparse.ArgumentParser(description='Run and calculate the rhythm model for Skald.')
@@ -27,6 +28,8 @@ parser.add_argument('-M','--mock', dest='mock', action='count',
                     "calculations")
 parser.add_argument('-v','--version', dest='version', action='store_true',
                     help="Print Skald version number and exit.")
+parser.add_argument('-d','--directory', dest='skald_directory',
+                    help='Give absolute path to Skald\'s directory on computer')
 #parser.add_argument('-t',choices=['input','transcribing']
                     # help='Test only specified functionality/module.')
 
@@ -36,6 +39,20 @@ print "------------------------------------------------"
 print "|                 S K A L D                    |"
 print "------------------------------------------------"
 
+
+#SKALD_DIRECTORY = '/Users/pfh/skald'
+if args.skald_directory:
+    SKALD_DIRECTORY = args.skald_directory
+else:
+    SKALD_DIRECTORY = os.getcwd()
+    print SKALD_DIRECTORY
+
+os.environ['SKALD_DIRECTORY'] = SKALD_DIRECTORY
+
+# Import Skald module
+from skald import Skald
+
+# Start timing
 start_time = time.time()
 
 if args.version:
