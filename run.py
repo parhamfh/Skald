@@ -10,10 +10,9 @@ import os
 # TODO: read from a .skald.conf/rc file instead
 
 """
+TODO:
 lägg till så att man väljer om skald servern man startar (run.py) ska transcribe remotely elelr locally, om remotely så måste man ange protokoll samt adress för remote transcriber
 """
-
-
 
 parser = argparse.ArgumentParser(description='Run and calculate the rhythm model for Skald.')
 parser.add_argument('-m','--model', nargs='?', dest='model_choice', default='R',
@@ -49,8 +48,11 @@ else:
 
 os.environ['SKALD_DIRECTORY'] = SKALD_DIRECTORY
 
+# Add src folder to Python path
+sys.path.insert(0, os.path.join(SKALD_DIRECTORY, 'src'))
+
 # Import Skald module
-from skald import Skald
+from src import Skald
 
 # Start timing
 start_time = time.time()
@@ -59,7 +61,7 @@ if args.version:
     print Skald.__version__
     sys.exit(0)
 
-### SKALD
+### SKALD STARTS HERE!!!
 
 if args.model_choice == 'R':
     print "Generate musical score: {0}".format("Yes" if not args.no_lilypond else "No")
