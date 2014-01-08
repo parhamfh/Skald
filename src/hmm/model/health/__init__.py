@@ -2,8 +2,8 @@
 
 import numpy
 
-from skald.hmm.model import HmmModel
-from skald.hmm.model.health.elements import HealthCondition, Symptom
+from hmm.model import HmmModel
+from hmm.model.health.elements import HealthCondition, Symptom
 
 class HealthModel(HmmModel):
     '''

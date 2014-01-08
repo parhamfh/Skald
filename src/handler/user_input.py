@@ -5,7 +5,7 @@ Created on 25 May, 2013
 @author: parhamfh
 '''
 
-from skald.util import InputParser, Syllabifyer, PhoneticTranscriber, SyllableSet, InputValidator
+from util import InputParser, Syllabifyer, PhoneticTranscriber, SyllableSet, InputValidator
 
 class UserInputHandler(object):
     
@@ -118,7 +118,7 @@ class UserInputHandler(object):
             return syllables
         
         else:
-            from skald.hmm.model.rhythm.elements import Syllable
+            from hmm.model.rhythm.elements import Syllable
             WORD_INDENT = "    "
             # For each line of text of input
             line = 0

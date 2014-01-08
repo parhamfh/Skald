@@ -4,9 +4,9 @@
 import numpy
 import random
 
-from skald.hmm.model import HmmModel
-from skald.hmm.model.rhythm.elements import BeatPair, Syllable
-from skald.hmm.model.rhythm.exception import BeatTypeException
+from hmm.model import HmmModel
+from hmm.model.rhythm.elements import BeatPair, Syllable
+from hmm.model.rhythm.exception import BeatTypeException
 '''
     Det är konstigt att __init__ tar emot obs, för en HMM ska inte göra det
     implementera ny eller döp om HMMModel till InputOutputModel. 

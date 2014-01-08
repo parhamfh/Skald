@@ -5,8 +5,8 @@ from os import path, makedirs
 
 from subprocess import call
 
-from skald.hmm.model.rhythm.elements import BeatPair, Syllable, BeatPathSet, BeatPath
-from skald.util.syllabify import SyllableSet
+from hmm.model.rhythm.elements import BeatPair, Syllable, BeatPathSet, BeatPath
+from util.syllabify import SyllableSet
 
 class LilypondFormatter(object):
 

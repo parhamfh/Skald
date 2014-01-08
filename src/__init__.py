@@ -1,1 +1,1 @@
-from skald.main_skald import *
+from main_skald import *

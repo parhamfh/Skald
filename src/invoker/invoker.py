@@ -2,9 +2,9 @@
 import os
 import shutil
 
-import skald.orpheus as orpheus
-from skald.formatter.orpheus import OrpheusFormatter
-from skald.invoker import SamplePKFormatter
+import orpheus as orpheus
+from formatter.orpheus import OrpheusFormatter
+from . import SamplePKFormatter
 
 type_to_string = OrpheusFormatter.type_to_string
 

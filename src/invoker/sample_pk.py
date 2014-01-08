@@ -4,9 +4,9 @@ import os
 import json
 import tempfile
 
-import skald.util.assets as assets
-from skald.util import merge_dicts, is_int
-from skald.util.unicodecsv import UnicodeWriter
+import util.assets as assets
+from util import merge_dicts, is_int
+from util.unicodecsv import UnicodeWriter
 
 class SamplePKFormatter(object):
     '''

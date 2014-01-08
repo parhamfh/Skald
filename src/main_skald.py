@@ -7,14 +7,14 @@ Created on Jan 3, 2013
 import random
 import sys
 
-from skald.hmm import Hmm
-from skald.hmm.model.rhythm import RhythmModel
-from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
-from skald.formatter.lilypond import LilypondFormatter
-from skald.formatter.orpheus import OrpheusFormatter
-from skald.pd.sounder import Sounder
-from skald.handler.user_input import UserInputHandler
-from skald.invoker.invoker import OrpheusInvoker
+from hmm import Hmm
+from hmm.model.rhythm import RhythmModel
+from hmm.model.rhythm.elements import BeatPathSet, BeatPair
+from formatter.lilypond import LilypondFormatter
+from formatter.orpheus import OrpheusFormatter
+from pd.sounder import Sounder
+from handler.user_input import UserInputHandler
+from invoker.invoker import OrpheusInvoker
 
 OUTPUT_FORMAT = OrpheusFormatter.STDOUT
 
@@ -50,8 +50,8 @@ class Skald(object):
         self.health_model = health_model
         if health_model:
             print 'Running Wikipedia example: Health model.'
-            from skald.hmm.model.health import HealthModel
-            from skald.hmm.model.health.elements import Symptom
+            from hmm.model.health import HealthModel
+            from hmm.model.health.elements import Symptom
             self.observations = [Symptom('normal'),
                         Symptom('cold'),
                         Symptom('dizzy')]
@@ -91,7 +91,7 @@ class Skald(object):
             self.generate_orpheus_output(self.beat_paths, self.observations)
 
     def mock_model(self):
-        from skald.hmm.model.rhythm.elements import BeatPath
+        from hmm.model.rhythm.elements import BeatPath
         
         self.beat_paths = BeatPathSet(8, paths = [
                                 BeatPath(0, [BeatPair(16, 21, idx=397), BeatPair(23,23, idx=483), BeatPair(24,25, idx=493), BeatPair(26,26, idx=507), BeatPair(27,27, idx=513), BeatPair(28,28, idx=518), BeatPair(29,29, idx=522), BeatPair(30,31,idx=526)]),

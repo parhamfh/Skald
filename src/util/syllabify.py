@@ -7,7 +7,7 @@ Created on Feb 6, 2013
 
 import re
 
-from skald.hmm.model.rhythm.elements import Syllable
+from hmm.model.rhythm.elements import Syllable
 
 class Syllabifyer(object):
     '''
