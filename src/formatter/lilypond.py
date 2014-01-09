@@ -5,8 +5,12 @@ from os import path, makedirs
 
 from subprocess import call
 
-from hmm.model.rhythm.elements import BeatPair, Syllable, BeatPathSet, BeatPath
+from hmm.model.rhythm.elements import BeatPair, Syllable
 from util.syllabify import SyllableSet
+# Have to have src before because type() returns the module path
+# with src. prepended to hmm.model.rhythm.elements
+from src.hmm.model.rhythm.elements import BeatPathSet, BeatPath
+
 
 class LilypondFormatter(object):
 

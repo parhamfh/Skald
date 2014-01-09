@@ -8,7 +8,7 @@ from . import SamplePKFormatter
 
 type_to_string = OrpheusFormatter.type_to_string
 
-ORPHEUS_SUB_DIR = ['skald','orpheus']
+ORPHEUS_SUB_DIR = ['src','orpheus']
 ORPHEUS_INPUT_DIR = ['sweedish', 'orpheus']
 OUTPUT_SUB_DIR =  ['output','orpheus']
 ORPHEUS_SAMPLE_PK_DIR = ['samples']
