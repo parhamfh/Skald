@@ -8,3 +8,4 @@
 .classpath
 ignore/
 output/
+.DS_Store
