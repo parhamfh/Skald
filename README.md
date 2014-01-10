@@ -41,6 +41,5 @@ So you need to upgrade mpost which can be quite hard finding information about h
 
 [Source](https://github.com/Homebrew/homebrew/issues/23336#issuecomment-29144066)
 
-[1] - http://superuser.com/questions/391497/os-x-lion-easy-install-requires-sudo/405405#405405 / https://github.com/Homebrew/homebrew/wiki/Gems%2C-Eggs-and-Perl-Modules
-
-[2] - After upgrading to an OS X post 10.7 (from, say, 10.6, ehm) you might experience that you lack permissions in /usr/local/, which `brew` likes to use. This [SO question](http://superuser.com/questions/254843/cant-install-brew-formulae-correctly-permission-denied-in-usr-local-lib) suggested this [gist](https://gist.github.com/rpavlik/768518) which resolves the permission issues.
+* [1] - http://superuser.com/questions/391497/os-x-lion-easy-install-requires-sudo/405405#405405 / https://github.com/Homebrew/homebrew/wiki/Gems%2C-Eggs-and-Perl-Modules
+* [2] - After upgrading to an OS X post 10.7 (from, say, 10.6, ehm) you might experience that you lack permissions in /usr/local/, which `brew` likes to use. This [SO question](http://superuser.com/questions/254843/cant-install-brew-formulae-correctly-permission-denied-in-usr-local-lib) suggested this [gist](https://gist.github.com/rpavlik/768518) which resolves the permission issues.
