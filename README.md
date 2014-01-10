@@ -29,7 +29,7 @@ The formula for lilypond provided by brew does not manage to build lilypond toge
 
 `brew install --devel lilypond`
 
-Download the lilypond formula from adamv and replace the `lilypond.rb` formula (back it up) in your Homebrew formula folder (Homebrew uses a `/Library` replica[1] which by default is placed under `/usr/local/`): `$HOMEBREW_PREFIX/Library/Formula`.
+Download the lilypond formula from adamv and replace the `lilypond.rb` formula (back it up) in your Homebrew formula folder (Homebrew uses a `/Library` replica[1][2] which by default is placed under `/usr/local/`): `$HOMEBREW_PREFIX/Library/Formula`.
 
 Also, when you currently install MacTeX-2013 it installs a version of mpost (metapost) not compatible with brew, so when you try to run `brew install --devel lilypond` it will further down in the process give the error:
 
@@ -42,3 +42,4 @@ So you need to upgrade mpost which can be quite hard finding information about h
 [Source](https://github.com/Homebrew/homebrew/issues/23336#issuecomment-29144066)
 
 [1] - http://superuser.com/questions/391497/os-x-lion-easy-install-requires-sudo/405405#405405 / https://github.com/Homebrew/homebrew/wiki/Gems%2C-Eggs-and-Perl-Modules
+[2] - After upgrading to an OS X post 10.7 (from, say, 10.6, ehm) you might experience that you lack permissions in /usr/local/, which `brew` likes to use. This [SO question](http://superuser.com/questions/254843/cant-install-brew-formulae-correctly-permission-denied-in-usr-local-lib) suggested this [gist](https://gist.github.com/rpavlik/768518) which resolves the permission issues.
