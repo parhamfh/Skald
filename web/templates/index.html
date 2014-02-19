@@ -1,31 +1,47 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
     <head>
-        <title>Trio - The Guns of Navarrone</title>
-        <link rel='stylesheet' type='text/css' href="{{url_for('static',filename='skald.css')}}"/>
+        <meta charset="UTF-8">
+
+        <title>Skald - The Swedish Song Generator</title>
+        <link rel='stylesheet' type='text/css' href="{{url_for('static',filename='css/skald.css')}}"/>
     </head>
     <body>
-        <h1>Skald - {{sub_title}}</h1>
-        <div id='number_of_verses'>
-            <p>Number of verses:</p>
-            <select name="number_of_verses">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-            </select>
-        </div>
-        <p>Verse 1:</p>
-        <textarea name="" rows="4" cols="50"></textarea>
-        <div id="chorus">
-            <p>Chorus? </p>
-            <form action="">
-                <input type="radio" name="chorus" value="yes" />Yes
-                <input type="radio" name="chorus" value="no" />No
-            </form>
+
+        <div class="application">
+            <div class="logotype">
+                <h1>Skald - {{sub_title}}</h1>
+            </div>
+            <div class="menubar">
+                <nav class="menuitems">
+                    <a href="/#home" class="menuitem">Home</a>
+                    <a href="/#songs" class="menuitem">Songs</a>
+                    <a href="/#songs" class="menuitem">Settings</a>
+                </nav>
+            </div>
+            <div class="page-content">
+                <div id='number_of_verses'>
+                    <p>Number of verses:</p>
+                    <select name="number_of_verses">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                </div>
+                <p>Verse 1:</p>
+                <textarea name="" rows="4" cols="50"></textarea>
+                <div id="chorus">
+                    <p>Chorus? </p>
+                    <form action="/chorus">
+                        <input type="radio" name="chorus" value="yes" />Yes
+                        <input type="radio" name="chorus" value="no" />No
+                    </form>
+                </div>
+            </div>
         </div>
     </body>
 </html>
