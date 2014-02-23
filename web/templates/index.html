@@ -5,6 +5,10 @@
 
         <title>Skald - The Swedish Song Generator</title>
         <link rel='stylesheet' type='text/css' href="{{url_for('static',filename='css/skald.css')}}"/>
+
+        <script src='../static/js/vendor/jquery-2.1.0.min.js'></script>
+        <script src='../static/js/vendor/underscore-min.js'></script>
+        <script src='../static/js/vendor/backbone-min.js'></script>
     </head>
     <body>
 
@@ -16,32 +20,126 @@
                 <nav class="menuitems">
                     <a href="/#home" class="menuitem">Home</a>
                     <a href="/#songs" class="menuitem">Songs</a>
-                    <a href="/#songs" class="menuitem">Settings</a>
+                    <a href="/#settings" class="menuitem">Settings</a>
                 </nav>
             </div>
             <div class="page-content">
-                <div id='number_of_verses'>
-                    <p>Number of verses:</p>
-                    <select name="number_of_verses">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                    </select>
-                </div>
-                <p>Verse 1:</p>
-                <textarea name="" rows="4" cols="50"></textarea>
-                <div id="chorus">
-                    <p>Chorus? </p>
-                    <form action="/chorus">
-                        <input type="radio" name="chorus" value="yes" />Yes
-                        <input type="radio" name="chorus" value="no" />No
-                    </form>
-                </div>
+                
             </div>
         </div>
+
+        <!-- THREE VIEW TEMPLATES -->
+
+        <!-- Home -->
+        <script type='text/template' id='home-view'>
+            <h2>Home</h2>
+            <div id='number_of_verses'>
+                <p>Number of verses:</p>
+                <select name="number_of_verses">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                </select>
+            </div>
+            <p>Verse 1:</p>
+            <textarea name="" rows="4" cols="50"></textarea>
+            <div id="chorus">
+                <p>Chorus? </p>
+                <form action="/chorus">
+                    <input type="radio" name="chorus" value="yes" />Yes
+                    <input type="radio" name="chorus" value="no" />No
+                </form>
+            </div>
+        </script>
+
+        <!-- Songs -->
+
+        <script type='text/template' id='songs-view'>
+            <h2>Songs</h2>
+        </script>
+
+
+        <!-- Settings -->
+
+        <script type='text/template' id='settings-view'>
+            <h2>Settings</h2>
+        </script>
+
+        <!-- Here comes Backbone -->
+        <script>
+            // VIEWS
+
+            // HomeView
+
+            var SkaldHomeView = Backbone.View.extend({
+                el: '.page-content',
+                render: function(){
+                    var template = _.template($('#home-view').html(),{});
+                    this.$el.html(template);
+                }
+
+            });
+
+            var skaldHomeView = new SkaldHomeView();
+
+            // SongsView
+
+            var SkaldSongsView = Backbone.View.extend({
+                el: '.page-content',
+                render: function(){
+                    var template = _.template($('#songs-view').html(),{});
+                    this.$el.html(template);
+                }
+
+            });
+
+            var skaldSongsView = new SkaldSongsView();
+
+            // SettingsView
+
+            var SkaldSettingsView = Backbone.View.extend({
+                el: '.page-content',
+                render: function(){
+                    var template = _.template($('#settings-view').html(),{});
+                    this.$el.html(template);
+                }
+
+            });
+
+            var skaldSettingsView = new SkaldSettingsView();
+
+            // ROUTER
+            var SkaldRouter = Backbone.Router.extend({
+                routes: {
+                    // "*actions": "defaultRoute", 
+                    "" : "home",
+                    "home" : "home",
+                    "songs" : "songs",
+                    "settings" : "settings"
+                }
+
+            });
+
+            var skald_router = new SkaldRouter;
+            // skald_router.on('route:defaultRoute', function (actions) {
+            //     alert( actions ); 
+            // });
+            skald_router.on('route:home', function(){
+                skaldHomeView.render();
+            });
+            skald_router.on('route:songs', function(){
+                skaldSongsView.render();
+            });
+            skald_router.on('route:settings', function(){
+                skaldSettingsView.render();
+            });
+
+            Backbone.history.start();
+
+        </script>
     </body>
 </html>
