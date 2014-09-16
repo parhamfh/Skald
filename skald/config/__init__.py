@@ -15,5 +15,5 @@ environment = {
     'assets' : SKALD_ASSETS_DIRECTORY,
     'debug' : True,
     'logging' : 'debug',
-    'output_format' : 'stdout'
+    'orpheus_format' : 'stdout'
 }
