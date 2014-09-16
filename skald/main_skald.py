@@ -7,6 +7,8 @@ Created on Jan 3, 2013
 import random
 import sys
 
+
+import skald.config
 from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
 from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
@@ -15,6 +17,9 @@ from skald.formatter.orpheus import OrpheusFormatter
 from skald.pd.sounder import Sounder
 from skald.handler.user_input import UserInputHandler
 from skald.invoker.invoker import OrpheusInvoker
+
+# print ["%s: %s"%(item, eval('skald.config.%s'%item)) for 
+# item in dir(skald.config) if not item.startswith("__")]
 
 OUTPUT_FORMAT = OrpheusFormatter.STDOUT
 
