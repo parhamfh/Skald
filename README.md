@@ -18,11 +18,12 @@ This differs from Orpheus since standard Japanese does have an even rhythm where
 ### Installation
 * clone repo
 * init submodule (make sure that you meet its prerequisites)
+* initiate `virtualenv` for project and run `pip install -r requirements.txt`
 * install TeX (MacTeX 2013 in OS X case)
 * install lilypond (For Mac, use brew, requires MacTeX)
 
 That should be it! Run it!
-<<
+
 #### OS X 10.9 (at least) + brew lilypond issue
 
 The formula for lilypond provided by brew does not manage to build lilypond together with libc++ under OS X 10.9, so you need to use this formula instead https://github.com/adamv/homebrew/commit/acf61d7 and run with the developer flag:
