@@ -8,7 +8,7 @@ import random
 import sys
 
 
-import skald.config
+import skald.config as config
 from skald.hmm import Hmm
 from skald.hmm.model.rhythm import RhythmModel
 from skald.hmm.model.rhythm.elements import BeatPathSet, BeatPair
@@ -18,10 +18,7 @@ from skald.pd.sounder import Sounder
 from skald.handler.user_input import UserInputHandler
 from skald.invoker.invoker import OrpheusInvoker
 
-# print ["%s: %s"%(item, eval('skald.config.%s'%item)) for 
-# item in dir(skald.config) if not item.startswith("__")]
-
-OUTPUT_FORMAT = OrpheusFormatter.STDOUT
+OUTPUT_FORMAT = config.environment['orpheus_format']
 
 class Skald(object):
     '''
