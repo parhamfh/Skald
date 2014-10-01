@@ -51,8 +51,7 @@ class OrpheusInvoker(object):
         
         # Invoke Orpheus 
 
-        # TODO ADD directory arguments or pass in the config file or something just get shit done
-        orpheus.main()
+        orpheus.run()
         
         # Jump back to original directory
         os.chdir(self.running_directory)
