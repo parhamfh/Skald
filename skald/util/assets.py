@@ -3,7 +3,9 @@ import os
 import os.path
 import inspect
 
-ASSETS_FOLDER= os.path.join(os.environ['SKALD_DIRECTORY'],'resources', 'assets')
+import skald.config as config
+
+ASSETS_FOLDER = config.environment['assets'] 
 
 def get_class_asset_folder(caller_cls):
     # do some magic
