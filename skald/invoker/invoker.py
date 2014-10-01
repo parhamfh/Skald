@@ -19,9 +19,9 @@ class OrpheusInvoker(object):
         self.skald_output_type = skald_output_type
 
         # Save current directory
-        self.running_directory = config.environment['directory']
+        self.running_directory = config.skald['directory']
         # Path for Orpheus submodule
-        self.orpheus_running_directory = os.path.join(config.environment['src'], 'orpheus')
+        self.orpheus_running_directory = os.path.join(config.skald['src'], 'orpheus')
 
         # Path for Orpheus input
         self.input_directory = os.path.join(self.orpheus_running_directory,

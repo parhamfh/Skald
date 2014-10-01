@@ -9,7 +9,7 @@ SKALD_ASSETS_DIRECTORY = os.path.join(SKALD_DIRECTORY,
     'resources',
     'assets')
 
-environment = {
+skald = {
     'directory' : SKALD_DIRECTORY,
     'src': SKALD_SRC_DIRECTORY,
     'assets' : SKALD_ASSETS_DIRECTORY,

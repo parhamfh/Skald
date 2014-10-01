@@ -5,7 +5,7 @@ import inspect
 
 import skald.config as config
 
-ASSETS_FOLDER = config.environment['assets'] 
+ASSETS_FOLDER = config.skald['assets']
 
 def get_class_asset_folder(caller_cls):
     # do some magic

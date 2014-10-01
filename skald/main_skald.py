@@ -18,7 +18,7 @@ from skald.pd.sounder import Sounder
 from skald.handler.user_input import UserInputHandler
 from skald.invoker.invoker import OrpheusInvoker
 
-OUTPUT_FORMAT = config.environment['orpheus_format']
+OUTPUT_FORMAT = config.skald['orpheus_format']
 
 class Skald(object):
     '''
