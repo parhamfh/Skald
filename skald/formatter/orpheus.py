@@ -4,10 +4,6 @@ import os, os.path
 
 class OrpheusFormatter(object):
 
-    # Format types
-    PYTHON = 0
-    STDOUT = 1
-    
     DEFAULT_SUBFOLDER_STEM = 'output'
     SUBFOLDER_NAME = 'orpheus'
     FILENAME_STEM = 'verse'
@@ -16,21 +12,12 @@ class OrpheusFormatter(object):
     TICKS_OFFSET = 32 * TICKS_PER_16TH
     BEAT_INFO_INDENT = "    "
     
-    @classmethod
-    def type_to_string(cls,orpheus_type):
-        if orpheus_type == cls.PYTHON:
-            return "python"
-        elif orpheus_type == cls.STDOUT:
-            return "stdout"
-        else:
-            raise ValueError("Type [%s] is unknown."%(orpheus_type))
-
     def __init__(self, beat_path_set, observations_list, output_format=None):
         self.beat_path_set = self.group_paths_in_fours(beat_path_set)
         self.observations_list = observations_list
 
         if output_format == None:
-            self.output_format = OrpheusFormatter.PYTHON
+            self.output_format = 'python'
         else:
             self.output_format = output_format
 
@@ -65,12 +52,9 @@ class OrpheusFormatter(object):
     
     @property
     def folderpath(self):
-        if self.output_format == OrpheusFormatter.PYTHON:
-            return os.path.join(self.DEFAULT_SUBFOLDER_STEM,
-                                self.SUBFOLDER_NAME, 'python')
-        elif self.output_format == OrpheusFormatter.STDOUT:
-            return os.path.join(self.DEFAULT_SUBFOLDER_STEM,
-                                self.SUBFOLDER_NAME, 'stdout')
+        return os.path.join(self.DEFAULT_SUBFOLDER_STEM,
+                                self.SUBFOLDER_NAME,
+                                self.output_format)
 
     @property
     def file_extension(self):

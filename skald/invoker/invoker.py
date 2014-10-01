@@ -7,8 +7,6 @@ import skald.orpheus as orpheus
 from skald.formatter.orpheus import OrpheusFormatter
 from skald.invoker import SamplePKFormatter
 
-type_to_string = OrpheusFormatter.type_to_string
-
 class OrpheusInvoker(object):
 
     def __init__(self, number_of_verses, skald_filename_stem=None, skald_output_type=None, user_settings=None):
@@ -24,18 +22,16 @@ class OrpheusInvoker(object):
         self.running_directory = config.environment['directory']
         # Path for Orpheus submodule
         self.orpheus_running_directory = os.path.join(config.environment['src'], 'orpheus')
-        
-        output_type_name = type_to_string(self.skald_output_type)
-        
+
         # Path for Orpheus input
         self.input_directory = os.path.join(self.orpheus_running_directory,
                                             'sweedish', 'orpheus',
-                                            output_type_name)
+                                            skald_output_type)
         
         # Path to Skald's output
         self.skald_output_directory = os.path.join(self.running_directory,
                                                    'output', 'orpheus',
-                                                   output_type_name)
+                                                   skald_output_type)
 
         # print self.running_directory
         # print self.orpheus_running_directory
