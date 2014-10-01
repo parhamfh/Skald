@@ -2,16 +2,12 @@
 import os
 import shutil
 
+import skald.config as config
 import skald.orpheus as orpheus
 from skald.formatter.orpheus import OrpheusFormatter
 from skald.invoker import SamplePKFormatter
 
 type_to_string = OrpheusFormatter.type_to_string
-
-ORPHEUS_SUB_DIR = ['skald','orpheus']
-ORPHEUS_INPUT_DIR = ['sweedish', 'orpheus']
-OUTPUT_SUB_DIR =  ['output','orpheus']
-ORPHEUS_SAMPLE_PK_DIR = ['samples']
 
 class OrpheusInvoker(object):
 
@@ -27,18 +23,18 @@ class OrpheusInvoker(object):
         # Save current directory
         self.running_directory = os.getcwd()
         # Path for Orpheus submodule
-        self.orpheus_running_directory = os.path.join(self.running_directory, *ORPHEUS_SUB_DIR)
+        self.orpheus_running_directory = os.path.join(config.environment['src'], 'orpheus')
         
         output_type_name = type_to_string(self.skald_output_type)
         
         # Path for Orpheus input
         self.input_directory = os.path.join(self.orpheus_running_directory,
-                                            os.path.join(*ORPHEUS_INPUT_DIR),
+                                            'sweedish', 'orpheus',
                                             output_type_name)
         
         # Path to Skald's output
         self.skald_output_directory = os.path.join(self.running_directory,
-                                                   os.path.join(*OUTPUT_SUB_DIR),
+                                                   'output', 'orpheus',
                                                    output_type_name)
 
         # print self.running_directory
@@ -50,7 +46,7 @@ class OrpheusInvoker(object):
 
     @property
     def sample_pk_directory(self):
-        return os.path.join(self.orpheus_running_directory,*ORPHEUS_SAMPLE_PK_DIR)
+        return os.path.join(self.orpheus_running_directory,'samples')
 
     def invoke(self):
         
@@ -58,7 +54,9 @@ class OrpheusInvoker(object):
         os.chdir(self.orpheus_running_directory)
         
         # Invoke Orpheus 
-        orpheus._main()
+
+        # TODO ADD directory arguments or pass in the config file or something just get shit done
+        orpheus.main()
         
         # Jump back to original directory
         os.chdir(self.running_directory)
@@ -114,6 +112,8 @@ class OrpheusInvoker(object):
 
     def _copy_to_orpheus(self, sample_pk):
         orpheus_sample_pk = os.path.join(self.sample_pk_directory,'sample.pk')
+
         print '\ninvoker.py: Copying generated sample_pk from {0} to Orpheus'\
             'input directory {1}.\n'.format(sample_pk,orpheus_sample_pk)
+        
         shutil.copyfile(sample_pk,orpheus_sample_pk)
